@@ -1,25 +1,41 @@
-.flox {
-  display: flex;
-  padding: 24px;
-  flex-direction: row;
-  justify-content: space-between;
-  border: 2px solid red;
-}
-
-.config-card {
-  background-color: dimgray;
-  width: 40%;
-  height: 500px;
-}
-
-.display-card {
-  margin: auto;
-  width: 400px;
-  height: 300px;
-  border: 1px solid grey
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html, body {
   height: 100%;
-  margin: 0;
+  overflow: auto;
 }
+
+body {
+  margin: 0;
+  border: 3px solid blue;
+}
+
+#root {
+  height: 100%;
+  display: block;
+}
+
+.flox {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  border: 3px solid red;
+}
+
+.config-card {
+  margin: 1rem;
+  border: 3px solid green;
+  flex-grow: 1;
+  min-width: 20em;
+  max-width: 35em;
+}
+
+.display-card {
+  border: 3px solid green;
+  flex-grow: 1;
+}
+

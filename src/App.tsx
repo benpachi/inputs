@@ -6,10 +6,10 @@ function App() {
   const [elements, setElements] = useState([]);
 
   return (
-    <div className='flox'>
+    <section className='flox'>
       <Display />
       <Config />      
-    </div>
+    </section>
   );
 }
 export default App;
