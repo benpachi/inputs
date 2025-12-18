@@ -1,7 +1,8 @@
 const Config = () => {
   return ( 
     <div className='config-card'>
-      config
+      <button>add</button>
+      <button>add</button>
     </div>
   );
 }

@@ -1,7 +1,9 @@
 const Display = () => {
   return ( 
     <div className='display-card'>
-      display div
+      <svg className='canvas' width='400' height='300'>
+
+      </svg>
     </div>
   );
 }
