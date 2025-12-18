@@ -1,0 +1,25 @@
+.flox {
+  display: flex;
+  padding: 24px;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 2px solid red;
+}
+
+.config-card {
+  background-color: dimgray;
+  width: 40%;
+  height: 500px;
+}
+
+.display-card {
+  margin: auto;
+  width: 400px;
+  height: 300px;
+  border: 1px solid grey
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
