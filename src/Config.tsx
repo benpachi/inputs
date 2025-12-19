@@ -3,12 +3,13 @@ import { Ellipse } from "./shapes/ellipse";
 import { Rectangle } from "./shapes/rectangle";
 import { useState } from "react";
 
-const Config = ({addElement, updateElementList, selectElement, selectedElementIndex, selectedElement}: {
+const Config = ({addElement, updateElementList, selectElement, selectedElementIndex, selectedElement, elements}: {
   addElement: (shape: Shape) => void; 
   updateElementList: (index: number, updatedShape: Shape) => void;
   selectElement: (index: number) => void;
   selectedElementIndex: number;
-  selectedElement?: Shape
+  selectedElement?: Shape;
+  elements: Shape[];
   }) => {
 
   const handleChangeX = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,8 +25,8 @@ const Config = ({addElement, updateElementList, selectElement, selectedElementIn
       const updated = selectedElement;
       updated.y = Number(e.target.value)
       updateElementList(selectedElementIndex, updated);
+    }
   }
-}
 
   return ( 
     <div className='config-card'>
@@ -38,10 +39,9 @@ const Config = ({addElement, updateElementList, selectElement, selectedElementIn
           id="elementSelector" 
           onChange={(e) => selectElement(Number(e.target.value))}
         >
-          <option value='0'>0</option>
-          <option value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
+          {elements.map((element, index) => (
+            <option key={index} value={index}>{element.name}</option>
+          ))}
         </select>
 
         {selectedElement ? 

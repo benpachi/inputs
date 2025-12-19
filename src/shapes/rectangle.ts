@@ -1,6 +1,11 @@
 import { Shape } from './shape.js';
 
 export class Rectangle extends Shape {
+    constructor() {
+        super();
+        this.name = "rectangle";
+    }
+
     getPath(): string {
         return `M 0 0 ` +
         `L ${this.width} 0 ` +

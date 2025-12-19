@@ -30,6 +30,7 @@ function App() {
         selectedElement={elements[selectedElementIndex]} 
         selectedElementIndex={selectedElementIndex}
         selectElement={selectElement}
+        elements={elements}
       />      
     </section>
   );
