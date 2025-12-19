@@ -3,8 +3,9 @@ import { Ellipse } from "./shapes/ellipse";
 import { Rectangle } from "./shapes/rectangle";
 import { useState } from "react";
 
-const Config = ({addElement, updateElementList, selectElement, selectedElementIndex, selectedElement, elements}: {
+const Config = ({addElement, removeElement, updateElementList, selectElement, selectedElementIndex, selectedElement, elements}: {
   addElement: (shape: Shape) => number; 
+  removeElement: (index: number) => void;
   updateElementList: (index: number, updatedShape: Shape) => void;
   selectElement: (index: number) => void;
   selectedElementIndex: number;
@@ -69,6 +70,10 @@ const Config = ({addElement, updateElementList, selectElement, selectedElementIn
           <input value={selectedElement.width} onChange={handleChangeWidth} type="number" />
           <label>Height</label>
           <input value={selectedElement.height} onChange={handleChangeHeight} type="number" />
+          <button onClick={() => {
+            removeElement(selectedElementIndex);
+            selectElement(0);
+          }}>Delete</button>
         </div>
          : <p>Cannot find element</p>}
       </div>

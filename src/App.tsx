@@ -12,6 +12,11 @@ function App() {
     return elements.length;
   }
 
+  const removeElement = (removeIndex: number) => {
+    const newElements: Shape[] = elements.filter((element, index) => index !== removeIndex);
+    setElements(newElements);
+  }
+
   const selectElement = (index: number) => {
     setSelectedElementIndex(index);
   }
@@ -27,6 +32,7 @@ function App() {
       <Display elements={elements} selectElement={selectElement} />
       <Config 
         addElement={addElement}
+        removeElement={removeElement}
         updateElementList={updateElementList}
         selectedElement={elements[selectedElementIndex]} 
         selectedElementIndex={selectedElementIndex}
