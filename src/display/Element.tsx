@@ -1,8 +1,14 @@
 import type { Shape } from "../shapes/shape";
 
-const Element = ({element}: {element: Shape}) => {
+const Element = ({element, index, selectElement}: {
+  element: Shape, 
+  index: number,
+  selectElement: (index: number) => void;
+  }) => {
+
   return (  
     <svg 
+      onClick={() => selectElement(index)}
       width={element.width} 
       height={element.height} 
       transform={

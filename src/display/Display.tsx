@@ -10,8 +10,10 @@ const Display = ({elements, selectElement}: {
     <div className='display-card'>
       <svg className='canvas' width='400' height='300'>
         {elements.map((element, index) => (
-          <Element 
+          <Element
+            selectElement={selectElement} 
             element={element}
+            index={index}
             key={index}
           />
         ))}

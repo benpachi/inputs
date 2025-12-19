@@ -7,8 +7,9 @@ function App() {
   const [elements, setElements] = useState<Shape[]>([]);
   const [selectedElementIndex, setSelectedElementIndex] = useState(0);
 
-  const addElement = (newShape: Shape) => {
+  const addElement = (newShape: Shape): number => {
     setElements([...elements, newShape]);
+    return elements.length;
   }
 
   const selectElement = (index: number) => {

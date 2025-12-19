@@ -4,7 +4,7 @@ import { Rectangle } from "./shapes/rectangle";
 import { useState } from "react";
 
 const Config = ({addElement, updateElementList, selectElement, selectedElementIndex, selectedElement, elements}: {
-  addElement: (shape: Shape) => void; 
+  addElement: (shape: Shape) => number; 
   updateElementList: (index: number, updatedShape: Shape) => void;
   selectElement: (index: number) => void;
   selectedElementIndex: number;
@@ -45,8 +45,8 @@ const Config = ({addElement, updateElementList, selectElement, selectedElementIn
 
   return ( 
     <div className='config-card'>
-      <button onClick={() => addElement(new Ellipse)}>add circle</button>
-      <button onClick={() => addElement(new Rectangle)}>add square</button>
+      <button onClick={() => selectElement(addElement(new Ellipse))}>add circle</button>
+      <button onClick={() => selectElement(addElement(new Rectangle))}>add square</button>
       <div className='config-controls'>
         <label htmlFor="element">Select element</label>
         <select 
