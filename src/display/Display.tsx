@@ -1,8 +1,10 @@
 import { Shape } from "../shapes/shape";
-import { Ellipse } from "../shapes/ellipse";
 import Element from "./Element";
 
-const Display = ({elements}: {elements: Shape[]}) => {
+const Display = ({elements, selectElement}: {
+  elements: Shape[];
+  selectElement: (index: number) => void;
+  }) => {
 
   return ( 
     <div className='display-card'>
