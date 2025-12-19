@@ -1,6 +1,10 @@
-const Element = () => {
+import type { Shape } from "../shapes/shape";
+
+const Element = ({element}: {element: Shape}) => {
   return (  
-    <circle cx="50" cy="50" r="50"/>
+    <svg width="100" height="100">
+      <path d={element.getPath()}/>
+    </svg>
   );
 }
  
