@@ -28,11 +28,26 @@ const Config = ({addElement, updateElementList, selectElement, selectedElementIn
     }
   }
 
+  const handleChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (selectedElement) {
+      const updated = selectedElement;
+      updated.width = Number(e.target.value)
+      updateElementList(selectedElementIndex, updated);
+    }
+  }
+  const handleChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (selectedElement) {
+      const updated = selectedElement;
+      updated.height = Number(e.target.value)
+      updateElementList(selectedElementIndex, updated);
+    }
+  }
+
   return ( 
     <div className='config-card'>
       <button onClick={() => addElement(new Ellipse)}>add circle</button>
       <button onClick={() => addElement(new Rectangle)}>add square</button>
-      <div>
+      <div className='config-controls'>
         <label htmlFor="element">Select element</label>
         <select 
           value={selectedElementIndex} 
@@ -45,11 +60,17 @@ const Config = ({addElement, updateElementList, selectElement, selectedElementIn
         </select>
 
         {selectedElement ? 
-        <div>
+        <div className="config-controls">
+          <label>X position</label>
           <input value={selectedElement.x} onChange={handleChangeX} type="number" />
+          <label>Y position</label>
           <input value={selectedElement.y} onChange={handleChangeY} type="number" />
+          <label>Width</label>
+          <input value={selectedElement.width} onChange={handleChangeWidth} type="number" />
+          <label>Height</label>
+          <input value={selectedElement.height} onChange={handleChangeHeight} type="number" />
         </div>
-         : <p>cannot find element</p>}
+         : <p>Cannot find element</p>}
       </div>
     </div>
   );

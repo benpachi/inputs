@@ -34,6 +34,15 @@ body {
   max-width: 35em;
 }
 
+.config-controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.config-controls > label {
+  margin-top: 16px;
+}
+
 .display-card {
   border: 3px solid green;
   flex-grow: 1;
