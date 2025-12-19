@@ -2,7 +2,13 @@ import type { Shape } from "../shapes/shape";
 
 const Element = ({element}: {element: Shape}) => {
   return (  
-    <svg width="100" height="100" transform={`translate(${element.x}, ${element.y})`}>
+    <svg 
+      width={element.width} 
+      height={element.height} 
+      transform={
+        `translate(${element.x - element.width/2}, ${element.y - element.height/2})`
+      }
+    >
       <path d={element.getPath()}/>
     </svg>
   );

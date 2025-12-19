@@ -55,7 +55,7 @@ const Config = ({addElement, updateElementList, selectElement, selectedElementIn
           onChange={(e) => selectElement(Number(e.target.value))}
         >
           {elements.map((element, index) => (
-            <option key={index} value={index}>{element.name}</option>
+            <option key={index} value={index}>#{index}. {element.name}</option>
           ))}
         </select>
 
