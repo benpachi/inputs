@@ -1,57 +1,48 @@
-import { Shape } from "./shapes/shape";
-import { Ellipse } from "./shapes/ellipse";
-import { Rectangle } from "./shapes/rectangle";
+import type { DisplayItem } from "../interface/display-item";
 import { useState } from "react";
 
-const Config = ({addElement, removeElement, updateElementList, selectElement, selectedElementIndex, selectedElement, elements}: {
-  addElement: (shape: Shape) => number; 
+const Config = ({addElement, removeElement, updateElement, selectElement, selectedIndex, elements}: {
+  addElement: (shape: DisplayItem) => number; 
   removeElement: (index: number) => void;
-  updateElementList: (index: number, updatedShape: Shape) => void;
+  updateElement: (index: number, updated: DisplayItem) => void;
   selectElement: (index: number) => void;
-  selectedElementIndex: number;
-  selectedElement?: Shape;
-  elements: Shape[];
+  selectedIndex: number;
+  elements: DisplayItem[];
   }) => {
 
+  const selectedElement = elements[selectedIndex];
+
+  //Would a reducer be better here?
   const handleChangeX = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (selectedElement) {
-      const updated = selectedElement;
-      updated.x = Number(e.target.value)
-      updateElementList(selectedElementIndex, updated);
+      updateElement(selectedIndex, {...selectedElement, x: Number(e.target.value)});
     }
   }
-
   const handleChangeY = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (selectedElement) {
-      const updated = selectedElement;
-      updated.y = Number(e.target.value)
-      updateElementList(selectedElementIndex, updated);
+    if (selectedElement) {
+      updateElement(selectedIndex, {...selectedElement, y: Number(e.target.value)});
     }
   }
-
   const handleChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (selectedElement) {
-      const updated = selectedElement;
-      updated.width = Number(e.target.value)
-      updateElementList(selectedElementIndex, updated);
+    if (selectedElement) {
+      updateElement(selectedIndex, {...selectedElement, width: Number(e.target.value)});
     }
   }
   const handleChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (selectedElement) {
-      const updated = selectedElement;
-      updated.height = Number(e.target.value)
-      updateElementList(selectedElementIndex, updated);
+    if (selectedElement) {
+      updateElement(selectedIndex, {...selectedElement, height: Number(e.target.value)});
     }
   }
 
   return ( 
     <div className='config-card'>
-      <button onClick={() => selectElement(addElement(new Ellipse))}>add circle</button>
-      <button onClick={() => selectElement(addElement(new Rectangle))}>add square</button>
+      {/* useReducer here? */}
+      <button onClick={() => selectElement(addElement({name: "Circle", width: 50, height: 50, x: 50, y: 50, type: "ellipse"}))}>add circle</button>
+      <button onClick={() => selectElement(addElement({name: "Square", width: 50, height: 50, x: 50, y: 50, type: "rectangle"}))}>add square</button>
       <div className='config-controls'>
         <label htmlFor="element">Select element</label>
         <select 
-          value={selectedElementIndex} 
+          value={selectedIndex} 
           id="elementSelector" 
           onChange={(e) => selectElement(Number(e.target.value))}
         >
@@ -71,7 +62,7 @@ const Config = ({addElement, removeElement, updateElementList, selectElement, se
           <label>Height</label>
           <input value={selectedElement.height} onChange={handleChangeHeight} type="number" />
           <button onClick={() => {
-            removeElement(selectedElementIndex);
+            removeElement(selectedIndex);
             selectElement(0);
           }}>Delete</button>
         </div>

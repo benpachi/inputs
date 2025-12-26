@@ -1,7 +1,8 @@
-import type { Shape } from "../shapes/shape";
+import { getPath } from "../interface/display-item"; 
+import type { DisplayItem } from "../interface/display-item";
 
 const Element = ({element, index, selectElement}: {
-  element: Shape, 
+  element: DisplayItem, 
   index: number,
   selectElement: (index: number) => void;
   }) => {
@@ -15,7 +16,7 @@ const Element = ({element, index, selectElement}: {
         `translate(${element.x - element.width/2}, ${element.y - element.height/2})`
       }
     >
-      <path d={element.getPath()}/>
+      <path d={getPath(element)}/>
     </svg>
   );
 }

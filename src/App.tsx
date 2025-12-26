@@ -1,42 +1,40 @@
 import { useState } from 'react'
-import Config from './Config';
+import Config from './config/Config';
 import Display from './display/Display';
-import { Shape } from './shapes/shape';
+import type { DisplayItem } from './interface/display-item';
 
 function App() {
-  const [elements, setElements] = useState<Shape[]>([]);
-  const [selectedElementIndex, setSelectedElementIndex] = useState(0);
+  const [elements, setElements] = useState<DisplayItem[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const addElement = (newShape: Shape): number => {
-    setElements([...elements, newShape]);
+  const addElement = (newItem: DisplayItem): number => {
+    setElements([...elements, newItem]);
     return elements.length;
   }
 
+  const updateElement = (index: number, updatedItem: DisplayItem) => {
+    const nextElements = elements.map((element, i) => i === index ? updatedItem : element);
+    setElements(nextElements);
+  }
+
   const removeElement = (removeIndex: number) => {
-    const newElements: Shape[] = elements.filter((element, index) => index !== removeIndex);
-    setElements(newElements);
+    const nextElements = elements.filter((_, index) => index !== removeIndex);
+    setElements(nextElements);
   }
 
   const selectElement = (index: number) => {
-    setSelectedElementIndex(index);
-  }
-
-  const updateElementList = (index: number, updatedShape: Shape) => {
-    const newElements = [...elements];
-    newElements[index] = updatedShape;
-    setElements(newElements);
+    setSelectedIndex(index);
   }
 
   return (
-    <section className='flox'>
+    <section className='flexrow app'>
       <Display elements={elements} selectElement={selectElement} />
       <Config 
         addElement={addElement}
         removeElement={removeElement}
-        updateElementList={updateElementList}
-        selectedElement={elements[selectedElementIndex]} 
-        selectedElementIndex={selectedElementIndex}
+        updateElement={updateElement}
         selectElement={selectElement}
+        selectedIndex={selectedIndex}
         elements={elements}
       />      
     </section>

@@ -1,13 +1,13 @@
-import { Shape } from "../shapes/shape";
+import type { DisplayItem } from "../interface/display-item";
 import Element from "./Element";
 
 const Display = ({elements, selectElement}: {
-  elements: Shape[];
+  elements: DisplayItem[];
   selectElement: (index: number) => void;
   }) => {
 
   return ( 
-    <div className='display-card'>
+    <div className='display-panel'>
       <svg className='canvas' width='400' height='300'>
         {elements.map((element, index) => (
           <Element
