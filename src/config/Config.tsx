@@ -11,10 +11,8 @@ const Config = () => {
     height: 50,
     x: 50,
     y: 50,
-    //fun fact if you set the colors to #000000 the luminance will be stuck at 0 in the color picker LOL?
-    //like what do you even do about that i'm crashing out
-    fillColor: "#121212",
-    strokeColor: "#bad666",
+    fillColor: "#000000",
+    strokeColor: "#ff0000",
     strokeWidth: 5,
   } 
 
@@ -87,6 +85,7 @@ const Config = () => {
               <input value={selectedElement.strokeColor} onChange={(e) => handleChange('strokeColor', e.target.value)} type="color" />
             </label>
           </div>
+          <p>watch your luminance in the color picker!</p>
           <button onClick={() => { removeElement(selectedIndex); setSelectedIndex(0); }}>Delete</button>
         </div>
          : <p>Cannot find element</p>}
