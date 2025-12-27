@@ -3,11 +3,11 @@ import type { DisplayItem } from '../interface/display-item';
 
 interface DisplayContextType {
   elements: DisplayItem[];
-  selectedIndex: number;
+  selectedIndex: number;  
+  setSelectedIndex: (index: number) => void;
   addElement: (newItem: DisplayItem) => number;
   updateElement: (index: number, updatedItem: DisplayItem) => void;
   removeElement: (removeIndex: number) => void;
-  selectElement: (index: number) => void;
 }
 
 const DisplayContext = createContext<DisplayContextType | undefined>(undefined);
@@ -29,17 +29,13 @@ export const DisplayProvider = ({ children }: { children: ReactNode }) => {
     setElements((prev) => prev.filter((_, index) => index !== removeIndex));
   }
 
-  const selectElement = (index: number) => {
-    setSelectedIndex(index);
-  }
-
   const contextValue: DisplayContextType = {
     elements,
     selectedIndex,
+    setSelectedIndex,
     addElement,
     updateElement,
     removeElement,
-    selectElement,
   };
 
   return (

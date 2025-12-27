@@ -1,7 +1,7 @@
 import { useDisplay } from "../context/DisplayContext";
 
 const Config = () => {
-  const { addElement, removeElement, updateElement, selectElement, selectedIndex, elements } = useDisplay();
+  const { addElement, removeElement, updateElement, setSelectedIndex, selectedIndex, elements } = useDisplay();
   const selectedElement = elements[selectedIndex];
 
   //Would a reducer be better here?
@@ -29,14 +29,14 @@ const Config = () => {
   return ( 
     <div className='config-card'>
       {/* need something better than having defaults in here lol */}
-      <button onClick={() => selectElement(addElement({name: "Circle", width: 50, height: 50, x: 50, y: 50, type: "ellipse"}))}>add circle</button>
-      <button onClick={() => selectElement(addElement({name: "Square", width: 50, height: 50, x: 50, y: 50, type: "rectangle"}))}>add square</button>
+      <button onClick={() => setSelectedIndex(addElement({name: "Circle", width: 50, height: 50, x: 50, y: 50, type: "ellipse"}))}>add circle</button>
+      <button onClick={() => setSelectedIndex(addElement({name: "Square", width: 50, height: 50, x: 50, y: 50, type: "rectangle"}))}>add square</button>
       <div className='config-controls'>
         <label htmlFor="element">Select element</label>
         <select 
           value={selectedIndex} 
           id="elementSelector" 
-          onChange={(e) => selectElement(Number(e.target.value))}
+          onChange={(e) => setSelectedIndex(Number(e.target.value))}
         >
           {elements.map((element, index) => (
             <option key={index} value={index}>#{index}. {element.name}</option>
@@ -55,7 +55,7 @@ const Config = () => {
           <input value={selectedElement.height} onChange={handleChangeHeight} type="number" />
           <button onClick={() => {
             removeElement(selectedIndex);
-            selectElement(0);
+            setSelectedIndex(0);
           }}>Delete</button>
         </div>
          : <p>Cannot find element</p>}

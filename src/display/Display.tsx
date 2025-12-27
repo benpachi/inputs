@@ -3,13 +3,21 @@ import { useDisplay } from "../context/DisplayContext";
 import { useState } from "react";
 
 const Display = () => {
-  const { elements, selectedIndex, updateElement, selectElement } = useDisplay();
+  const { elements, selectedIndex, updateElement, setSelectedIndex } = useDisplay();
   const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
   const selectedElement = elements[selectedIndex];
 
   const handleElementMouseDown = (e: React.MouseEvent, index: number)  => {
-    selectElement(index);
+    const { offsetX, offsetY } = e.nativeEvent;
+    
     setIsDragging(true);
+    setSelectedIndex(index);
+    setDragOffset({ 
+      //Don't use selectedElement because setSelectedIndex is async
+      x: offsetX - elements[index].x, 
+      y: offsetY - elements[index].y 
+    });
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -17,11 +25,16 @@ const Display = () => {
 
     const { offsetX, offsetY } = e.nativeEvent;
 
-    updateElement(selectedIndex, {...selectedElement, x: offsetX, y: offsetY});
+    updateElement(selectedIndex, {
+      ...selectedElement, 
+      x: offsetX - dragOffset.x, 
+      y: offsetY - dragOffset.y,
+    });
   }
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    setDragOffset({ x: 0, y: 0 })
   }
 
   return ( 
