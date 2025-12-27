@@ -43,7 +43,7 @@ body {
   flex-direction: column;
 }
 
-.config-controls > label, button {
+.config-controls > div, button {
   margin-top: 16px;
 }
 

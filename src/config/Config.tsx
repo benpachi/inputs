@@ -35,38 +35,64 @@ const Config = () => {
       updateElement(selectedIndex, {...selectedElement, strokeWidth: Number(e.target.value)});
     }
   }
+  const handleChangeFillColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (selectedElement) {
+      updateElement(selectedIndex, {...selectedElement, fillColor: e.target.value});
+    }
+  }
+  const handleChangeStrokeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (selectedElement) {
+      updateElement(selectedIndex, {...selectedElement, strokeColor: e.target.value});
+    }
+  }
 
   return ( 
     <div className='config-card'>
-      {/* need something better than having the defaults in here lol */}
-      <button onClick={() => setSelectedIndex(addElement({name: "Circle", width: 50, height: 50, rotation: 0, x: 50, y: 50, strokeWidth: 5, type: "ellipse"}))}>add circle</button>
-      <button onClick={() => setSelectedIndex(addElement({name: "Square", width: 50, height: 50, rotation: 0, x: 50, y: 50, strokeWidth: 5, type: "rectangle"}))}>add square</button>
       <div className='config-controls'>
-        <label htmlFor="element">Select element</label>
-        <select 
-          value={selectedIndex} 
-          id="elementSelector" 
-          onChange={(e) => setSelectedIndex(Number(e.target.value))}
-        >
-          {elements.map((element, index) => (
-            <option key={index} value={index}>#{index}. {element.name}</option>
-          ))}
-        </select>
+        <div className="flexrow" style={{justifyContent: 'start'}}>
+          {/* need something better than having the defaults in here lol */}
+          <button onClick={() => setSelectedIndex(addElement({name: "Circle", width: 50, height: 50, rotation: 0, x: 50, y: 50, fillColor: "#000000", strokeColor: "#696969", strokeWidth: 5, type: "ellipse"}))}>add circle</button>
+          <button onClick={() => setSelectedIndex(addElement({name: "Square", width: 50, height: 50, rotation: 0, x: 50, y: 50, fillColor: "#000000", strokeColor: "#696969", strokeWidth: 5, type: "rectangle"}))}>add square</button>
+        </div>
+        <div className="flexrow" style={{justifyContent: 'start'}}>
+          <label htmlFor="element">Select element</label>
+          <select 
+            value={selectedIndex} 
+            id="elementSelector" 
+            onChange={(e) => setSelectedIndex(Number(e.target.value))}
+          >
+            {elements.map((element, index) => (
+              <option key={index} value={index}>#{index}. {element.name}</option>
+            ))}
+          </select>
+        </div>
 
         {selectedElement ? 
         <div className="config-controls">
-          <label>X position</label>
-          <input value={selectedElement.x} onChange={handleChangeX} type="number" />
-          <label>Y position</label>
-          <input value={selectedElement.y} onChange={handleChangeY} type="number" />
-          <label>Width</label>
-          <input value={selectedElement.width} onChange={handleChangeWidth} type="number" />
-          <label>Height</label>
-          <input value={selectedElement.height} onChange={handleChangeHeight} type="number" />
-          <label>Rotation</label>
-          <input value={selectedElement.rotation} onChange={handleChangeRotation} type="number" />
-          <label>Stroke width</label>
-          <input value={selectedElement.strokeWidth} onChange={handleChangeStrokeWidth} type="number" />
+          <div className="flexrow">
+            <label>X position</label>
+            <input value={selectedElement.x} onChange={handleChangeX} type="number" />
+            <label>Y position</label>
+            <input value={selectedElement.y} onChange={handleChangeY} type="number" />
+          </div>
+          <div className="flexrow">
+            <label>Width</label>
+            <input value={selectedElement.width} onChange={handleChangeWidth} type="number" />
+            <label>Height</label>
+            <input value={selectedElement.height} onChange={handleChangeHeight} type="number" />
+          </div>
+          <div className="flexrow">
+            <label>Rotation</label>
+            <input value={selectedElement.rotation} onChange={handleChangeRotation} type="number" />
+            <label>Stroke width</label>
+            <input value={selectedElement.strokeWidth} onChange={handleChangeStrokeWidth} type="number" />
+          </div>
+          <div className="flexrow">
+            <label>Fill color</label>
+            <input value={selectedElement.fillColor} onChange={handleChangeFillColor} type="color" />
+            <label>Stroke color</label>
+            <input value={selectedElement.strokeColor} onChange={handleChangeStrokeColor} type="color" />
+          </div>
           <button onClick={() => {
             removeElement(selectedIndex);
             setSelectedIndex(0);

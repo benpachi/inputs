@@ -6,6 +6,8 @@ export interface DisplayItem {
   x: number, 
   y: number,
   strokeWidth: number,
+  fillColor: string,
+  strokeColor: string,
   type: "ellipse" | "rectangle";
 }
 

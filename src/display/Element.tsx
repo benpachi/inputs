@@ -20,7 +20,8 @@ const Element = ({element, index, onMouseDown}: {
     >
       <path 
         d={getPath(element)}
-        stroke="red"
+        fill={element.fillColor}
+        stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
       />
     </svg>
