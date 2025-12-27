@@ -3,36 +3,36 @@ import type { DisplayItem } from '../interface/display-item';
 
 interface DisplayContextType {
   elements: DisplayItem[];
-  selectedIndex: number;  
-  setSelectedIndex: (index: number) => void;
-  addElement: (newItem: DisplayItem) => number;
-  updateElement: (index: number, updatedItem: DisplayItem) => void;
-  removeElement: (removeIndex: number) => void;
+  selectedID: string;  
+  setSelectedID: (id: string) => void;
+  addElement: (newItem: DisplayItem) => string;
+  updateElement: (id: string, updatedItem: DisplayItem) => void;
+  removeElement: (removeID: string) => void;
 }
 
 const DisplayContext = createContext<DisplayContextType | undefined>(undefined);
 
 export const DisplayProvider = ({ children }: { children: ReactNode }) => {
   const [elements, setElements] = useState<DisplayItem[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedID, setSelectedID] = useState('');
 
-  const addElement = (newItem: DisplayItem): number => {
+  const addElement = (newItem: DisplayItem): string => {
     setElements([...elements, newItem]);
-    return elements.length;
+    return newItem.id;
   }
 
-  const updateElement = (index: number, updatedItem: DisplayItem) => {
-    setElements((prev) => prev.map((element, i) => i === index ? updatedItem : element));
+  const updateElement = (id: string, updatedItem: DisplayItem) => {
+    setElements((prev) => prev.map((element) => element.id === id ? updatedItem : element));
   }
 
-  const removeElement = (removeIndex: number) => {
-    setElements((prev) => prev.filter((_, index) => index !== removeIndex));
+  const removeElement = (removeID: string) => {
+    setElements((prev) => prev.filter((element) => element.id !== removeID));
   }
 
   const contextValue: DisplayContextType = {
     elements,
-    selectedIndex,
-    setSelectedIndex,
+    selectedID,
+    setSelectedID,
     addElement,
     updateElement,
     removeElement,

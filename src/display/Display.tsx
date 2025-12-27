@@ -3,20 +3,22 @@ import { useDisplay } from "../context/DisplayContext";
 import { useState } from "react";
 
 const Display = () => {
-  const { elements, selectedIndex, updateElement, setSelectedIndex } = useDisplay();
+  const { elements, selectedID, setSelectedID, updateElement } = useDisplay();
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
-  const selectedElement = elements[selectedIndex];
+  const selectedElement = elements.find((el) => el.id === selectedID);
 
-  const handleElementMouseDown = (e: React.MouseEvent, index: number)  => {
+  const handleElementMouseDown = (e: React.MouseEvent, id: string)  => {
     const { offsetX, offsetY } = e.nativeEvent;
+    const element = elements.find((el) => el.id === id);
+    
+    if (!element) return;
     
     setIsDragging(true);
-    setSelectedIndex(index);
+    setSelectedID(id);
     setDragOffset({ 
-      //Don't use selectedElement because setSelectedIndex is async
-      x: offsetX - elements[index].x, 
-      y: offsetY - elements[index].y 
+      x: offsetX - element.x, 
+      y: offsetY - element.y 
     });
   }
 
@@ -25,7 +27,7 @@ const Display = () => {
 
     const { offsetX, offsetY } = e.nativeEvent;
 
-    updateElement(selectedIndex, {
+    updateElement(selectedID, {
       ...selectedElement, 
       x: offsetX - dragOffset.x, 
       y: offsetY - dragOffset.y,
@@ -47,12 +49,11 @@ const Display = () => {
         width='400' 
         height='300'
       >
-        {elements.map((element, index) => (
+        {elements.map((element) => (
           <Element
-            onMouseDown={handleElementMouseDown}
+            key={element.id}
             element={element}
-            index={index}
-            key={index}
+            onMouseDown={handleElementMouseDown}
           />
         ))}
       </svg>

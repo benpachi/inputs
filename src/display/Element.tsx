@@ -1,15 +1,14 @@
 import { getPath } from "../interface/display-item"; 
 import type { DisplayItem } from "../interface/display-item";
 
-const Element = ({element, index, onMouseDown}: {
+const Element = ({element, onMouseDown}: {
   element: DisplayItem, 
-  index: number,
-  onMouseDown: (e: React.MouseEvent, index: number) => void;
+  onMouseDown: (e: React.MouseEvent, id: string) => void;
   }) => {
 
   return (  
     <svg 
-      onMouseDown={(e) => onMouseDown(e, index)}
+      onMouseDown={(e) => onMouseDown(e, element.id)}
       width={element.width} 
       height={element.height} 
       overflow="visible"

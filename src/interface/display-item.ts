@@ -1,4 +1,5 @@
 export interface DisplayItem {
+  id: string,
   name: string, 
   width: number, 
   height: number, 

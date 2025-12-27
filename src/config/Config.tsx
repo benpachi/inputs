@@ -2,8 +2,8 @@ import { useDisplay } from "../context/DisplayContext";
 import type { DisplayItem } from "../interface/display-item";
 
 const Config = () => {
-  const { addElement, removeElement, updateElement, setSelectedIndex, selectedIndex, elements } = useDisplay();
-  const selectedElement = elements[selectedIndex];
+  const { addElement, removeElement, updateElement, setSelectedID, selectedID, elements } = useDisplay();
+  const selectedElement = elements.find((el) => el.id === selectedID);
   
   const DEFAULT_ELEMENT = {
     rotation: 0,
@@ -18,7 +18,7 @@ const Config = () => {
 
   const handleChange = (field: keyof DisplayItem, value: DisplayItem[keyof DisplayItem]) => {
     if (selectedElement) {
-      updateElement(selectedIndex, {...selectedElement, [field]: value});
+      updateElement(selectedElement.id, {...selectedElement, [field]: value});
     }
   }
 
@@ -26,19 +26,19 @@ const Config = () => {
     <div className='config-card'>
       <div className='config-controls'>
         <div className="flexrow" style={{justifyContent: 'start'}}>
-          {/* need something better than having the defaults in here lol */}
-          <button onClick={() => setSelectedIndex(addElement({name: "Ellipse", type: "ellipse", ...DEFAULT_ELEMENT}))}>add ellipse</button>
-          <button onClick={() => setSelectedIndex(addElement({name: "Rectangle", type: "rectangle", ...DEFAULT_ELEMENT}))}>add rectangle</button>
+          <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Ellipse", type: "ellipse", ...DEFAULT_ELEMENT}))}>add ellipse</button>
+          <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Rectangle", type: "rectangle", ...DEFAULT_ELEMENT}))}>add rectangle</button>
         </div>
         <div className="flexrow" style={{justifyContent: 'start'}}>
           <label htmlFor="elementSelector">Select element </label>
           <select 
-            value={selectedIndex} 
+            value={selectedID} 
             id="elementSelector" 
-            onChange={(e) => setSelectedIndex(Number(e.target.value))}
+            onChange={(e) => setSelectedID(e.target.value)}
           >
-            {elements.map((element, index) => (
-              <option key={index} value={index}>#{index}. {element.name}</option>
+            <option value="">(none)</option>
+            {elements.map((element) => (
+              <option key={element.id} value={element.id}>{element.name}</option>
             ))}
           </select>
         </div>
@@ -86,9 +86,9 @@ const Config = () => {
             </label>
           </div>
           <p>watch your luminance in the color picker!</p>
-          <button onClick={() => { removeElement(selectedIndex); setSelectedIndex(0); }}>Delete</button>
+          <button onClick={() => { removeElement(selectedElement.id); setSelectedID(''); }}>Delete</button>
         </div>
-         : <p>Cannot find element</p>}
+         : <p>No element selected</p>}
       </div>
     </div>
   );
