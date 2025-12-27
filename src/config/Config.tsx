@@ -1,48 +1,26 @@
 import { useDisplay } from "../context/DisplayContext";
+import type { DisplayItem } from "../interface/display-item";
 
 const Config = () => {
   const { addElement, removeElement, updateElement, setSelectedIndex, selectedIndex, elements } = useDisplay();
   const selectedElement = elements[selectedIndex];
+  
+  const DEFAULT_ELEMENT = {
+    rotation: 0,
+    width: 50,
+    height: 50,
+    x: 50,
+    y: 50,
+    //fun fact if you set the colors to #000000 the luminance will be stuck at 0 in the color picker LOL?
+    //like what do you even do about that i'm crashing out
+    fillColor: "#121212",
+    strokeColor: "#bad666",
+    strokeWidth: 5,
+  } 
 
-  //Would a reducer be better here?
-  const handleChangeX = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (field: keyof DisplayItem, value: DisplayItem[keyof DisplayItem]) => {
     if (selectedElement) {
-      updateElement(selectedIndex, {...selectedElement, x: Number(e.target.value)});
-    }
-  }
-  const handleChangeY = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (selectedElement) {
-      updateElement(selectedIndex, {...selectedElement, y: Number(e.target.value)});
-    }
-  }
-  const handleChangeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (selectedElement) {
-      updateElement(selectedIndex, {...selectedElement, width: Number(e.target.value)});
-    }
-  }
-  const handleChangeHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (selectedElement) {
-      updateElement(selectedIndex, {...selectedElement, height: Number(e.target.value)});
-    }
-  }
-  const handleChangeRotation = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (selectedElement) {
-      updateElement(selectedIndex, {...selectedElement, rotation: Number(e.target.value)});
-    }
-  }
-  const handleChangeStrokeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (selectedElement) {
-      updateElement(selectedIndex, {...selectedElement, strokeWidth: Number(e.target.value)});
-    }
-  }
-  const handleChangeFillColor = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (selectedElement) {
-      updateElement(selectedIndex, {...selectedElement, fillColor: e.target.value});
-    }
-  }
-  const handleChangeStrokeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (selectedElement) {
-      updateElement(selectedIndex, {...selectedElement, strokeColor: e.target.value});
+      updateElement(selectedIndex, {...selectedElement, [field]: value});
     }
   }
 
@@ -51,11 +29,11 @@ const Config = () => {
       <div className='config-controls'>
         <div className="flexrow" style={{justifyContent: 'start'}}>
           {/* need something better than having the defaults in here lol */}
-          <button onClick={() => setSelectedIndex(addElement({name: "Circle", width: 50, height: 50, rotation: 0, x: 50, y: 50, fillColor: "#000000", strokeColor: "#696969", strokeWidth: 5, type: "ellipse"}))}>add circle</button>
-          <button onClick={() => setSelectedIndex(addElement({name: "Square", width: 50, height: 50, rotation: 0, x: 50, y: 50, fillColor: "#000000", strokeColor: "#696969", strokeWidth: 5, type: "rectangle"}))}>add square</button>
+          <button onClick={() => setSelectedIndex(addElement({name: "Ellipse", type: "ellipse", ...DEFAULT_ELEMENT}))}>add ellipse</button>
+          <button onClick={() => setSelectedIndex(addElement({name: "Rectangle", type: "rectangle", ...DEFAULT_ELEMENT}))}>add rectangle</button>
         </div>
         <div className="flexrow" style={{justifyContent: 'start'}}>
-          <label htmlFor="element">Select element</label>
+          <label htmlFor="elementSelector">Select element </label>
           <select 
             value={selectedIndex} 
             id="elementSelector" 
@@ -70,33 +48,46 @@ const Config = () => {
         {selectedElement ? 
         <div className="config-controls">
           <div className="flexrow">
-            <label>X position</label>
-            <input value={selectedElement.x} onChange={handleChangeX} type="number" />
-            <label>Y position</label>
-            <input value={selectedElement.y} onChange={handleChangeY} type="number" />
+            <label>
+              X position
+              <input value={selectedElement.x} onChange={(e) => handleChange('x', Number(e.target.value))} type="number" />
+            </label>
+            <label>
+              Y position
+              <input value={selectedElement.y} onChange={(e) => handleChange('y', Number(e.target.value))} type="number" />
+            </label>
           </div>
           <div className="flexrow">
-            <label>Width</label>
-            <input value={selectedElement.width} onChange={handleChangeWidth} type="number" />
-            <label>Height</label>
-            <input value={selectedElement.height} onChange={handleChangeHeight} type="number" />
+            <label>
+              Width
+              <input value={selectedElement.width} onChange={(e) => handleChange('width', Number(e.target.value))} type="number" />
+            </label>
+            <label>
+              Height
+              <input value={selectedElement.height} onChange={(e) => handleChange('height', Number(e.target.value))} type="number" />
+            </label>
           </div>
           <div className="flexrow">
-            <label>Rotation</label>
-            <input value={selectedElement.rotation} onChange={handleChangeRotation} type="number" />
-            <label>Stroke width</label>
-            <input value={selectedElement.strokeWidth} onChange={handleChangeStrokeWidth} type="number" />
+            <label>
+              Rotation
+              <input value={selectedElement.rotation} onChange={(e) => handleChange('rotation', Number(e.target.value))} type="number" />
+            </label>
+            <label>
+              Stroke width
+              <input value={selectedElement.strokeWidth} onChange={(e) => handleChange('strokeWidth', Number(e.target.value))} type="number" />
+            </label>
           </div>
           <div className="flexrow">
-            <label>Fill color</label>
-            <input value={selectedElement.fillColor} onChange={handleChangeFillColor} type="color" />
-            <label>Stroke color</label>
-            <input value={selectedElement.strokeColor} onChange={handleChangeStrokeColor} type="color" />
+            <label>
+              Fill color
+              <input value={selectedElement.fillColor} onChange={(e) => handleChange('fillColor', e.target.value)} type="color" />
+            </label>
+            <label>
+              Stroke color
+              <input value={selectedElement.strokeColor} onChange={(e) => handleChange('strokeColor', e.target.value)} type="color" />
+            </label>
           </div>
-          <button onClick={() => {
-            removeElement(selectedIndex);
-            setSelectedIndex(0);
-          }}>Delete</button>
+          <button onClick={() => { removeElement(selectedIndex); setSelectedIndex(0); }}>Delete</button>
         </div>
          : <p>Cannot find element</p>}
       </div>
