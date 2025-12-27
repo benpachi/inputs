@@ -28,6 +28,7 @@ const Config = () => {
         <div className="flexrow" style={{justifyContent: 'start'}}>
           <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Ellipse", type: "ellipse", ...DEFAULT_ELEMENT}))}>add ellipse</button>
           <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Rectangle", type: "rectangle", ...DEFAULT_ELEMENT}))}>add rectangle</button>
+          <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "D-pad", type: "d-pad", ...DEFAULT_ELEMENT}))}>add d-pad</button>
         </div>
         <div className="flexrow" style={{justifyContent: 'start'}}>
           <label htmlFor="elementSelector">Select element </label>

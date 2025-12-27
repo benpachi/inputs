@@ -9,7 +9,7 @@ export interface DisplayItem {
   strokeWidth: number,
   fillColor: string,
   strokeColor: string,
-  type: "ellipse" | "rectangle";
+  type: "ellipse" | "rectangle" | "d-pad";
 }
 
 export function getPath(item: DisplayItem) {
@@ -23,6 +23,13 @@ export function getPath(item: DisplayItem) {
       `L ${item.width} 0 ` +
       `L ${item.width} ${item.height} ` +
       `L 0 ${item.height}` +
+      `L 0 0 Z`
+    case ("d-pad"):
+      return `M 0 0` +
+      `L ${item.width} 0 ` +
+      `L ${item.width} ${item.height - (item.width/2)} ` +
+      `L ${item.width/2} ${item.height} ` +
+      `L 0 ${item.height - (item.width/2)} ` +
       `L 0 0 Z`
   }
 }
