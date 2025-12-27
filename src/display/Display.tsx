@@ -1,10 +1,8 @@
-import type { DisplayItem } from "../interface/display-item";
 import Element from "./Element";
+import { useDisplay } from "../context/DisplayContext";
 
-const Display = ({elements, selectElement}: {
-  elements: DisplayItem[];
-  selectElement: (index: number) => void;
-  }) => {
+const Display = () => {
+  const { elements, selectElement } = useDisplay();
 
   return ( 
     <div className='display-panel'>

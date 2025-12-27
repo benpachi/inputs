@@ -1,14 +1,7 @@
-import type { DisplayItem } from "../interface/display-item";
-import { useState } from "react";
+import { useDisplay } from "../context/DisplayContext";
 
-const Config = ({addElement, removeElement, updateElement, selectElement, selectedIndex, elements}: {
-  addElement: (shape: DisplayItem) => number; 
-  removeElement: (index: number) => void;
-  updateElement: (index: number, updated: DisplayItem) => void;
-  selectElement: (index: number) => void;
-  selectedIndex: number;
-  elements: DisplayItem[];
-  }) => {
+const Config = () => {
+  const { addElement, removeElement, updateElement, selectElement, selectedIndex, elements } = useDisplay();
 
   const selectedElement = elements[selectedIndex];
 
@@ -36,7 +29,7 @@ const Config = ({addElement, removeElement, updateElement, selectElement, select
 
   return ( 
     <div className='config-card'>
-      {/* useReducer here? */}
+      {/* need something better than having defaults in here lol */}
       <button onClick={() => selectElement(addElement({name: "Circle", width: 50, height: 50, x: 50, y: 50, type: "ellipse"}))}>add circle</button>
       <button onClick={() => selectElement(addElement({name: "Square", width: 50, height: 50, x: 50, y: 50, type: "rectangle"}))}>add square</button>
       <div className='config-controls'>
