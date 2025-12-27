@@ -2,7 +2,6 @@ import { useDisplay } from "../context/DisplayContext";
 
 const Config = () => {
   const { addElement, removeElement, updateElement, selectElement, selectedIndex, elements } = useDisplay();
-
   const selectedElement = elements[selectedIndex];
 
   //Would a reducer be better here?

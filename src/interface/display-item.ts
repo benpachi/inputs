@@ -21,29 +21,3 @@ export function getPath(item: DisplayItem) {
       `L 0 0 Z`
   }
 }
-
-/*export abstract class DisplayItem {
-  name: string = "";
-  width: number = 0;
-  height: number = 0;
-  x: number = 0;
-  y: number = 0;
-
-  constructor(
-    name: string, 
-    width: number, 
-    height: number, 
-    x: number, 
-    y: number,
-  ) {
-    this.name = name;
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
-  }
-
-  abstract getPath(): string;
-
-  abstract copy(updates: Partial<DisplayItem>): DisplayItem;
-}*/

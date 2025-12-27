@@ -1,15 +1,15 @@
 import { getPath } from "../interface/display-item"; 
 import type { DisplayItem } from "../interface/display-item";
 
-const Element = ({element, index, selectElement}: {
+const Element = ({element, index, onMouseDown}: {
   element: DisplayItem, 
   index: number,
-  selectElement: (index: number) => void;
+  onMouseDown: (e: React.MouseEvent, index: number) => void;
   }) => {
 
   return (  
     <svg 
-      onClick={() => selectElement(index)}
+      onMouseDown={(e) => onMouseDown(e, index)}
       width={element.width} 
       height={element.height} 
       transform={
