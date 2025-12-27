@@ -12,11 +12,14 @@ const Element = ({element, index, onMouseDown}: {
       onMouseDown={(e) => onMouseDown(e, index)}
       width={element.width} 
       height={element.height} 
-      transform={
-        `translate(${element.x - element.width/2}, ${element.y - element.height/2})`
-      }
+      transform={`
+        translate(${element.x - element.width/2}, ${element.y - element.height/2}) 
+        rotate(${element.rotation} ${element.width/2} ${element.height/2})
+      `}
     >
-      <path d={getPath(element)}/>
+      <path 
+        d={getPath(element)}
+      />
     </svg>
   );
 }

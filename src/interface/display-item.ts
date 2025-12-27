@@ -2,6 +2,7 @@ export interface DisplayItem {
   name: string, 
   width: number, 
   height: number, 
+  rotation: number,
   x: number, 
   y: number,
   type: "ellipse" | "rectangle";

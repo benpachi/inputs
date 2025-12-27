@@ -25,12 +25,17 @@ const Config = () => {
       updateElement(selectedIndex, {...selectedElement, height: Number(e.target.value)});
     }
   }
+  const handleChangeRotation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (selectedElement) {
+      updateElement(selectedIndex, {...selectedElement, rotation: Number(e.target.value)});
+    }
+  }
 
   return ( 
     <div className='config-card'>
       {/* need something better than having defaults in here lol */}
-      <button onClick={() => setSelectedIndex(addElement({name: "Circle", width: 50, height: 50, x: 50, y: 50, type: "ellipse"}))}>add circle</button>
-      <button onClick={() => setSelectedIndex(addElement({name: "Square", width: 50, height: 50, x: 50, y: 50, type: "rectangle"}))}>add square</button>
+      <button onClick={() => setSelectedIndex(addElement({name: "Circle", width: 50, height: 50, rotation: 0, x: 50, y: 50, type: "ellipse"}))}>add circle</button>
+      <button onClick={() => setSelectedIndex(addElement({name: "Square", width: 50, height: 50, rotation: 0, x: 50, y: 50, type: "rectangle"}))}>add square</button>
       <div className='config-controls'>
         <label htmlFor="element">Select element</label>
         <select 
@@ -53,6 +58,8 @@ const Config = () => {
           <input value={selectedElement.width} onChange={handleChangeWidth} type="number" />
           <label>Height</label>
           <input value={selectedElement.height} onChange={handleChangeHeight} type="number" />
+          <label>Rotation</label>
+          <input value={selectedElement.rotation} onChange={handleChangeRotation} type="number" />
           <button onClick={() => {
             removeElement(selectedIndex);
             setSelectedIndex(0);
