@@ -5,6 +5,7 @@ export interface DisplayItem {
   rotation: number,
   x: number, 
   y: number,
+  strokeWidth: number,
   type: "ellipse" | "rectangle";
 }
 
