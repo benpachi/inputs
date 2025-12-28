@@ -7,7 +7,7 @@ const Element = ({element, onMouseDown}: {
   }) => {
 
   return (  
-    <svg 
+    <g 
       onMouseDown={(e) => onMouseDown(e, element.id)}
       width={element.width} 
       height={element.height} 
@@ -23,7 +23,7 @@ const Element = ({element, onMouseDown}: {
         stroke={element.strokeColor}
         strokeWidth={element.strokeWidth}
       />
-    </svg>
+    </g>
   );
 }
  

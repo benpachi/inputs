@@ -87,6 +87,7 @@ const Config = () => {
             </label>
           </div>
           <p>watch your luminance in the color picker!</p>
+          <button onClick={() => { setSelectedID(addElement({...selectedElement, x: selectedElement.x+10, y: selectedElement.y+10, id: crypto.randomUUID()})) }}>Duplicate</button>
           <button onClick={() => { removeElement(selectedElement.id); setSelectedID(''); }}>Delete</button>
         </div>
          : <p>No element selected</p>}
