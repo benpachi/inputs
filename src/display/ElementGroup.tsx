@@ -26,6 +26,7 @@ const ElementGroup = ({ element, width, height, isSelected, onMouseDown, childre
       filter={isSelected ? 'drop-shadow(0 0 4px #000000)' : undefined}
     >
       {children}
+      <text x={width/2} y={height/2} fill='white'>{element.label}</text>
     </g>
   );
 }

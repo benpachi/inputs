@@ -9,18 +9,18 @@ const DPadElement = ({element, isSelected, onMouseDown}: {
   return (
     <ElementGroup
       element={element}
-      width={element.width}
-      height={element.height}
+      width={element.armWidth}
+      height={element.armLength + element.pointLength}
       isSelected={isSelected}
       onMouseDown={onMouseDown}
     >
       <path 
         d={
           `M 0 0` +
-          `L ${element.width} 0 ` +
-          `L ${element.width} ${element.height - (element.width/2)} ` +
-          `L ${element.width/2} ${element.height} ` +
-          `L 0 ${element.height - (element.width/2)} ` +
+          `L ${element.armWidth} 0 ` +
+          `L ${element.armWidth} ${element.armLength} ` +
+          `L ${element.armWidth/2} ${element.pointLength + element.armLength} ` +
+          `L 0 ${element.armLength} ` +
           `L 0 0 Z`
         }
         fill={element.fillColor}

@@ -24,10 +24,9 @@ export interface RectangleItem extends BaseDisplayItem {
 
 export interface DPadItem extends BaseDisplayItem {
   type: "d-pad";
-  width: number;
-  height: number;
-  //pointLength
-  //armLength
+  pointLength: number;
+  armLength: number;
+  armWidth: number;
 }
 
 export interface PlusItem extends BaseDisplayItem {
