@@ -1,6 +1,9 @@
-import Element from "./Element";
 import { useDisplay } from "../context/DisplayContext";
 import { useState } from "react";
+import type { DisplayItem } from "../interface/display-item";
+import RectangleElement from "./RectangleElement";
+import EllipseElement from "./EllipseElement";
+import DPadElement from "./DPadElement";
 
 const Display = () => {
   const { elements, selectedID, setSelectedID, updateElement } = useDisplay();
@@ -39,6 +42,24 @@ const Display = () => {
     setDragOffset({ x: 0, y: 0 })
   }
 
+  const renderElement = (element: DisplayItem) => {
+    const props = {
+      key: element.id,
+      element,
+      isSelected: selectedID === element.id,
+      onMouseDown: handleElementMouseDown,
+    };
+
+    switch (element.type) {
+      case 'rectangle':
+        return <RectangleElement {...props} element={element} />
+      case 'ellipse':
+        return <EllipseElement {...props} element={element} />
+      case 'd-pad':
+        return <DPadElement {...props} element={element} />
+    }
+  }
+
   return ( 
     <div className='display-panel'>
       <svg 
@@ -49,14 +70,7 @@ const Display = () => {
         width='400' 
         height='300'
       >
-        {elements.map((element) => (
-          <Element
-            key={element.id}
-            element={element}
-            isSelected={selectedID === element.id}
-            onMouseDown={handleElementMouseDown}
-          />
-        ))}
+        {elements.map((element) => renderElement(element))}
       </svg>
     </div>
   );
