@@ -1,5 +1,5 @@
 import { useDisplay } from "../context/DisplayContext";
-import type { DPadItem, EllipseItem, RectangleItem, PlusItem } from "../interface/display-item";
+import type { DPadItem, EllipseItem, RectangleItem, PlusItem, ConnectedDPadItem } from "../interface/display-item";
 
 const Config = () => {
   const { addElement, removeElement, updateElement, setSelectedID, selectedID, elements } = useDisplay();
@@ -33,7 +33,7 @@ const Config = () => {
   const DEFAULT_PLUS = {
     rotation: 0,
     label: '',
-    armWidth: 25,
+    armWidth: 33,
     armLength: 50,
     x: 50,
     y: 50,
@@ -112,6 +112,20 @@ const Config = () => {
           </div>
         );
         break;
+      case 'connected d-pad':
+        extraFields.push(
+          <div className="flexrow">
+            <label>
+              Arm length
+              <input value={(selectedElement as ConnectedDPadItem).armLength} onChange={(e) => handleChange('armLength', Number(e.target.value))} type="number" />
+            </label>
+            <label>
+              Arm width
+              <input value={(selectedElement as ConnectedDPadItem).armWidth} onChange={(e) => handleChange('armWidth', Number(e.target.value))} type="number" />
+            </label>
+          </div>
+        );
+        break;
     }
   }
 
@@ -123,6 +137,7 @@ const Config = () => {
           <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Rectangle", type: "rectangle", ...DEFAULT_ELEMENT}))}>add rectangle</button>
           <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "D-pad", type: "d-pad", ...DEFAULT_DPAD}))}>add d-pad</button>
           <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Plus", type: "plus", ...DEFAULT_PLUS}))}>add plus</button>
+          <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Connected D-pad", type: "connected d-pad", ...DEFAULT_PLUS}))}>add connected d-pad</button>
         </div>
         <div className="flexrow" style={{justifyContent: 'start'}}>
           <label htmlFor="elementSelector">Select element </label>

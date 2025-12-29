@@ -5,6 +5,7 @@ import RectangleElement from "./RectangleElement";
 import EllipseElement from "./EllipseElement";
 import DPadElement from "./DPadElement";
 import PlusElement from "./PlusElement";
+import ConnectedDPadElement from "./ConnectedDPad";
 
 const Display = () => {
   const { elements, selectedID, setSelectedID, updateElement } = useDisplay();
@@ -60,6 +61,8 @@ const Display = () => {
         return <DPadElement {...props} element={element} />
       case 'plus':
         return <PlusElement {...props} element={element} />
+      case 'connected d-pad':
+        return <ConnectedDPadElement {...props} element={element} />
     }
   }
 
