@@ -7,6 +7,7 @@ const Config = () => {
   
   const DEFAULT_ELEMENT = {
     rotation: 0,
+    label: '',
     width: 50,
     height: 50,
     x: 50,

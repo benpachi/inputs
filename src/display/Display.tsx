@@ -53,6 +53,7 @@ const Display = () => {
           <Element
             key={element.id}
             element={element}
+            isSelected={selectedID === element.id}
             onMouseDown={handleElementMouseDown}
           />
         ))}
