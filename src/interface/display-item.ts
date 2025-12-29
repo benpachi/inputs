@@ -31,17 +31,14 @@ export interface DPadItem extends BaseDisplayItem {
 
 export interface PlusItem extends BaseDisplayItem {
   type: "plus";
-  width: number;
-  height: number;
-  //armLength for each arm
+  armLength: number;
+  armWidth: number;
 }
 
 export interface ConnectedDPadItem extends BaseDisplayItem {
   type: "connected d-pad";
-  width: number;
-  height: number;
-  //armLength for each arm
-  //extra label for each arm
+  armLength: number;
+  armWidth: number;
 }
 
 export type DisplayItem = EllipseItem | RectangleItem | DPadItem | PlusItem | ConnectedDPadItem;

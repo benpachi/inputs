@@ -4,6 +4,7 @@ import type { DisplayItem } from "../interface/display-item";
 import RectangleElement from "./RectangleElement";
 import EllipseElement from "./EllipseElement";
 import DPadElement from "./DPadElement";
+import PlusElement from "./PlusElement";
 
 const Display = () => {
   const { elements, selectedID, setSelectedID, updateElement } = useDisplay();
@@ -57,6 +58,8 @@ const Display = () => {
         return <EllipseElement {...props} element={element} />
       case 'd-pad':
         return <DPadElement {...props} element={element} />
+      case 'plus':
+        return <PlusElement {...props} element={element} />
     }
   }
 
