@@ -11,7 +11,7 @@ const ConnectedDPadElement = ({element, isSelected, onMouseDown}: {
   const width = scaledArmLength*2 + element.armWidth;
   const height = scaledArmLength*2 + element.armWidth;
   //Correction for tiny gaps between dpad paths.
-  const nudge = 0.5;
+  const nudge = Math.SQRT1_2/10;
 
   return (
     <ElementGroup
@@ -21,70 +21,75 @@ const ConnectedDPadElement = ({element, isSelected, onMouseDown}: {
       isSelected={isSelected}
       onMouseDown={onMouseDown}
     >
-      {/* West */}
+      {/* Can probably compact this with a map function but I'll worry about that when I add border radius */}
+      {/* Left */}
       <path 
         d={
-          `M ${width/2 + nudge} ${height/2} ` +
-          `L ${scaledArmLength + nudge} ${scaledArmLength} ` +
-          `L 0 ${scaledArmLength} ` +
-          `L 0 ${height - scaledArmLength}` +
+          `M ${width/2 + nudge} ${height/2} ` + 
           `L ${scaledArmLength + nudge} ${height - scaledArmLength} ` +
+          `L 0 ${height - scaledArmLength} ` +
+          `L 0 ${scaledArmLength}` +
+          `L ${scaledArmLength + nudge} ${scaledArmLength} ` +
           `L ${width/2 + nudge} ${height/2} Z` 
-        }
-        fill={'blue'}
-      />
-      {/* North */}
-      <path 
-        d={
-          `M ${width/2} ${height/2 - nudge} ` +
-          `L ${scaledArmLength} ${scaledArmLength - nudge} ` +
-          `L ${scaledArmLength} 0 ` +
-          `L ${width - scaledArmLength} 0 ` +
-          `L ${width - scaledArmLength} ${scaledArmLength - nudge} ` +
-          `L ${width/2} ${height/2 - nudge} Z` 
-        }
-        fill={'yellow'}
-      />
-      {/* East */}
-      <path 
-        d={
-          `M ${width/2 - nudge} ${height/2} ` +
-          `L ${width - scaledArmLength - nudge} ${height - scaledArmLength} ` +
-          `L ${width} ${height - scaledArmLength} ` +
-          `L ${width} ${scaledArmLength} ` +
-          `L ${width - scaledArmLength - nudge} ${scaledArmLength} ` +
-          `L ${width/2 - nudge} ${height/2}`
         }
         fill={'green'}
       />
-      {/* South */}
+      {/* Up */}
+      <path 
+        d={
+          `M ${width/2} ${height/2 + nudge} ` +
+          `L ${scaledArmLength} ${scaledArmLength + nudge} ` +
+          `L ${scaledArmLength} 0 ` +
+          `L ${width - scaledArmLength} 0 ` +
+          `L ${width - scaledArmLength} ${scaledArmLength + nudge} ` +
+          `L ${width/2} ${height/2 + nudge} Z` 
+        }
+        fill={'yellow'}
+      />
+      {/* Right */}
+      <path 
+        d={
+          `M ${width/2 - nudge} ${height/2} ` +
+          `L ${width - scaledArmLength - nudge} ${scaledArmLength} ` +
+          `L ${width} ${scaledArmLength} ` +
+          `L ${width} ${height - scaledArmLength} ` +
+          `L ${width - scaledArmLength - nudge} ${height - scaledArmLength} ` +
+          `L ${width/2 - nudge} ${height/2}`
+        }
+        fill={'purple'}
+      />
+      {/* Down */}
       <path 
         d={
           `M ${width/2} ${height/2 - nudge} ` +
-          `L ${scaledArmLength} ${height - scaledArmLength - nudge} ` +
-          `L ${scaledArmLength} ${height} ` +
-          `L ${width - scaledArmLength} ${height} ` +
           `L ${width - scaledArmLength} ${height - scaledArmLength - nudge} ` +
+          `L ${width - scaledArmLength} ${height} ` +
+          `L ${scaledArmLength} ${height} ` +
+          `L ${scaledArmLength} ${height - scaledArmLength - nudge} ` +
           `L ${width/2} ${height/2 - nudge} Z` 
         }
-        fill={'purple'}
+        fill={'blue'}
       />
       {/* Stroke */}
       <path 
         d={
-          `M 0 ${height - scaledArmLength}` +
-          `L ${scaledArmLength} ${height - scaledArmLength} ` +
-          `L ${scaledArmLength} ${height} ` +
-          `L ${width - scaledArmLength} ${height} ` +
-          `L ${width - scaledArmLength} ${height - scaledArmLength} ` +
-          `L ${width} ${height - scaledArmLength} ` +
-          `L ${width} ${scaledArmLength} ` +
-          `L ${width - scaledArmLength} ${scaledArmLength} ` +
-          `L ${width - scaledArmLength} 0 ` +
-          `L ${scaledArmLength} 0 ` +
-          `L ${scaledArmLength} ${scaledArmLength} ` +
+          // Left
+          `M ${scaledArmLength} ${height - scaledArmLength}` +
+          `L 0 ${height - scaledArmLength} ` +
           `L 0 ${scaledArmLength} ` +
-          `L 0 ${height - scaledArmLength} Z`
+          `L ${scaledArmLength} ${scaledArmLength} ` +
+          // Up
+          `L ${scaledArmLength} 0 ` +
+          `L ${width - scaledArmLength} 0 ` +
+          `L ${width - scaledArmLength} ${scaledArmLength} ` +
+          // Right
+          `L ${width} ${scaledArmLength} ` +
+          `L ${width} ${height - scaledArmLength} ` +
+          `L ${width - scaledArmLength} ${height - scaledArmLength} ` +
+          // Down
+          `L ${width - scaledArmLength} ${height} ` +
+          `L ${scaledArmLength} ${height} ` +
+          `L ${scaledArmLength} ${height - scaledArmLength} Z`
         }
         fill={'transparent'}
         stroke={element.strokeColor}
