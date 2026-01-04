@@ -1,9 +1,10 @@
 import { useDisplay } from "../context/DisplayContext";
 import type { DPadItem, EllipseItem, RectangleItem, PlusItem, ConnectedDPadItem } from "../interface/display-item";
+import InputComponent from "./InputComponent";
 
 const Config = () => {
   const { addElement, removeElement, updateElement, setSelectedID, selectedID, elements } = useDisplay();
-  const selectedElement = elements.find((el) => el.id === selectedID);
+  const selectedElement = elements.find((element) => element.id === selectedID);
   
   const DEFAULT_ELEMENT = {
     rotation: 0,
@@ -42,7 +43,6 @@ const Config = () => {
     strokeWidth: 5, 
   }
 
-
   const handleChange = (field: string, value: any) => {
     if (selectedElement) {
       updateElement(selectedElement.id, {...selectedElement, [field]: value});
@@ -55,74 +55,41 @@ const Config = () => {
       case 'ellipse':
         extraFields.push(              
           <div className='flexrow'>
-            <label>
-              Width
-              <input value={(selectedElement as EllipseItem).width} onChange={(e) => handleChange('width', Number(e.target.value))} type="number" />
-            </label>
-            <label>
-              Height
-              <input value={(selectedElement as EllipseItem).height} onChange={(e) => handleChange('height', Number(e.target.value))} type="number" />
-            </label>
+            <InputComponent field={'width'} value={(selectedElement as EllipseItem).width} onChange={handleChange} type='number' />
+            <InputComponent field={'height'} value={(selectedElement as EllipseItem).height} onChange={handleChange} type='number' />
           </div>
         );
         break;
       case 'rectangle':
         extraFields.push(              
           <div className='flexrow'>
-            <label>
-              Width
-              <input value={(selectedElement as RectangleItem).width} onChange={(e) => handleChange('width', Number(e.target.value))} type="number" />
-            </label>
-            <label>
-              Height
-              <input value={(selectedElement as RectangleItem).height} onChange={(e) => handleChange('height', Number(e.target.value))} type="number" />
-            </label>
+            <InputComponent field={'width'} value={(selectedElement as RectangleItem).width} onChange={handleChange} type='number' />
+            <InputComponent field={'width'} value={(selectedElement as RectangleItem).width} onChange={handleChange} type='number' />
           </div>
         );
         break;
       case 'd-pad':
         extraFields.push(
           <div className="flexrow">
-            <label>
-              Point length
-              <input value={(selectedElement as DPadItem).pointLength} onChange={(e) => handleChange('pointLength', Number(e.target.value))} type="number" />
-            </label>
-            <label>
-              Arm length
-              <input value={(selectedElement as DPadItem).armLength} onChange={(e) => handleChange('armLength', Number(e.target.value))} type="number" />
-            </label>
-            <label>
-              Arm width
-              <input value={(selectedElement as DPadItem).armWidth} onChange={(e) => handleChange('armWidth', Number(e.target.value))} type="number" />
-            </label>
+            <InputComponent field={'pointLength'} value={(selectedElement as DPadItem).pointLength} onChange={handleChange} type='number' />
+            <InputComponent field={'armLength'} value={(selectedElement as DPadItem).armLength} onChange={handleChange} type='number' />
+            <InputComponent field={'armWidth'} value={(selectedElement as DPadItem).armWidth} onChange={handleChange} type='number' />
           </div>
         );
         break;
       case 'plus':
         extraFields.push(
           <div className="flexrow">
-            <label>
-              Arm length
-              <input value={(selectedElement as PlusItem).armLength} onChange={(e) => handleChange('armLength', Number(e.target.value))} type="number" />
-            </label>
-            <label>
-              Arm width
-              <input value={(selectedElement as PlusItem).armWidth} onChange={(e) => handleChange('armWidth', Number(e.target.value))} type="number" />
-            </label>
+            <InputComponent field={'armLength'} value={(selectedElement as PlusItem).armLength} onChange={handleChange} type='number' />
+            <InputComponent field={'armWidth'} value={(selectedElement as PlusItem).armWidth} onChange={handleChange} type='number' />
           </div>
         );
         break;
       case 'connected d-pad':
         extraFields.push(
           <div className="flexrow">
-            <label>
-              Arm length
-              <input value={(selectedElement as ConnectedDPadItem).armLength} onChange={(e) => handleChange('armLength', Number(e.target.value))} type="number" />
-            </label>
-            <label>
-              Arm width
-              <input value={(selectedElement as ConnectedDPadItem).armWidth} onChange={(e) => handleChange('armWidth', Number(e.target.value))} type="number" />
-            </label>
+            <InputComponent field={'armLength'} value={(selectedElement as ConnectedDPadItem).armLength} onChange={handleChange} type='number' />
+            <InputComponent field={'armWidth'} value={(selectedElement as ConnectedDPadItem).armWidth} onChange={handleChange} type='number' />
           </div>
         );
         break;
@@ -156,35 +123,17 @@ const Config = () => {
         {selectedElement ? 
         <div className="config-controls">
           <div className="flexrow">
-            <label>
-              X position
-              <input value={selectedElement.x} onChange={(e) => handleChange('x', Number(e.target.value))} type="number" />
-            </label>
-            <label>
-              Y position
-              <input value={selectedElement.y} onChange={(e) => handleChange('y', Number(e.target.value))} type="number" />
-            </label>
+            <InputComponent field={'x'} value={selectedElement.x} onChange={handleChange} type='number' />
+            <InputComponent field={'y'} value={selectedElement.y} onChange={handleChange} type='number' />
           </div>
           {extraFields}
           <div className="flexrow">
-            <label>
-              Rotation
-              <input value={selectedElement.rotation} onChange={(e) => handleChange('rotation', Number(e.target.value))} type="number" />
-            </label>
-            <label>
-              Stroke width
-              <input value={selectedElement.strokeWidth} onChange={(e) => handleChange('strokeWidth', Number(e.target.value))} type="number" />
-            </label>
+            <InputComponent field={'rotation'} value={selectedElement.rotation} onChange={handleChange} type='number' />
+            <InputComponent field={'strokeWidth'} value={selectedElement.strokeWidth} onChange={handleChange} type='number' />
           </div>
           <div className="flexrow">
-            <label>
-              Fill color
-              <input value={selectedElement.fillColor} onChange={(e) => handleChange('fillColor', e.target.value)} type="color" />
-            </label>
-            <label>
-              Stroke color
-              <input value={selectedElement.strokeColor} onChange={(e) => handleChange('strokeColor', e.target.value)} type="color" />
-            </label>
+            <InputComponent field={'fillColor'} value={selectedElement.fillColor} onChange={handleChange} type='number' />
+            <InputComponent field={'strokeColor'} value={selectedElement.strokeColor} onChange={handleChange} type='number' />
           </div>
           <p>watch your luminance in the color picker!</p>
           <button onClick={() => { setSelectedID(addElement({...selectedElement, x: selectedElement.x+10, y: selectedElement.y+10, id: crypto.randomUUID()})) }}>Duplicate</button>
