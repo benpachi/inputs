@@ -7,7 +7,7 @@ const InputComponent = ({field, value, onChange, type}: {
   return (
     <label>
       {field}
-      <input value={value} onChange={(e) => onChange(field, e.target.value)} type={type} />
+      <input value={value} onChange={(e) => onChange(field, Number(e.target.value))} type={type} />
     </label>
   );
 }

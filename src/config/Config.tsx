@@ -55,41 +55,41 @@ const Config = () => {
       case 'ellipse':
         extraFields.push(              
           <div className='flexrow'>
-            <InputComponent field={'width'} value={(selectedElement as EllipseItem).width} onChange={handleChange} type='number' />
-            <InputComponent field={'height'} value={(selectedElement as EllipseItem).height} onChange={handleChange} type='number' />
+            <InputComponent field='width' value={(selectedElement as EllipseItem).width} onChange={handleChange} type='number' />
+            <InputComponent field='height' value={(selectedElement as EllipseItem).height} onChange={handleChange} type='number' />
           </div>
         );
         break;
       case 'rectangle':
         extraFields.push(              
           <div className='flexrow'>
-            <InputComponent field={'width'} value={(selectedElement as RectangleItem).width} onChange={handleChange} type='number' />
-            <InputComponent field={'width'} value={(selectedElement as RectangleItem).width} onChange={handleChange} type='number' />
+            <InputComponent field='width' value={(selectedElement as RectangleItem).width} onChange={handleChange} type='number' />
+            <InputComponent field='width' value={(selectedElement as RectangleItem).width} onChange={handleChange} type='number' />
           </div>
         );
         break;
       case 'd-pad':
         extraFields.push(
           <div className="flexrow">
-            <InputComponent field={'pointLength'} value={(selectedElement as DPadItem).pointLength} onChange={handleChange} type='number' />
-            <InputComponent field={'armLength'} value={(selectedElement as DPadItem).armLength} onChange={handleChange} type='number' />
-            <InputComponent field={'armWidth'} value={(selectedElement as DPadItem).armWidth} onChange={handleChange} type='number' />
+            <InputComponent field='pointLength' value={(selectedElement as DPadItem).pointLength} onChange={handleChange} type='number' />
+            <InputComponent field='armLength' value={(selectedElement as DPadItem).armLength} onChange={handleChange} type='number' />
+            <InputComponent field='armWidth' value={(selectedElement as DPadItem).armWidth} onChange={handleChange} type='number' />
           </div>
         );
         break;
       case 'plus':
         extraFields.push(
           <div className="flexrow">
-            <InputComponent field={'armLength'} value={(selectedElement as PlusItem).armLength} onChange={handleChange} type='number' />
-            <InputComponent field={'armWidth'} value={(selectedElement as PlusItem).armWidth} onChange={handleChange} type='number' />
+            <InputComponent field='armLength' value={(selectedElement as PlusItem).armLength} onChange={handleChange} type='number' />
+            <InputComponent field='armWidth' value={(selectedElement as PlusItem).armWidth} onChange={handleChange} type='number' />
           </div>
         );
         break;
       case 'connected d-pad':
         extraFields.push(
           <div className="flexrow">
-            <InputComponent field={'armLength'} value={(selectedElement as ConnectedDPadItem).armLength} onChange={handleChange} type='number' />
-            <InputComponent field={'armWidth'} value={(selectedElement as ConnectedDPadItem).armWidth} onChange={handleChange} type='number' />
+            <InputComponent field='armLength' value={(selectedElement as ConnectedDPadItem).armLength} onChange={handleChange} type='number' />
+            <InputComponent field='armWidth' value={(selectedElement as ConnectedDPadItem).armWidth} onChange={handleChange} type='number' />
           </div>
         );
         break;
@@ -123,17 +123,17 @@ const Config = () => {
         {selectedElement ? 
         <div className="config-controls">
           <div className="flexrow">
-            <InputComponent field={'x'} value={selectedElement.x} onChange={handleChange} type='number' />
-            <InputComponent field={'y'} value={selectedElement.y} onChange={handleChange} type='number' />
+            <InputComponent field='x' value={selectedElement.x} onChange={handleChange} type='number' />
+            <InputComponent field='y' value={selectedElement.y} onChange={handleChange} type='number' />
           </div>
           {extraFields}
           <div className="flexrow">
-            <InputComponent field={'rotation'} value={selectedElement.rotation} onChange={handleChange} type='number' />
-            <InputComponent field={'strokeWidth'} value={selectedElement.strokeWidth} onChange={handleChange} type='number' />
+            <InputComponent field='rotation' value={selectedElement.rotation} onChange={handleChange} type='number' />
+            <InputComponent field='strokeWidth' value={selectedElement.strokeWidth} onChange={handleChange} type='number' />
           </div>
           <div className="flexrow">
-            <InputComponent field={'fillColor'} value={selectedElement.fillColor} onChange={handleChange} type='number' />
-            <InputComponent field={'strokeColor'} value={selectedElement.strokeColor} onChange={handleChange} type='number' />
+            <InputComponent field='fillColor' value={selectedElement.fillColor} onChange={handleChange} type='color' />
+            <InputComponent field='strokeColor' value={selectedElement.strokeColor} onChange={handleChange} type='color' />
           </div>
           <p>watch your luminance in the color picker!</p>
           <button onClick={() => { setSelectedID(addElement({...selectedElement, x: selectedElement.x+10, y: selectedElement.y+10, id: crypto.randomUUID()})) }}>Duplicate</button>
