@@ -51,7 +51,6 @@ const Display = () => {
       isSelected: selectedID === element.id,
       onMouseDown: handleElementMouseDown,
     };
-
     switch (element.type) {
       case 'rectangle':
         return <RectangleElement {...props} element={element} />
@@ -63,6 +62,9 @@ const Display = () => {
         return <PlusElement {...props} element={element} />
       case 'connected d-pad':
         return <ConnectedDPadElement {...props} element={element} />
+      default:
+        const _exhaustiveCheck: never = element;
+        return _exhaustiveCheck;
     }
   }
 
