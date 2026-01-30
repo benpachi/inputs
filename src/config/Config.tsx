@@ -43,13 +43,13 @@ const Config = () => {
     strokeWidth: 5, 
   }
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: string | number) => {
     if (selectedElement) {
       updateElement(selectedElement.id, {...selectedElement, [field]: value});
     }
   }
 
-  const extraFields: any[] = [];
+  const extraFields: React.ReactElement[] = [];
   if (selectedElement) {
     switch (selectedElement.type) {
       case 'ellipse':
@@ -64,7 +64,7 @@ const Config = () => {
         extraFields.push(              
           <div className='flexrow'>
             <InputComponent field='width' value={(selectedElement as RectangleItem).width} onChange={handleChange} type='number' />
-            <InputComponent field='width' value={(selectedElement as RectangleItem).width} onChange={handleChange} type='number' />
+            <InputComponent field='height' value={(selectedElement as RectangleItem).height} onChange={handleChange} type='number' />
           </div>
         );
         break;
