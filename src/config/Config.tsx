@@ -51,48 +51,20 @@ const Config = () => {
 
   const extraFields: React.ReactElement[] = [];
   if (selectedElement) {
-    switch (selectedElement.type) {
-      case 'ellipse':
-        extraFields.push(              
-          <div className='flexrow'>
-            <InputComponent field='width' value={(selectedElement as EllipseItem).width} onChange={handleChange} type='number' />
-            <InputComponent field='height' value={(selectedElement as EllipseItem).height} onChange={handleChange} type='number' />
-          </div>
-        );
-        break;
-      case 'rectangle':
-        extraFields.push(              
-          <div className='flexrow'>
-            <InputComponent field='width' value={(selectedElement as RectangleItem).width} onChange={handleChange} type='number' />
-            <InputComponent field='height' value={(selectedElement as RectangleItem).height} onChange={handleChange} type='number' />
-          </div>
-        );
-        break;
-      case 'd-pad':
-        extraFields.push(
-          <div className="flexrow">
-            <InputComponent field='pointLength' value={(selectedElement as DPadItem).pointLength} onChange={handleChange} type='number' />
-            <InputComponent field='armLength' value={(selectedElement as DPadItem).armLength} onChange={handleChange} type='number' />
-            <InputComponent field='armWidth' value={(selectedElement as DPadItem).armWidth} onChange={handleChange} type='number' />
-          </div>
-        );
-        break;
-      case 'plus':
-        extraFields.push(
-          <div className="flexrow">
-            <InputComponent field='armLength' value={(selectedElement as PlusItem).armLength} onChange={handleChange} type='number' />
-            <InputComponent field='armWidth' value={(selectedElement as PlusItem).armWidth} onChange={handleChange} type='number' />
-          </div>
-        );
-        break;
-      case 'connected d-pad':
-        extraFields.push(
-          <div className="flexrow">
-            <InputComponent field='armLength' value={(selectedElement as ConnectedDPadItem).armLength} onChange={handleChange} type='number' />
-            <InputComponent field='armWidth' value={(selectedElement as ConnectedDPadItem).armWidth} onChange={handleChange} type='number' />
-          </div>
-        );
-        break;
+    if ('width' in selectedElement) {
+      extraFields.push(<InputComponent field='width' value={(selectedElement).width} onChange={handleChange} type='number' />);
+    }
+    if ('height' in selectedElement) {
+      extraFields.push(<InputComponent field='height' value={(selectedElement).height} onChange={handleChange} type='number' />);
+    }
+    if ('pointLength' in selectedElement) {
+      extraFields.push(<InputComponent field='pointLength' value={(selectedElement).pointLength} onChange={handleChange} type='number' />);
+    }
+    if ('armLength' in selectedElement) {
+      extraFields.push(<InputComponent field='armLength' value={(selectedElement).armLength} onChange={handleChange} type='number' />);
+    }
+    if ('armWidth' in selectedElement) {
+      extraFields.push(<InputComponent field='armWidth' value={(selectedElement).armWidth} onChange={handleChange} type='number' />);
     }
   }
 
