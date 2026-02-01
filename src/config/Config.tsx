@@ -1,10 +1,9 @@
 import { useDisplay } from "../context/DisplayContext";
-import type { DPadItem, EllipseItem, RectangleItem, PlusItem, ConnectedDPadItem } from "../interface/display-item";
-import InputComponent from "./InputComponent";
+import InputField from "./InputField";
 
 const Config = () => {
-  const { addElement, removeElement, updateElement, setSelectedID, selectedID, elements } = useDisplay();
-  const selectedElement = elements.find((element) => element.id === selectedID);
+  const { addItem, removeItem, updateItem, setSelectedID, selectedID, items } = useDisplay();
+  const selectedItem = items.find((item) => item.id === selectedID);
   
   const DEFAULT_ELEMENT = {
     rotation: 0,
@@ -44,27 +43,27 @@ const Config = () => {
   }
 
   const handleChange = (field: string, value: string | number) => {
-    if (selectedElement) {
-      updateElement(selectedElement.id, {...selectedElement, [field]: value});
+    if (selectedItem) {
+      updateItem(selectedItem.id, {...selectedItem, [field]: value});
     }
   }
 
   const extraFields: React.ReactElement[] = [];
-  if (selectedElement) {
-    if ('width' in selectedElement) {
-      extraFields.push(<InputComponent field='width' value={(selectedElement).width} onChange={handleChange} type='number' />);
+  if (selectedItem) {
+    if ('width' in selectedItem) {
+      extraFields.push(<InputField field='width' value={(selectedItem).width} onChange={handleChange} type='number' />);
     }
-    if ('height' in selectedElement) {
-      extraFields.push(<InputComponent field='height' value={(selectedElement).height} onChange={handleChange} type='number' />);
+    if ('height' in selectedItem) {
+      extraFields.push(<InputField field='height' value={(selectedItem).height} onChange={handleChange} type='number' />);
     }
-    if ('pointLength' in selectedElement) {
-      extraFields.push(<InputComponent field='pointLength' value={(selectedElement).pointLength} onChange={handleChange} type='number' />);
+    if ('pointLength' in selectedItem) {
+      extraFields.push(<InputField field='pointLength' value={(selectedItem).pointLength} onChange={handleChange} type='number' />);
     }
-    if ('armLength' in selectedElement) {
-      extraFields.push(<InputComponent field='armLength' value={(selectedElement).armLength} onChange={handleChange} type='number' />);
+    if ('armLength' in selectedItem) {
+      extraFields.push(<InputField field='armLength' value={(selectedItem).armLength} onChange={handleChange} type='number' />);
     }
-    if ('armWidth' in selectedElement) {
-      extraFields.push(<InputComponent field='armWidth' value={(selectedElement).armWidth} onChange={handleChange} type='number' />);
+    if ('armWidth' in selectedItem) {
+      extraFields.push(<InputField field='armWidth' value={(selectedItem).armWidth} onChange={handleChange} type='number' />);
     }
   }
 
@@ -72,46 +71,46 @@ const Config = () => {
     <div className='config-card'>
       <div className='config-controls'>
         <div className="flexrow" style={{justifyContent: 'start'}}>
-          <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Ellipse", type: "ellipse", ...DEFAULT_ELEMENT}))}>add ellipse</button>
-          <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Rectangle", type: "rectangle", ...DEFAULT_ELEMENT}))}>add rectangle</button>
-          <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "D-pad", type: "d-pad", ...DEFAULT_DPAD}))}>add d-pad</button>
-          <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Plus", type: "plus", ...DEFAULT_PLUS}))}>add plus</button>
-          <button onClick={() => setSelectedID(addElement({id: crypto.randomUUID(), name: "Connected D-pad", type: "connected d-pad", ...DEFAULT_PLUS}))}>add connected d-pad</button>
+          <button onClick={() => setSelectedID(addItem({id: crypto.randomUUID(), name: "Ellipse", kind: "ellipse", ...DEFAULT_ELEMENT}))}>add ellipse</button>
+          <button onClick={() => setSelectedID(addItem({id: crypto.randomUUID(), name: "Rectangle", kind: "rectangle", ...DEFAULT_ELEMENT}))}>add rectangle</button>
+          <button onClick={() => setSelectedID(addItem({id: crypto.randomUUID(), name: "D-Button", kind: "d-button", ...DEFAULT_DPAD}))}>add d-button</button>
+          <button onClick={() => setSelectedID(addItem({id: crypto.randomUUID(), name: "Plus", kind: "plus", ...DEFAULT_PLUS}))}>add plus</button>
+          <button onClick={() => setSelectedID(addItem({id: crypto.randomUUID(), name: "D-Pad", kind: "d-pad", ...DEFAULT_PLUS}))}>add d-pad</button>
         </div>
         <div className="flexrow" style={{justifyContent: 'start'}}>
-          <label htmlFor="elementSelector">Select element </label>
+          <label htmlFor="canvasItemSelector">Select canvas item </label>
           <select 
             value={selectedID} 
-            id="elementSelector" 
+            id="canvasItemSelector" 
             onChange={(e) => setSelectedID(e.target.value)}
           >
             <option value="">(none)</option>
-            {elements.map((element) => (
-              <option key={element.id} value={element.id}>{element.name}</option>
+            {items.map((item) => (
+              <option key={item.id} value={item.id}>{item.name}</option>
             ))}
           </select>
         </div>
 
-        {selectedElement ? 
+        {selectedItem ? 
         <div className="config-controls">
           <div className="flexrow">
-            <InputComponent field='x' value={selectedElement.x} onChange={handleChange} type='number' />
-            <InputComponent field='y' value={selectedElement.y} onChange={handleChange} type='number' />
+            <InputField field='x' value={selectedItem.x} onChange={handleChange} type='number' />
+            <InputField field='y' value={selectedItem.y} onChange={handleChange} type='number' />
           </div>
           {extraFields}
           <div className="flexrow">
-            <InputComponent field='rotation' value={selectedElement.rotation} onChange={handleChange} type='number' />
-            <InputComponent field='strokeWidth' value={selectedElement.strokeWidth} onChange={handleChange} type='number' />
+            <InputField field='rotation' value={selectedItem.rotation} onChange={handleChange} type='number' />
+            <InputField field='strokeWidth' value={selectedItem.strokeWidth} onChange={handleChange} type='number' />
           </div>
           <div className="flexrow">
-            <InputComponent field='fillColor' value={selectedElement.fillColor} onChange={handleChange} type='color' />
-            <InputComponent field='strokeColor' value={selectedElement.strokeColor} onChange={handleChange} type='color' />
+            <InputField field='fillColor' value={selectedItem.fillColor} onChange={handleChange} type='color' />
+            <InputField field='strokeColor' value={selectedItem.strokeColor} onChange={handleChange} type='color' />
           </div>
           <p>watch your luminance in the color picker!</p>
-          <button onClick={() => { setSelectedID(addElement({...selectedElement, x: selectedElement.x+10, y: selectedElement.y+10, id: crypto.randomUUID()})) }}>Duplicate</button>
-          <button onClick={() => { removeElement(selectedElement.id); setSelectedID(''); }}>Delete</button>
+          <button onClick={() => { setSelectedID(addItem({...selectedItem, x: selectedItem.x+10, y: selectedItem.y+10, id: crypto.randomUUID()})) }}>Duplicate</button>
+          <button onClick={() => { removeItem(selectedItem.id); setSelectedID(''); }}>Delete</button>
         </div>
-         : <p>No element selected</p>}
+         : <p>No canvas item selected</p>}
       </div>
     </div>
   );

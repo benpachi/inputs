@@ -1,21 +1,21 @@
-import ElementGroup from "./ElementGroup";
-import type { ConnectedDPadItem } from "../interface/display-item";
+import type { CanvasDPad } from "../../interface/canvas-item";
+import CanvasGroup from "./CanvasGroup";
 
-const ConnectedDPadElement = ({element, isSelected, onMouseDown}: {
-  element: ConnectedDPadItem,
+const DPad = ({canvasItem, isSelected, onMouseDown}: {
+  canvasItem: CanvasDPad,
   isSelected: boolean,
   onMouseDown: (e: React.MouseEvent, id: string) => void;
 }) => {
   //Scale arm length so that changing arm width doesn't affect overall dimensions
-  const scaledArmLength = element.armLength - element.armWidth/2;
-  const width = scaledArmLength*2 + element.armWidth;
-  const height = scaledArmLength*2 + element.armWidth;
+  const scaledArmLength = canvasItem.armLength - canvasItem.armWidth/2;
+  const width = scaledArmLength*2 + canvasItem.armWidth;
+  const height = scaledArmLength*2 + canvasItem.armWidth;
   //Correction for tiny gaps between dpad paths.
   const nudge = Math.SQRT1_2/10;
 
   return (
-    <ElementGroup
-      element={element}
+    <CanvasGroup
+      canvasItem={canvasItem}
       width={width}
       height={height}
       isSelected={isSelected}
@@ -92,11 +92,11 @@ const ConnectedDPadElement = ({element, isSelected, onMouseDown}: {
           `L ${scaledArmLength} ${height - scaledArmLength} Z`
         }
         fill={'transparent'}
-        stroke={element.strokeColor}
-        strokeWidth={element.strokeWidth}
+        stroke={canvasItem.strokeColor}
+        strokeWidth={canvasItem.strokeWidth}
       />
-    </ElementGroup>
+    </CanvasGroup>
   );
 }
  
-export default ConnectedDPadElement;
+export default DPad;

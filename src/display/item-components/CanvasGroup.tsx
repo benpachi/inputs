@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
-import type { DisplayItem } from '../interface/display-item';
+import type { CanvasItem } from '../../interface/canvas-item';
 
-//Wrapper for display elements.
+//Wrapper for display components.
 //Width and height are defined in the parent component in the case that width/height are uniquely derived.
 //I feel like I'm gonna just refactor this later but let me be a dumbass.
 
-const ElementGroup = ({ element, width, height, isSelected, onMouseDown, children }: {
-    element: DisplayItem, 
+const CanvasGroup = ({ canvasItem, width, height, isSelected, onMouseDown, children }: {
+    canvasItem: CanvasItem, 
     width: number,
     height: number,
     isSelected: boolean,
@@ -15,20 +15,20 @@ const ElementGroup = ({ element, width, height, isSelected, onMouseDown, childre
   }) => {
   return (
     <g
-      onMouseDown={(e) => onMouseDown(e, element.id)}
+      onMouseDown={(e) => onMouseDown(e, canvasItem.id)}
       width={width} 
       height={height} 
       overflow="visible"
       transform={`
-        translate(${element.x - width/2}, ${element.y - height/2}) 
-        rotate(${element.rotation} ${width/2} ${height/2})
+        translate(${canvasItem.x - width/2}, ${canvasItem.y - height/2}) 
+        rotate(${canvasItem.rotation} ${width/2} ${height/2})
       `}
       filter={isSelected ? 'drop-shadow(0 0 4px #000000)' : undefined}
     >
       {children}
-      <text x={width/2} y={height/2} fill='white'>{element.label}</text>
+      <text x={width/2} y={height/2} fill='white'>{canvasItem.label}</text>
     </g>
   );
 }
  
-export default ElementGroup;
+export default CanvasGroup;

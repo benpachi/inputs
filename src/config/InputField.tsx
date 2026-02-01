@@ -1,4 +1,4 @@
-const InputComponent = ({field, value, onChange, type}: {
+const InputField = ({field, value, onChange, type}: {
   field: string;
   value: any;
   onChange: (field: string, value: any) => void;
@@ -12,4 +12,4 @@ const InputComponent = ({field, value, onChange, type}: {
   );
 }
  
-export default InputComponent;
+export default InputField;

@@ -1,19 +1,19 @@
-import ElementGroup from "./ElementGroup";
-import type { PlusItem } from "../interface/display-item";
+import CanvasGroup from "./CanvasGroup";
+import type { CanvasPlus } from "../../interface/canvas-item";
 
-const PlusElement = ({element, isSelected, onMouseDown}: {
-  element: PlusItem,
+const Plus = ({canvasItem, isSelected, onMouseDown}: {
+  canvasItem: CanvasPlus,
   isSelected: boolean,
   onMouseDown: (e: React.MouseEvent, id: string) => void;
 }) => {
   //Scale arm length so that changing arm width doesn't affect overall dimensions
-  const scaledArmLength = element.armLength - element.armWidth/2;
-  const width = scaledArmLength*2 + element.armWidth;
-  const height = scaledArmLength*2 + element.armWidth;
+  const scaledArmLength = canvasItem.armLength - canvasItem.armWidth/2;
+  const width = scaledArmLength*2 + canvasItem.armWidth;
+  const height = scaledArmLength*2 + canvasItem.armWidth;
 
   return (
-    <ElementGroup
-      element={element}
+    <CanvasGroup
+      canvasItem={canvasItem}
       width={width}
       height={height}
       isSelected={isSelected}
@@ -35,12 +35,12 @@ const PlusElement = ({element, isSelected, onMouseDown}: {
           `L 0 ${scaledArmLength} ` +
           `L 0 ${height - scaledArmLength} Z`
         }
-        fill={element.fillColor}
-        stroke={element.strokeColor}
-        strokeWidth={element.strokeWidth}
+        fill={canvasItem.fillColor}
+        stroke={canvasItem.strokeColor}
+        strokeWidth={canvasItem.strokeWidth}
       />
-    </ElementGroup>
+    </CanvasGroup>
   );
 }
  
-export default PlusElement;
+export default Plus;

@@ -1,41 +1,41 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
-import type { DisplayItem } from '../interface/display-item';
+import type { CanvasItem } from '../interface/canvas-item';
 
 interface DisplayContextType {
-  elements: DisplayItem[];
+  items: CanvasItem[];
   selectedID: string;  
   setSelectedID: (id: string) => void;
-  addElement: (newItem: DisplayItem) => string;
-  updateElement: (id: string, updatedItem: DisplayItem) => void;
-  removeElement: (removeID: string) => void;
+  addItem: (newItem: CanvasItem) => string;
+  updateItem: (id: string, updatedItem: CanvasItem) => void;
+  removeItem: (id: string) => void;
 }
 
 const DisplayContext = createContext<DisplayContextType | undefined>(undefined);
 
 export const DisplayProvider = ({ children }: { children: ReactNode }) => {
-  const [elements, setElements] = useState<DisplayItem[]>([]);
+  const [items, setItems] = useState<CanvasItem[]>([]);
   const [selectedID, setSelectedID] = useState('');
 
-  const addElement = (newItem: DisplayItem): string => {
-    setElements([...elements, newItem]);
+  const addItem = (newItem: CanvasItem): string => {
+    setItems([...items, newItem]);
     return newItem.id;
   }
 
-  const updateElement = (id: string, updatedItem: DisplayItem) => {
-    setElements((prev) => prev.map((element) => element.id === id ? updatedItem : element));
+  const updateItem = (id: string, updatedItem: CanvasItem) => {
+    setItems((prev) => prev.map((item) => item.id === id ? updatedItem : item));
   }
 
-  const removeElement = (removeID: string) => {
-    setElements((prev) => prev.filter((element) => element.id !== removeID));
+  const removeItem = (id: string) => {
+    setItems((prev) => prev.filter((item) => item.id !== id));
   }
 
   const contextValue: DisplayContextType = {
-    elements,
+    items,
     selectedID,
     setSelectedID,
-    addElement,
-    updateElement,
-    removeElement,
+    addItem,
+    updateItem,
+    removeItem,
   };
 
   return (
