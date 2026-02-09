@@ -13,7 +13,7 @@ const Canvas = () => {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
   const selectedItem = items.find((i) => i.id === selectedID);
 
-  const handleElementMouseDown = (e: React.MouseEvent, id: string)  => {
+  const handleMouseDown = (e: React.MouseEvent, id: string)  => {
     const { offsetX, offsetY } = e.nativeEvent;
     const item = items.find((i) => i.id === id);
     
@@ -48,7 +48,7 @@ const Canvas = () => {
     const props = {
       key: item.id,
       isSelected: selectedID === item.id,
-      onMouseDown: handleElementMouseDown,
+      onMouseDown: handleMouseDown,
     };
     switch (item.kind) {
       case 'rectangle':
