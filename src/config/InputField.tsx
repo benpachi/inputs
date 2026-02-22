@@ -7,7 +7,7 @@ const InputField = ({field, value, onChange, type}: {
   return (
     <label>
       {field}
-      <input value={value} onChange={(e) => onChange(field, e.target.value)} type={type} />
+      <input value={value} onChange={(e) => onChange(field, (type !== 'color') ? Number(e.target.value) : e.target.value)} type={type} />
     </label>
   );
 }
