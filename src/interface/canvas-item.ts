@@ -5,6 +5,7 @@ interface BaseCanvasItem {
   rotation: number;
   x: number;
   y: number;
+  borderRadius: number;
   strokeWidth: number;
   fillColor: string;
   strokeColor: string;

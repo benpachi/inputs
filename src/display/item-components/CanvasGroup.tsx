@@ -16,8 +16,6 @@ const CanvasGroup = ({ canvasItem, width, height, isSelected, onMouseDown, child
   return (
     <g
       onMouseDown={(e) => onMouseDown(e, canvasItem.id)}
-      width={width} 
-      height={height} 
       overflow="visible"
       transform={`
         translate(${canvasItem.x - width/2}, ${canvasItem.y - height/2}) 
@@ -26,7 +24,6 @@ const CanvasGroup = ({ canvasItem, width, height, isSelected, onMouseDown, child
       filter={isSelected ? 'drop-shadow(0 0 4px #000000)' : undefined}
     >
       {children}
-      <text x={width/2} y={height/2} fill='white'>{canvasItem.label}</text>
     </g>
   );
 }

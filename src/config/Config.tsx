@@ -15,6 +15,7 @@ const Config = () => {
     fillColor: "#000000",
     strokeColor: "#ff0000",
     strokeWidth: 5,
+    borderRadius: 0
   } 
   
   const DEFAULT_DPAD = {
@@ -28,6 +29,7 @@ const Config = () => {
     fillColor: "#000000",
     strokeColor: "#ff0000",
     strokeWidth: 5, 
+    borderRadius: 0
   }
 
   const DEFAULT_PLUS = {
@@ -40,6 +42,7 @@ const Config = () => {
     fillColor: "#000000",
     strokeColor: "#ff0000",
     strokeWidth: 5, 
+    borderRadius: 0
   }
 
   const handleChange = (field: string, value: string | number) => {
