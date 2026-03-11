@@ -3,12 +3,11 @@ import type { CanvasItem } from '../interface/canvas-item';
 
 interface State {
   items: CanvasItem[];
-  // I want to allow for multiple selections down the line, hence the array. For now it's just going to be one item at a time.
-  selectedIds: string[];
+  selectedId: string;
 }
 const initialState: State = {
   items: [],
-  selectedIds: []
+  selectedId: ''
 }
 
 const ItemsContext = createContext<State | null>(null);
@@ -31,16 +30,18 @@ export const ItemsProvider = ({ children }: { children: ReactNode }) => {
 
 
 type ItemsAction =
-  | { type: "added"; item: CanvasItem }
+  | { type: "added"; kind: string }
   | { type: "changed"; item: CanvasItem }
   | { type: "deleted"; itemId: string }
+  | { type: "duplicated"; item: CanvasItem }
   | { type: "selected"; itemId: string }
   | { type: "deselected"; itemId: string }
 
 function itemsReducer(state: State, action: ItemsAction) {
   switch (action.type) {
     case 'added': {
-      return {...state, items: [...state.items, action.item], selectedIds: [action.item.id]};
+      const newItem: CanvasItem = createItem(action.kind);
+      return {...state, items: [...state.items, newItem], selectedId: newItem.id};
     }
     case 'changed': {
       return {
@@ -55,18 +56,116 @@ function itemsReducer(state: State, action: ItemsAction) {
       };
     }
     case 'deleted': {
-      return {...state, items: state.items.filter(i => i.id !== action.itemId), selectedIds: []};
+      return {...state, items: state.items.filter(i => i.id !== action.itemId), selectedId: ''};
+    }
+    case 'duplicated': {
+      const newItem: CanvasItem = {...action.item, id: crypto.randomUUID(), x: action.item.x+15, y: action.item.y+15};
+      return {...state, items: [...state.items, newItem], selectedId: newItem.id};
     }
     case 'selected': {
-      return {...state, selectedIds: [action.itemId]};
+      return {...state, selectedId: action.itemId};
     }
     case 'deselected': {
-      return {...state, selectedIds: []};
+      return {...state, selectedId: ''};
     }
     // Set off a TypeScript error if some other type is able to make it here
     default: {
       const _exhaustiveCheck: never = action;
       return _exhaustiveCheck;
+    }
+  }
+}
+
+function createItem(kind: string): CanvasItem {
+  switch (kind) {
+    case 'rectangle': {
+      return {
+        name: 'Rectangle',
+        kind: 'rectangle',
+        id: crypto.randomUUID(),
+        rotation: 0,
+        label: '',
+        width: 50,
+        height: 50,
+        x: 200,
+        y: 150,
+        fillColor: "#000000",
+        strokeColor: "#ff0000",
+        strokeWidth: 5,
+        borderRadius: 0
+      };
+    }
+    case 'ellipse': {
+      return {
+        name: 'Ellipse',
+        kind: 'ellipse',
+        id: crypto.randomUUID(),
+        rotation: 0,
+        label: '',
+        width: 50,
+        height: 50,
+        x: 200,
+        y: 150,
+        fillColor: "#000000",
+        strokeColor: "#ff0000",
+        strokeWidth: 5,
+        borderRadius: 0
+      };
+    }
+    case 'd-button': {
+      return {
+        name: 'D-Button',
+        kind: 'd-button',
+        id: crypto.randomUUID(),
+        rotation: 0,
+        label: '',
+        pointLength: 25,
+        armWidth: 50,
+        armLength: 50,
+        x: 200,
+        y: 150,
+        fillColor: "#000000",
+        strokeColor: "#ff0000",
+        strokeWidth: 5, 
+        borderRadius: 0
+      }
+    }
+    case 'd-pad': {
+      return {
+        name: 'D-Pad',
+        kind: 'd-pad',
+        id: crypto.randomUUID(),
+        rotation: 0,
+        label: '',
+        armWidth: 50,
+        armLength: 50,
+        x: 200,
+        y: 150,
+        fillColor: "#000000",
+        strokeColor: "#ff0000",
+        strokeWidth: 5, 
+        borderRadius: 0
+      }
+    }
+    case 'plus': {
+      return {
+        name: 'Plus',
+        kind: 'plus',
+        id: crypto.randomUUID(),
+        rotation: 0,
+        label: '',
+        armWidth: 50,
+        armLength: 50,
+        x: 200,
+        y: 150,
+        fillColor: "#000000",
+        strokeColor: "#ff0000",
+        strokeWidth: 5, 
+        borderRadius: 0
+      }
+    }
+    default: {
+      throw new Error('Item kind not supported');
     }
   }
 }

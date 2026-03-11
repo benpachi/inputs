@@ -2,49 +2,9 @@ import { useItems, useItemsDispatch } from "../context/ItemsContext";
 import InputField from "./InputField";
 
 const Config = () => {
-  const {items, selectedIds} = useItems();
+  const {items, selectedId} = useItems();
   const dispatch = useItemsDispatch();
-  const selectedItem = items.find((item) => item.id === selectedIds[0]);
-  
-  const DEFAULT_ELEMENT = {
-    rotation: 0,
-    label: '',
-    width: 50,
-    height: 50,
-    x: 200,
-    y: 150,
-    fillColor: "#000000",
-    strokeColor: "#ff0000",
-    strokeWidth: 5,
-    borderRadius: 0
-  } 
-  
-  const DEFAULT_DPAD = {
-    rotation: 0,
-    label: '',
-    pointLength: 25,
-    armWidth: 50,
-    armLength: 50,
-    x: 200,
-    y: 150,
-    fillColor: "#000000",
-    strokeColor: "#ff0000",
-    strokeWidth: 5, 
-    borderRadius: 0
-  }
-
-  const DEFAULT_PLUS = {
-    rotation: 0,
-    label: '',
-    armWidth: 33,
-    armLength: 50,
-    x: 200,
-    y: 150,
-    fillColor: "#000000",
-    strokeColor: "#ff0000",
-    strokeWidth: 5, 
-    borderRadius: 0
-  }
+  const selectedItem = items.find((item) => item.id === selectedId);
 
   const handleChange = (field: string, value: string | number) => {
     if (selectedItem) {
@@ -75,16 +35,16 @@ const Config = () => {
     <div className='config-card'>
       <div className='config-controls'>
         <div className="flexrow" style={{justifyContent: 'start'}}>
-          <button onClick={() => dispatch({type: 'added', item: {id: crypto.randomUUID(), name: "Ellipse", kind: "ellipse", ...DEFAULT_ELEMENT}})}>add ellipse</button>
-          <button onClick={() => dispatch({type: 'added', item: {id: crypto.randomUUID(), name: "Rectangle", kind: "rectangle", ...DEFAULT_ELEMENT}})}>add rectangle</button>
-          <button onClick={() => dispatch({type: 'added', item: {id: crypto.randomUUID(), name: "D-Button", kind: "d-button", ...DEFAULT_DPAD}})}>add d-button</button>
-          <button onClick={() => dispatch({type: 'added', item: {id: crypto.randomUUID(), name: "Plus", kind: "plus", ...DEFAULT_PLUS}})}>add plus</button>
-          <button onClick={() => dispatch({type: 'added', item: {id: crypto.randomUUID(), name: "D-Pad", kind: "d-pad", ...DEFAULT_PLUS}})}>add d-pad</button>
+          <button onClick={() => dispatch({type: 'added', kind: 'ellipse'})}>add ellipse</button>
+          <button onClick={() => dispatch({type: 'added', kind: 'rectangle'})}>add rectangle</button>
+          <button onClick={() => dispatch({type: 'added', kind: 'd-button'})}>add d-button</button>
+          <button onClick={() => dispatch({type: 'added', kind: 'plus'})}>add plus</button>
+          <button onClick={() => dispatch({type: 'added', kind: 'd-pad'})}>add d-pad</button>
         </div>
         <div className="flexrow" style={{justifyContent: 'start'}}>
           <label htmlFor="canvasItemSelector">Select canvas item </label>
           <select 
-            value={selectedIds[0]} 
+            value={selectedId} 
             id="canvasItemSelector" 
             onChange={(e) => dispatch({type: 'selected', itemId: e.target.value})}
           >
@@ -111,8 +71,8 @@ const Config = () => {
             <InputField field='strokeColor' value={selectedItem.strokeColor} onChange={handleChange} type='color' />
           </div>
           <p>watch your luminance in the color picker!</p>
-          <button onClick={() => { dispatch({type: 'added', item: {...selectedItem, x: selectedItem.x+10, y: selectedItem.y+10, id: crypto.randomUUID()}}) }}>Duplicate</button>
-          <button onClick={() => { dispatch({type: 'deleted', itemId: selectedItem.id}) }}>Delete</button>
+          <button onClick={() => { dispatch({ type: 'duplicated', item: selectedItem }) }}>Duplicate</button>
+          <button onClick={() => { dispatch({ type: 'deleted', itemId: selectedItem.id}) }}>Delete</button>
         </div>
          : <p>No canvas item selected</p>}
       </div>

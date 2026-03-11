@@ -8,10 +8,11 @@ import Plus from "./item-components/Plus";
 import DPad from "./item-components/DPad";
 
 const Canvas = () => {
-  const {items, selectedIds} = useItems();
+  const {items, selectedId} = useItems();
   const dispatch = useItemsDispatch();
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
+  const selectedItem = items.find((i) => i.id === selectedId);
 
   const handleMouseDown = (e: React.MouseEvent, id: string)  => {
     const { offsetX, offsetY } = e.nativeEvent;
@@ -28,9 +29,7 @@ const Canvas = () => {
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    const selectedItem = items.find((i) => i.id === selectedIds[0]);
-    if (!selectedItem) return;
+    if (!isDragging || !selectedItem) return;
 
     const { offsetX, offsetY } = e.nativeEvent;
 
@@ -52,7 +51,7 @@ const Canvas = () => {
   const renderCanvasItem = (item: CanvasItem) => {
     const props = {
       key: item.id,
-      isSelected: selectedIds[0] === item.id,
+      isSelected: selectedId === item.id,
       onMouseDown: handleMouseDown,
     };
     switch (item.kind) {
