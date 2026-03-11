@@ -1,4 +1,4 @@
-import { useDisplay } from "../context/DisplayContext";
+import { useItems, useItemsDispatch } from "../context/ItemsContext";
 import { useState } from "react";
 import type { CanvasItem } from "../interface/canvas-item";
 import Rectangle from "./item-components/Rectangle";
@@ -8,10 +8,10 @@ import Plus from "./item-components/Plus";
 import DPad from "./item-components/DPad";
 
 const Canvas = () => {
-  const { items, selectedID, setSelectedID, updateItem } = useDisplay();
+  const {items, selectedIds} = useItems();
+  const dispatch = useItemsDispatch();
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
-  const selectedItem = items.find((i) => i.id === selectedID);
 
   const handleMouseDown = (e: React.MouseEvent, id: string)  => {
     const { offsetX, offsetY } = e.nativeEvent;
@@ -20,7 +20,7 @@ const Canvas = () => {
     if (!item) return;
     
     setIsDragging(true);
-    setSelectedID(id);
+    dispatch({ type: 'selected', itemId: id });
     setDragOffset({ 
       x: offsetX - item.x, 
       y: offsetY - item.y 
@@ -28,14 +28,19 @@ const Canvas = () => {
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !selectedItem) return;
+    if (!isDragging) return;
+    const selectedItem = items.find((i) => i.id === selectedIds[0]);
+    if (!selectedItem) return;
 
     const { offsetX, offsetY } = e.nativeEvent;
 
-    updateItem(selectedID, {
-      ...selectedItem, 
-      x: offsetX - dragOffset.x, 
-      y: offsetY - dragOffset.y,
+    dispatch({
+      type: 'changed', 
+      item: {
+        ...selectedItem, 
+        x: offsetX - dragOffset.x, 
+        y: offsetY - dragOffset.y,
+      }
     });
   }
 
@@ -47,7 +52,7 @@ const Canvas = () => {
   const renderCanvasItem = (item: CanvasItem) => {
     const props = {
       key: item.id,
-      isSelected: selectedID === item.id,
+      isSelected: selectedIds[0] === item.id,
       onMouseDown: handleMouseDown,
     };
     switch (item.kind) {

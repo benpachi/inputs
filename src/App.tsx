@@ -1,15 +1,15 @@
 import Config from './config/Config';
 import Canvas from './display/Canvas';
-import { DisplayProvider } from './context/DisplayContext';
+import { ItemsProvider } from './context/ItemsContext';
 
 function App() {
   return (
-    <DisplayProvider>
+    <ItemsProvider>
       <section className='flexrow app'>
         <Canvas />
         <Config />
       </section>
-    </DisplayProvider>
+    </ItemsProvider>
   );
 }
 export default App;
