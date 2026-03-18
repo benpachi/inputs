@@ -3,6 +3,7 @@ import type { CanvasItem } from '../interface/canvas-item';
 
 interface State {
   items: CanvasItem[];
+  // todo: make this an array selectedIds instead
   selectedId: string;
 }
 const initialState: State = {
@@ -28,13 +29,13 @@ export const ItemsProvider = ({ children }: { children: ReactNode }) => {
   );
 }
 
-
+// todo?: probably check somewhere that there are actually objects with the ids inside selectedIds
 type ItemsAction =
-  | { type: "added"; kind: string }
-  | { type: "changed"; item: CanvasItem }
-  | { type: "deleted"; itemId: string }
-  | { type: "duplicated"; item: CanvasItem }
-  | { type: "selected"; itemId: string }
+  | { type: "added"; kind: string } // todo: add functionality to adapt defaults to previous canvas item configurations
+  | { type: "changed"; item: CanvasItem } // todo (with selectedIds array implemented): take in object with changes and apply to all selected items
+  | { type: "deleted"; itemId: string } // todo (with selectedIds array implemented): delete all selected items and clear selectedIds
+  | { type: "duplicated"; item: CanvasItem } // todo (with selectedIds array implemented): duplicate all selected items and set selected to the duplicated item ids
+  | { type: "selected"; itemId: string } 
   | { type: "deselected"; itemId: string }
 
 function itemsReducer(state: State, action: ItemsAction) {
@@ -76,6 +77,7 @@ function itemsReducer(state: State, action: ItemsAction) {
   }
 }
 
+// todo: put this somewhere else I just don't know how to go about organizing right now
 function createItem(kind: string): CanvasItem {
   switch (kind) {
     case 'rectangle': {

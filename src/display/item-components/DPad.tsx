@@ -1,10 +1,7 @@
 import type { CanvasDPad } from "../../interface/canvas-item";
-import CanvasGroup from "./CanvasGroup";
 
-const DPad = ({canvasItem, isSelected, onMouseDown}: {
+const DPad = ({ canvasItem }: {
   canvasItem: CanvasDPad,
-  isSelected: boolean,
-  onMouseDown: (e: React.MouseEvent, id: string) => void;
 }) => {
   //Scale arm length so that changing arm width doesn't affect overall dimensions
   const scaledArmLength = canvasItem.armLength - canvasItem.armWidth/2;
@@ -14,13 +11,7 @@ const DPad = ({canvasItem, isSelected, onMouseDown}: {
   const nudge = Math.SQRT1_2/10;
 
   return (
-    <CanvasGroup
-      canvasItem={canvasItem}
-      width={width}
-      height={height}
-      isSelected={isSelected}
-      onMouseDown={onMouseDown}
-    >
+    <>
       {/* Can probably compact this with a map function but I'll worry about that when I add border radius */}
       {/* Left */}
       <path 
@@ -95,7 +86,7 @@ const DPad = ({canvasItem, isSelected, onMouseDown}: {
         stroke={canvasItem.strokeColor}
         strokeWidth={canvasItem.strokeWidth}
       />
-    </CanvasGroup>
+    </>
   );
 }
  

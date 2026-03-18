@@ -1,11 +1,6 @@
 import { useItems, useItemsDispatch } from "../context/ItemsContext";
 import { useState } from "react";
-import type { CanvasItem } from "../interface/canvas-item";
-import Rectangle from "./item-components/Rectangle";
-import Ellipse from "./item-components/Ellipse";
-import DButton from "./item-components/DButton";
-import Plus from "./item-components/Plus";
-import DPad from "./item-components/DPad";
+import ItemWrapper from "./item-components/ItemWrapper";
 
 const Canvas = () => {
   const {items, selectedId} = useItems();
@@ -48,29 +43,6 @@ const Canvas = () => {
     setDragOffset({ x: 0, y: 0 })
   }
 
-  const renderCanvasItem = (item: CanvasItem) => {
-    const props = {
-      key: item.id,
-      isSelected: selectedId === item.id,
-      onMouseDown: handleMouseDown,
-    };
-    switch (item.kind) {
-      case 'rectangle':
-        return <Rectangle {...props} canvasItem={item} />
-      case 'ellipse':
-        return <Ellipse {...props} canvasItem={item} />
-      case 'd-button':
-        return <DButton {...props} canvasItem={item} />
-      case 'plus':
-        return <Plus {...props} canvasItem={item} />
-      case 'd-pad':
-        return <DPad {...props} canvasItem={item} />
-      default:
-        const _exhaustiveCheck: never = item;
-        return _exhaustiveCheck;
-    }
-  }
-
   return ( 
     <div className='display-panel'>
       <svg 
@@ -81,7 +53,9 @@ const Canvas = () => {
         width='400' 
         height='300'
       >
-        {items.map((item) => renderCanvasItem(item))}
+        {items.map((item) => 
+          <ItemWrapper key={item.id} isSelected={selectedId === item.id} onMouseDown={handleMouseDown} canvasItem={item}/>
+        )}
       </svg>
     </div>
   );
