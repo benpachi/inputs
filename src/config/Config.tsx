@@ -15,19 +15,19 @@ const Config = () => {
   const extraFields: React.ReactElement[] = [];
   if (selectedItem) {
     if ('width' in selectedItem) {
-      extraFields.push(<InputField field='width' value={(selectedItem).width} onChange={handleChange} type='number' />);
+      extraFields.push(<InputField key='width' field='width' value={(selectedItem).width} onChange={handleChange} type='number' />);
     }
     if ('height' in selectedItem) {
-      extraFields.push(<InputField field='height' value={(selectedItem).height} onChange={handleChange} type='number' />);
+      extraFields.push(<InputField key='height' field='height' value={(selectedItem).height} onChange={handleChange} type='number' />);
     }
     if ('pointLength' in selectedItem) {
-      extraFields.push(<InputField field='pointLength' value={(selectedItem).pointLength} onChange={handleChange} type='number' />);
+      extraFields.push(<InputField key='pointLength' field='pointLength' value={(selectedItem).pointLength} onChange={handleChange} type='number' />);
     }
     if ('armLength' in selectedItem) {
-      extraFields.push(<InputField field='armLength' value={(selectedItem).armLength} onChange={handleChange} type='number' />);
+      extraFields.push(<InputField key='armLength' field='armLength' value={(selectedItem).armLength} onChange={handleChange} type='number' />);
     }
     if ('armWidth' in selectedItem) {
-      extraFields.push(<InputField field='armWidth' value={(selectedItem).armWidth} onChange={handleChange} type='number' />);
+      extraFields.push(<InputField key='armWidth' field='armWidth' value={(selectedItem).armWidth} onChange={handleChange} type='number' />);
     }
   }
 
