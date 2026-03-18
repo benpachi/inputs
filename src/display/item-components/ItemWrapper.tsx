@@ -4,7 +4,6 @@ import Ellipse from "./Ellipse";
 import DButton from "./DButton";
 import Plus from "./Plus";
 import DPad from "./DPad";
-import NewDPad from './NewDPad';
 
 const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
     canvasItem: CanvasItem, 
@@ -23,7 +22,7 @@ const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
       case 'plus':
         return <Plus canvasItem={item} />
       case 'd-pad':
-        return <NewDPad item={item} />
+        return <DPad item={item} />
       default:
         const _exhaustiveCheck: never = item;
         return _exhaustiveCheck;

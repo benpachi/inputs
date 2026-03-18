@@ -1,90 +1,50 @@
 import type { CanvasDPad } from "../../interface/canvas-item";
+import { type Point, rotatePoints, rotatePoints90Deg } from "../../util/rotatePoints";
+import { computePath } from "../../util/computePath";
 
-const DPad = ({ canvasItem }: {
-  canvasItem: CanvasDPad,
+const DPad = ({ item }: {
+  item: CanvasDPad
 }) => {
-  //Scale arm length so that changing arm width doesn't affect overall dimensions
-  const scaledArmLength = canvasItem.armLength - canvasItem.armWidth/2;
-  const width = scaledArmLength*2 + canvasItem.armWidth;
-  const height = scaledArmLength*2 + canvasItem.armWidth;
-  //Correction for tiny gaps between dpad paths.
+  const w = item.armWidth; 
+  const l = item.armLength;
+  //Correction for tiny gaps between dbutton paths.
   const nudge = Math.SQRT1_2/10;
 
-  return (
+  let upPoints: Point[] = [{x: -w/2, y: -w/2}, {x: -w/2, y: -l}, {x: w/2, y: -l}, {x: w/2, y: -w/2}];
+  let rightPoints: Point[] = rotatePoints90Deg(upPoints);
+  let downPoints: Point[] = rotatePoints90Deg(rightPoints);
+  let leftPoints: Point[] = rotatePoints90Deg(downPoints);
+  let outlinePoints: Point[] = [...upPoints, ...rightPoints, ...downPoints, ...leftPoints];
+
+  const dOutline = computePath(outlinePoints);
+  const dUp = computePath([...upPoints, {x: 0, y: 0}]);
+  const dRight = computePath([...rightPoints, {x: 0, y: 0}]);
+  const dDown = computePath([...downPoints, {x: 0, y: 0}]);
+  const dLeft = computePath([...leftPoints, {x: 0, y: 0}]);
+
+  return ( 
     <>
-      {/* Can probably compact this with a map function but I'll worry about that when I add border radius */}
-      {/* Left */}
       <path 
-        d={
-          `M ${width/2 + nudge} ${height/2} ` + 
-          `L ${scaledArmLength + nudge} ${height - scaledArmLength} ` +
-          `L 0 ${height - scaledArmLength} ` +
-          `L 0 ${scaledArmLength}` +
-          `L ${scaledArmLength + nudge} ${scaledArmLength} ` +
-          `L ${width/2 + nudge} ${height/2} Z` 
-        }
-        fill={'green'}
-      />
-      {/* Up */}
-      <path 
-        d={
-          `M ${width/2} ${height/2 + nudge} ` +
-          `L ${scaledArmLength} ${scaledArmLength + nudge} ` +
-          `L ${scaledArmLength} 0 ` +
-          `L ${width - scaledArmLength} 0 ` +
-          `L ${width - scaledArmLength} ${scaledArmLength + nudge} ` +
-          `L ${width/2} ${height/2 + nudge} Z` 
-        }
-        fill={'yellow'}
-      />
-      {/* Right */}
-      <path 
-        d={
-          `M ${width/2 - nudge} ${height/2} ` +
-          `L ${width - scaledArmLength - nudge} ${scaledArmLength} ` +
-          `L ${width} ${scaledArmLength} ` +
-          `L ${width} ${height - scaledArmLength} ` +
-          `L ${width - scaledArmLength - nudge} ${height - scaledArmLength} ` +
-          `L ${width/2 - nudge} ${height/2}`
-        }
-        fill={'purple'}
-      />
-      {/* Down */}
-      <path 
-        d={
-          `M ${width/2} ${height/2 - nudge} ` +
-          `L ${width - scaledArmLength} ${height - scaledArmLength - nudge} ` +
-          `L ${width - scaledArmLength} ${height} ` +
-          `L ${scaledArmLength} ${height} ` +
-          `L ${scaledArmLength} ${height - scaledArmLength - nudge} ` +
-          `L ${width/2} ${height/2 - nudge} Z` 
-        }
-        fill={'blue'}
-      />
-      {/* Stroke */}
-      <path 
-        d={
-          // Left
-          `M ${scaledArmLength} ${height - scaledArmLength}` +
-          `L 0 ${height - scaledArmLength} ` +
-          `L 0 ${scaledArmLength} ` +
-          `L ${scaledArmLength} ${scaledArmLength} ` +
-          // Up
-          `L ${scaledArmLength} 0 ` +
-          `L ${width - scaledArmLength} 0 ` +
-          `L ${width - scaledArmLength} ${scaledArmLength} ` +
-          // Right
-          `L ${width} ${scaledArmLength} ` +
-          `L ${width} ${height - scaledArmLength} ` +
-          `L ${width - scaledArmLength} ${height - scaledArmLength} ` +
-          // Down
-          `L ${width - scaledArmLength} ${height} ` +
-          `L ${scaledArmLength} ${height} ` +
-          `L ${scaledArmLength} ${height - scaledArmLength} Z`
-        }
+        d={dOutline}         
         fill={'transparent'}
-        stroke={canvasItem.strokeColor}
-        strokeWidth={canvasItem.strokeWidth}
+        stroke={item.strokeColor}
+        strokeWidth={item.strokeWidth}
+      />
+      <path 
+        d={dUp}
+        fill='purple'
+      />
+      <path 
+        d={dRight}
+        fill='green'
+      />
+      <path 
+        d={dDown}
+        fill='blue'
+      />
+      <path 
+        d={dLeft}
+        fill='brown'
       />
     </>
   );
