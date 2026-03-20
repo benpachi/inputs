@@ -1,6 +1,7 @@
 export interface Point {
 	x: number;
 	y: number;
+	maxRadius?: number;
 }
 
 export function rotatePoints(points: Point[], origin: Point, degrees: number): Point[] {
@@ -11,6 +12,7 @@ export function rotatePoints(points: Point[], origin: Point, degrees: number): P
 		return {
 			x: x * Math.cos(radians) - y * Math.sin(radians) + origin.x,
 			y: x * Math.sin(radians) + y * Math.cos(radians) + origin.y,
+			maxRadius: point.maxRadius
 		};
 	});
 }
@@ -23,6 +25,7 @@ export function rotatePoints90Deg(points: Point[]): Point[] {
 		return {
 			x: -y,
 			y: x,
+			maxRadius: point.maxRadius
 		};
 	});
 }

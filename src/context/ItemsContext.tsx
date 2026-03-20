@@ -94,7 +94,7 @@ function createItem(kind: string): CanvasItem {
         fillColor: "#000000",
         strokeColor: "#ff0000",
         strokeWidth: 5,
-        borderRadius: 0
+        radius: 0
       };
     }
     case 'ellipse': {
@@ -111,7 +111,7 @@ function createItem(kind: string): CanvasItem {
         fillColor: "#000000",
         strokeColor: "#ff0000",
         strokeWidth: 5,
-        borderRadius: 0
+        radius: 0
       };
     }
     case 'd-button': {
@@ -129,7 +129,7 @@ function createItem(kind: string): CanvasItem {
         fillColor: "#000000",
         strokeColor: "#ff0000",
         strokeWidth: 5, 
-        borderRadius: 0
+        radius: 0
       }
     }
     case 'd-pad': {
@@ -146,7 +146,7 @@ function createItem(kind: string): CanvasItem {
         fillColor: "#000000",
         strokeColor: "#ff0000",
         strokeWidth: 5, 
-        borderRadius: 0
+        radius: 0
       }
     }
     case 'plus': {
@@ -163,7 +163,7 @@ function createItem(kind: string): CanvasItem {
         fillColor: "#000000",
         strokeColor: "#ff0000",
         strokeWidth: 5, 
-        borderRadius: 0
+        radius: 0
       }
     }
     default: {

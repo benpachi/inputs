@@ -29,6 +29,9 @@ const Config = () => {
     if ('armWidth' in selectedItem) {
       extraFields.push(<InputField key='armWidth' field='armWidth' value={(selectedItem).armWidth} onChange={handleChange} type='number' />);
     }
+    if ('radius' in selectedItem) {
+      extraFields.push(<InputField key='radius' field='radius' value={(selectedItem).radius} onChange={handleChange} type='number' />)
+    }
   }
 
   return ( 
