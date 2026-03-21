@@ -1,5 +1,5 @@
 import type { CanvasDPad } from "../../interface/canvas-item";
-import { type Point, rotatePoints, rotatePoints90Deg } from "../../util/rotatePoints";
+import { type PointSpec, type Point, rotatePoints } from "../../util/rotatePoints";
 import { computePath } from "../../util/computePath";
 
 const DPad = ({ item }: {
@@ -9,24 +9,28 @@ const DPad = ({ item }: {
   const l = item.armLength;
   //Correction for tiny gaps between dbutton paths.
   const nudge = Math.SQRT1_2/10;
+  const origin: Point = {x: 0, y: 0};
 
-  const patternUp: Point[] = [{x: -w/2, y: -w/2, maxRadius: item.strokeWidth}, {x: -w/2, y: -l }, {x: w/2, y: -l}];
-  const patternRight: Point[] = rotatePoints90Deg(patternUp);
-  const patternDown: Point[] = rotatePoints90Deg(patternRight);
-  const patternLeft: Point[] = rotatePoints90Deg(patternDown);
-  const outlinePoints: Point[] = [...patternUp, ...patternRight, ...patternDown, ...patternLeft];
+  const point0: Point = {x: 0, y: 0};
+  const point1: Point = {x: -w/2, y: -w/2};
+  const point2: Point = {x: -w/2, y: -l};
+  const point3: Point = {x: w/2, y: -l};
+  const point4: Point = {x: w/2, y: -w/2};
 
-  const upPoints: Point[] = [{x: -w/2, y: -w/2, maxRadius: 0}, {x: -w/2, y: -l }, {x: w/2, y: -l}, {x: w/2, y: -w/2, maxRadius: 0}];
-  const rightPoints: Point[] = rotatePoints90Deg(upPoints);
-  const downPoints: Point[] = rotatePoints90Deg(rightPoints);
-  const leftPoints: Point[] = rotatePoints90Deg(downPoints);
+  const armBase: PointSpec[] = [{...point0, maxRadius: 0}, {...point1, maxRadius: 0}, {...point2}, {...point3}, {...point4, maxRadius: 0}];
+
+  const patternBase: PointSpec[] = [{...point1, maxRadius: item.strokeWidth/2}, {...point2}, {...point3}]; 
+
+  const rotations = [0, 90, 180, 270];
   
+  const dOutline = computePath(
+    rotations.flatMap((angle) => rotatePoints(patternBase, origin, angle)),
+    item.radius
+  );
 
-  const dOutline = computePath(outlinePoints, item.radius);
-  const dUp = computePath([...upPoints, {x: 0, y: 0, maxRadius: 0}], item.radius);
-  const dRight = computePath([...rightPoints, {x: 0, y: 0, maxRadius: 0}], item.radius);
-  const dDown = computePath([...downPoints, {x: 0, y: 0, maxRadius: 0}], item.radius);
-  const dLeft = computePath([...leftPoints, {x: 0, y: 0, maxRadius: 0}], item.radius);
+  const dArms = rotations.map((angle) => computePath(rotatePoints(armBase, origin, angle), item.radius));
+  
+  const [dUp, dRight, dLeft, dDown] = dArms;
 
   return ( 
     <>
