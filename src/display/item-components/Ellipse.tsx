@@ -1,18 +1,15 @@
 import type { CanvasEllipse } from "../../interface/canvas-item";
 
-const Ellipse = ({ canvasItem }: {
-  canvasItem: CanvasEllipse,
+const Ellipse = ({ item }: {
+  item: CanvasEllipse,
 }) => {
   return (
-    <path 
-      d={
-        `M 0 ${canvasItem.height/2} ` +
-        `A ${canvasItem.width/2} ${canvasItem.height/2} 0 0 0 ${canvasItem.width} ${canvasItem.height/2} ` +
-        `A ${canvasItem.width/2} ${canvasItem.height/2} 0 0 0 0 ${canvasItem.height/2} Z`
-      }
-      fill={canvasItem.fillColor}
-      stroke={canvasItem.strokeColor}
-      strokeWidth={canvasItem.strokeWidth}
+    <ellipse
+      rx={item.width/2}
+      ry={item.height/2}
+      fill={item.fillColor}
+      stroke={item.strokeColor}
+      strokeWidth={item.strokeWidth}
     />
   );
 }

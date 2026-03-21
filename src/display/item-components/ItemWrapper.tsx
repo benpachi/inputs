@@ -14,13 +14,13 @@ const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
   const renderCanvasItem = (item: CanvasItem) => {
     switch (item.kind) {
       case 'rectangle':
-        return <Rectangle canvasItem={item} />
+        return <Rectangle item={item} />
       case 'ellipse':
-        return <Ellipse canvasItem={item} />
+        return <Ellipse item={item} />
       case 'd-button':
-        return <DButton canvasItem={item} />
+        return <DButton item={item} />
       case 'plus':
-        return <Plus canvasItem={item} />
+        return <Plus item={item} />
       case 'd-pad':
         return <DPad item={item} />
       default:

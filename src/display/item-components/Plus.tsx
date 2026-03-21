@@ -1,33 +1,33 @@
 import type { CanvasPlus } from "../../interface/canvas-item";
+import { type PointSpec, type Point, rotatePoints } from "../../util/point";
+import { computePath } from "../../util/computePath";
 
-const Plus = ({ canvasItem }: {
-  canvasItem: CanvasPlus,
+const Plus = ({ item }: {
+  item: CanvasPlus,
 }) => {
-  //Scale arm length so that changing arm width doesn't affect overall dimensions
-  const scaledArmLength = canvasItem.armLength - canvasItem.armWidth/2;
-  const width = scaledArmLength*2 + canvasItem.armWidth;
-  const height = scaledArmLength*2 + canvasItem.armWidth;
+  const w = item.armWidth;
+  const l = item.armLength
+  const origin: Point = {x: 0, y: 0};
+
+  const point0: Point = {x: -w/2, y: -w/2};
+  const point1: Point = {x: -w/2, y: -l};
+  const point2: Point = {x: w/2, y: -l};
+
+  const patternBase: PointSpec[] = [{...point0, maxRadius: item.strokeWidth/2}, {...point1}, {...point2}]; 
+
+  const rotations = [0, 90, 180, 270];
+
+  const d = computePath(
+    rotations.flatMap((angle) => rotatePoints(patternBase, origin, angle)),
+    item.radius
+  );
 
   return (
     <path 
-      d={
-        `M 0 ${height - scaledArmLength}` +
-        `L ${scaledArmLength} ${height - scaledArmLength} ` +
-        `L ${scaledArmLength} ${height} ` +
-        `L ${width - scaledArmLength} ${height} ` +
-        `L ${width - scaledArmLength} ${height - scaledArmLength} ` +
-        `L ${width} ${height - scaledArmLength} ` +
-        `L ${width} ${scaledArmLength} ` +
-        `L ${width - scaledArmLength} ${scaledArmLength} ` +
-        `L ${width - scaledArmLength} 0 ` +
-        `L ${scaledArmLength} 0 ` +
-        `L ${scaledArmLength} ${scaledArmLength} ` +
-        `L 0 ${scaledArmLength} ` +
-        `L 0 ${height - scaledArmLength} Z`
-      }
-      fill={canvasItem.fillColor}
-      stroke={canvasItem.strokeColor}
-      strokeWidth={canvasItem.strokeWidth}
+      d={d}
+      fill={item.fillColor}
+      stroke={item.strokeColor}
+      strokeWidth={item.strokeWidth}
     />
   );
 }
