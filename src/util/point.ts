@@ -30,3 +30,7 @@ export function lerpPoint(p1: Point, p2: Point, t: number): Point {
 		y: p1.y + (p2.y - p1.y) * t
 	}
 }
+
+export function approxEqual(x: number, y: number, epsilon: number = 0.0001): boolean {
+	return Math.abs(x - y) <= epsilon;
+}
