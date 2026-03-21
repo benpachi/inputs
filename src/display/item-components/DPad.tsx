@@ -1,5 +1,5 @@
 import type { CanvasDPad } from "../../interface/canvas-item";
-import { type PointSpec, type Point, rotatePoints } from "../../util/rotatePoints";
+import { type PointSpec, type Point, rotatePoints } from "../../util/point";
 import { computePath } from "../../util/computePath";
 
 const DPad = ({ item }: {
@@ -8,7 +8,7 @@ const DPad = ({ item }: {
   const w = item.armWidth; 
   const l = item.armLength;
   //Correction for tiny gaps between dbutton paths.
-  const nudge = Math.SQRT1_2/10;
+  //const nudge = Math.SQRT1_2/10;
   const origin: Point = {x: 0, y: 0};
 
   const point0: Point = {x: 0, y: 0};
@@ -18,7 +18,6 @@ const DPad = ({ item }: {
   const point4: Point = {x: w/2, y: -w/2};
 
   const armBase: PointSpec[] = [{...point0, maxRadius: 0}, {...point1, maxRadius: 0}, {...point2}, {...point3}, {...point4, maxRadius: 0}];
-
   const patternBase: PointSpec[] = [{...point1, maxRadius: item.strokeWidth/2}, {...point2}, {...point3}]; 
 
   const rotations = [0, 90, 180, 270];
@@ -29,8 +28,8 @@ const DPad = ({ item }: {
   );
 
   const dArms = rotations.map((angle) => computePath(rotatePoints(armBase, origin, angle), item.radius));
-  
   const [dUp, dRight, dLeft, dDown] = dArms;
+
 
   return ( 
     <>
