@@ -36,7 +36,8 @@ function resolveRadii(corners: Corner[]) {
 
     if (total > dist) {
       const scale = dist/total;
-      curr.rOut, next.rIn *= scale;
+      curr.rOut *= scale; 
+      next.rIn *= scale;
     }
   }
 }
