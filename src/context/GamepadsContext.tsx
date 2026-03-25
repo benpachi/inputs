@@ -2,9 +2,9 @@ import { createContext, useContext, useState, useEffect, useRef, type ReactNode 
 
 type Gamepads = Record<Gamepad['index'], Gamepad>;
 
-const GamepadContext = createContext({});
+const GamepadsContext = createContext({});
 
-const GamepadProvider = ({ children }: { children: ReactNode }) => {
+export const GamepadProvider = ({ children }: { children: ReactNode }) => {
   const [gamepads, setGamepads] = useState<Gamepads>({});
   const requestRef = useRef<number | null>(null);
 
@@ -51,6 +51,7 @@ const GamepadProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const update = () => {
+    scanGamepads();
     requestRef.current = requestAnimationFrame(update);
   }
 
@@ -61,13 +62,19 @@ const GamepadProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <GamepadContext.Provider
+    <GamepadsContext.Provider
       value={{
         gamepads,
         setGamepads,
       }}
     >
       {children}
-    </GamepadContext.Provider>
+    </GamepadsContext.Provider>
   );
+};
+
+export function useGamepads() {
+  const context = useContext(GamepadsContext);
+  if (!context) { throw new Error('useGamepads must be used within a Provider') }
+  return context;
 };
