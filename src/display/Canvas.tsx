@@ -1,6 +1,6 @@
 import { useItems, useItemsDispatch } from "../context/ItemsContext";
 import { useState } from "react";
-import ItemWrapper from "./item-components/ItemWrapper";
+import ItemWrapper from "./ItemWrapper";
 
 const Canvas = () => {
   const {items, selectedId} = useItems();

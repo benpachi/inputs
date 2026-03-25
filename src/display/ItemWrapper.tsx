@@ -1,9 +1,9 @@
-import type { CanvasItem } from '../../interface/canvas-item';
-import Rectangle from "./Rectangle";
-import Ellipse from "./Ellipse";
-import DButton from "./DButton";
-import Plus from "./Plus";
-import DPad from "./DPad";
+import type { CanvasItem } from '../interface/canvas-item';
+import Rectangle from "./item-components/Rectangle";
+import Ellipse from "./item-components/Ellipse";
+import DButton from "./item-components/DButton";
+import Plus from "./item-components/Plus";
+import DPad from "./item-components/DPad";
 
 const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
     canvasItem: CanvasItem, 
