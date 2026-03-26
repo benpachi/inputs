@@ -1,4 +1,4 @@
-import type { CanvasDPad } from "../../interface/canvas-item";
+import type { CanvasDPad } from "../../types/canvas-item";
 import { type PointSpec, type Point, rotatePoints } from "../../util/point";
 import { computePath } from "../../util/computePath";
 

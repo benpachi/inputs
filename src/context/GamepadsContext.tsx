@@ -2,17 +2,18 @@ import { createContext, useContext, useState, useEffect, useRef, type ReactNode 
 
 type Gamepads = Record<Gamepad['index'], Gamepad>;
 
-const GamepadsContext = createContext({});
+const GamepadsContext = createContext<Gamepads>({});
 
-export const GamepadProvider = ({ children }: { children: ReactNode }) => {
+export const GamepadsProvider = ({ children }: { children: ReactNode }) => {
   const [gamepads, setGamepads] = useState<Gamepads>({});
   const requestRef = useRef<number | null>(null);
 
   const addGamepad = (gamepad: Gamepad) => {
     setGamepads((prevGamepads) => ({
       ...prevGamepads,
-      [gamepad.index]: { ...gamepad }
+      [gamepad.index]: gamepad
     }));
+    //console.log(gamepad);
   }
 
   const removeGamepad = (gamepad: Gamepad) => {
@@ -25,6 +26,7 @@ export const GamepadProvider = ({ children }: { children: ReactNode }) => {
 
   const scanGamepads = () => {
     const detectedGamepads = navigator.getGamepads();
+    //console.log(detectedGamepads);
     detectedGamepads.forEach((gamepad) => {
       if (gamepad) {
         addGamepad(gamepad);
@@ -59,15 +61,12 @@ export const GamepadProvider = ({ children }: { children: ReactNode }) => {
     requestRef.current = requestAnimationFrame(update);
 
     return () => cancelAnimationFrame(requestRef.current!);
-  }, []);
+  });
+
+  //console.log(gamepads);
 
   return (
-    <GamepadsContext.Provider
-      value={{
-        gamepads,
-        setGamepads,
-      }}
-    >
+    <GamepadsContext.Provider value={gamepads}>
       {children}
     </GamepadsContext.Provider>
   );

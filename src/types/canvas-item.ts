@@ -1,3 +1,5 @@
+import { type ActiveBinding, type MoveBinding } from './binding';
+
 interface BaseCanvasItem {
   id: string;
   name: string;
@@ -15,6 +17,10 @@ export interface CanvasEllipse extends BaseCanvasItem {
   kind: "ellipse";
   width: number;
   height: number;
+  activeBindings: ActiveBinding[];
+  moveBinding: MoveBinding;
+  activeFill: string;
+  activeStroke: string;
 }
 
 export interface CanvasRectangle extends BaseCanvasItem {

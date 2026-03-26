@@ -1,4 +1,4 @@
-import type { CanvasRectangle } from "../../interface/canvas-item";
+import type { CanvasRectangle } from "../../types/canvas-item";
 import { type PointSpec, type Point } from "../../util/point";
 import { computePath } from "../../util/computePath";
 

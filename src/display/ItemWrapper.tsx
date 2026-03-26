@@ -1,4 +1,4 @@
-import type { CanvasItem } from '../interface/canvas-item';
+import type { CanvasItem } from '../types/canvas-item';
 import Rectangle from "./item-components/Rectangle";
 import Ellipse from "./item-components/Ellipse";
 import DButton from "./item-components/DButton";

@@ -1,4 +1,4 @@
-import type { CanvasDButton } from "../../interface/canvas-item";
+import type { CanvasDButton } from "../../types/canvas-item";
 import { type PointSpec, type Point } from "../../util/point";
 import { computePath } from "../../util/computePath";
 
