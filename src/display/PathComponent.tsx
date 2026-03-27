@@ -1,5 +1,5 @@
 import { useGamepads } from '../context/GamepadsContext';
-import { type ActiveBinding, type MoveBinding } from '../types/binding';
+import { type ActiveBinding, type StickMoveBinding } from '../types/binding';
 
 interface PathProps {
   pathString: string;
@@ -9,7 +9,7 @@ interface PathProps {
   strokeOn: string;
   strokeWidth: number;
   activeBinding: ActiveBinding;
-  moveBinding: MoveBinding;
+  moveBinding: StickMoveBinding;
   rotation: number;
 }
 
@@ -31,15 +31,17 @@ const PathComponent = ({ pathString, fillOff, fillOn, strokeOff, strokeOn, strok
     if (activeBinding) {
       if (activeBinding.kind === "button") {
         if (gamepad.buttons[activeBinding.index].value > 0) { active = true; }
-      } else if (activeBinding.kind === "axis") {
-        if (Math.abs(gamepad.axes[activeBinding.index]) > deadzone) { active = true; }
+      } else if (activeBinding.kind === "stick") {
+        if (Math.abs(gamepad.axes[activeBinding.xIndex]) > deadzone || Math.abs(gamepad.axes[activeBinding.yIndex]) > deadzone) { 
+          active = true; 
+        }
       }      
     }
     if (moveBinding) {
       let dx;
       let dy;
-      const rawX = gamepad.axes[moveBinding.xAxis];
-      const rawY = gamepad.axes[moveBinding.yAxis];
+      const rawX = gamepad.axes[moveBinding.xIndex];
+      const rawY = gamepad.axes[moveBinding.yIndex];
 
       const mag = Math.sqrt(rawX**2 + rawY**2);
       if (mag < deadzone) {

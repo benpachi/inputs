@@ -1,4 +1,4 @@
-import { type ActiveBinding, type MoveBinding } from './binding';
+import { type ActiveBinding, type StickMoveBinding } from './binding';
 
 // Properties shared by all canvas items
 interface ItemBase {
@@ -25,7 +25,7 @@ export interface EllipseItem extends PathBase {
   width: number;
   height: number;
   activeBinding: ActiveBinding;
-  moveBinding: MoveBinding;
+  moveBinding: StickMoveBinding;
 }
 
 export interface RectangleItem extends PathBase {
@@ -33,7 +33,7 @@ export interface RectangleItem extends PathBase {
   width: number;
   height: number;
   activeBinding: ActiveBinding;
-  moveBinding: MoveBinding;
+  moveBinding: StickMoveBinding;
 }
 
 export interface DButtonItem extends PathBase {
@@ -42,7 +42,7 @@ export interface DButtonItem extends PathBase {
   armLength: number;
   armWidth: number;
   activeBinding: ActiveBinding;
-  moveBinding: MoveBinding;
+  moveBinding: StickMoveBinding;
 }
 
 export interface PlusItem extends PathBase {
@@ -50,14 +50,14 @@ export interface PlusItem extends PathBase {
   armLength: number;
   armWidth: number;
   activeBinding: ActiveBinding;
-  moveBinding: MoveBinding;
+  moveBinding: StickMoveBinding;
 }
 
 export interface DPadItem extends PathBase {
   kind: "d-pad";
   armLength: number;
   armWidth: number;
-  moveBinding: MoveBinding;
+  moveBinding: StickMoveBinding;
   activeBinding: ActiveBinding;
   /*upActiveBinding: ActiveBinding;
   rightActiveBinding: ActiveBinding;

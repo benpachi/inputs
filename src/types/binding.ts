@@ -1,25 +1,13 @@
-interface ActiveButton {
+interface ButtonBinding {
   kind: "button"; 
   index: number;
 }
 
-interface ActiveAxis {
-  kind: "axis";
-  index: number;
+export interface StickMoveBinding {
+  kind: "stick";
+  xIndex: number;
+  yIndex: number;
 }
 
-export type ActiveBinding = ActiveButton | ActiveAxis;
+export type ActiveBinding = ButtonBinding | StickMoveBinding;
 
-interface LeftStick {
-  kind: "left";
-  xAxis: 0;
-  yAxis: 1;
-}
-
-interface RightStick {
-  kind: "right";
-  xAxis: 2;
-  yAxis: 3;
-}
-
-export type MoveBinding = LeftStick | RightStick;
