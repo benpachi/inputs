@@ -13,7 +13,6 @@ export const GamepadsProvider = ({ children }: { children: ReactNode }) => {
       ...prevGamepads,
       [gamepad.index]: gamepad
     }));
-    //console.log(gamepad);
   }
 
   const removeGamepad = (gamepad: Gamepad) => {
@@ -26,7 +25,6 @@ export const GamepadsProvider = ({ children }: { children: ReactNode }) => {
 
   const scanGamepads = () => {
     const detectedGamepads = navigator.getGamepads();
-    //console.log(detectedGamepads);
     detectedGamepads.forEach((gamepad) => {
       if (gamepad) {
         addGamepad(gamepad);
@@ -62,8 +60,6 @@ export const GamepadsProvider = ({ children }: { children: ReactNode }) => {
 
     return () => cancelAnimationFrame(requestRef.current!);
   });
-
-  //console.log(gamepads);
 
   return (
     <GamepadsContext.Provider value={gamepads}>

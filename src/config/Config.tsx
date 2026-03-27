@@ -70,10 +70,11 @@ const Config = () => {
             <InputField field='strokeWidth' value={selectedItem.strokeWidth} onChange={handleChange} type='number' />
           </div>
           <div className="flexrow">
-            <InputField field='fillColor' value={selectedItem.fillColor} onChange={handleChange} type='color' />
-            <InputField field='strokeColor' value={selectedItem.strokeColor} onChange={handleChange} type='color' />
+            <InputField field='fillOff' value={selectedItem.fillOff} onChange={handleChange} type='color' />
+            <InputField field='fillOn' value={selectedItem.fillOn} onChange={handleChange} type='color' />
+            <InputField field='strokeOff' value={selectedItem.strokeOff} onChange={handleChange} type='color' />
+            <InputField field='strokeOn' value={selectedItem.strokeOn} onChange={handleChange} type='color' />
           </div>
-          <p>watch your luminance in the color picker!</p>
           <button onClick={() => { dispatch({ type: 'duplicated', item: selectedItem }) }}>Duplicate</button>
           <button onClick={() => { dispatch({ type: 'deleted', itemId: selectedItem.id}) }}>Delete</button>
         </div>

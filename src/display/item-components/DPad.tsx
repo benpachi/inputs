@@ -1,9 +1,10 @@
-import type { CanvasDPad } from "../../types/canvas-item";
+import type { DPadItem } from "../../types/canvas-item";
 import { type PointSpec, type Point, rotatePoints } from "../../util/point";
 import { computePath } from "../../util/computePath";
+import PathComponent from "../PathComponent";
 
 const DPad = ({ item }: {
-  item: CanvasDPad
+  item: DPadItem
 }) => {
   const w = item.armWidth; 
   const l = item.armLength;
@@ -33,27 +34,60 @@ const DPad = ({ item }: {
 
   return ( 
     <>
-      <path 
-        d={dUp}
-        fill='purple'
-      />
-      <path 
-        d={dRight}
-        fill='green'
-      />
-      <path 
-        d={dDown}
-        fill='blue'
-      />
-      <path 
-        d={dLeft}
-        fill='brown'
-      />
-      <path 
-        d={dOutline}         
-        fill={'transparent'}
-        stroke={item.strokeColor}
+      <PathComponent 
+        pathString={dUp}
+        fillOff={item.fillOff}
+        strokeOff={'transparent'}
+        fillOn={item.fillOn}
+        strokeOn={'transparent'}
         strokeWidth={item.strokeWidth}
+        activeBinding={item.activeBinding}
+        moveBinding={item.moveBinding}
+        rotation={item.rotation}
+      />
+      <PathComponent 
+        pathString={dRight}
+        fillOff={item.fillOff}
+        strokeOff={'transparent'}
+        fillOn={item.fillOn}
+        strokeOn={'transparent'}
+        strokeWidth={item.strokeWidth}
+        activeBinding={item.activeBinding}
+        moveBinding={item.moveBinding}
+        rotation={item.rotation}
+      />
+      <PathComponent 
+        pathString={dDown}
+        fillOff={item.fillOff}
+        strokeOff={'transparent'}
+        fillOn={item.fillOn}
+        strokeOn={'transparent'}
+        strokeWidth={item.strokeWidth}
+        activeBinding={item.activeBinding}
+        moveBinding={item.moveBinding}
+        rotation={item.rotation}
+      />
+      <PathComponent 
+        pathString={dLeft}
+        fillOff={item.fillOff}
+        strokeOff={'transparent'}
+        fillOn={item.fillOn}
+        strokeOn={'transparent'}
+        strokeWidth={item.strokeWidth}
+        activeBinding={item.activeBinding}
+        moveBinding={item.moveBinding}
+        rotation={item.rotation}
+      />
+      <PathComponent 
+        pathString={dOutline}         
+        fillOff={'transparent'}
+        strokeOff={item.strokeOff}
+        fillOn={'transparent'}
+        strokeOn={item.strokeOn}
+        strokeWidth={item.strokeWidth}
+        activeBinding={item.activeBinding}
+        moveBinding={item.moveBinding}
+        rotation={item.rotation}
       />
     </>
   );

@@ -1,9 +1,10 @@
-import type { CanvasRectangle } from "../../types/canvas-item";
+import type { RectangleItem } from "../../types/canvas-item";
 import { type PointSpec, type Point } from "../../util/point";
 import { computePath } from "../../util/computePath";
+import PathComponent from "../PathComponent";
 
 const Rectangle = ({ item }: {
-  item: CanvasRectangle,
+  item: RectangleItem,
 }) => {
   const w = item.width;
   const h = item.height;
@@ -18,11 +19,16 @@ const Rectangle = ({ item }: {
   const d = computePath(points, item.radius);
 
   return (
-    <path 
-      d={d}
-      fill={item.fillColor}
-      stroke={item.strokeColor}
+    <PathComponent 
+      pathString={d}
+      fillOff={item.fillOff}
+      strokeOff={item.strokeOff}
+      fillOn={item.fillOn}
+      strokeOn={item.strokeOn}
       strokeWidth={item.strokeWidth}
+      activeBinding={item.activeBinding}
+      moveBinding={item.moveBinding}
+      rotation={item.rotation}
     />
   );
 }

@@ -1,9 +1,10 @@
-import type { CanvasPlus } from "../../types/canvas-item";
+import type { PlusItem } from "../../types/canvas-item";
 import { type PointSpec, type Point, rotatePoints } from "../../util/point";
 import { computePath } from "../../util/computePath";
+import PathComponent from "../PathComponent";
 
 const Plus = ({ item }: {
-  item: CanvasPlus,
+  item: PlusItem,
 }) => {
   const w = item.armWidth;
   const l = item.armLength
@@ -23,11 +24,16 @@ const Plus = ({ item }: {
   );
 
   return (
-    <path 
-      d={d}
-      fill={item.fillColor}
-      stroke={item.strokeColor}
+    <PathComponent 
+      pathString={d}
+      fillOff={item.fillOff}
+      strokeOff={item.strokeOff}
+      fillOn={item.fillOn}
+      strokeOn={item.strokeOn}
       strokeWidth={item.strokeWidth}
+      activeBinding={item.activeBinding}
+      moveBinding={item.moveBinding}
+      rotation={item.rotation}
     />
   );
 }

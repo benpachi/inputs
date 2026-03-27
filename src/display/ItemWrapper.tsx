@@ -35,7 +35,6 @@ const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
       overflow="visible"
       transform={`
         translate(${canvasItem.x}, ${canvasItem.y}) 
-        rotate(${canvasItem.rotation})
       `}
       filter={isSelected ? 'drop-shadow(0 0 4px #000000)' : undefined}
     >

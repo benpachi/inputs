@@ -1,6 +1,5 @@
 import { createContext, useContext, useReducer, type ReactNode, type ActionDispatch } from 'react';
 import type { CanvasItem } from '../types/canvas-item';
-import { type ActiveBinding, type MoveBinding } from '../types/binding';
 
 interface State {
   items: CanvasItem[];
@@ -92,10 +91,14 @@ function createItem(kind: string): CanvasItem {
         height: 50,
         x: 200,
         y: 150,
-        fillColor: "#000000",
-        strokeColor: "#ff0000",
+        fillOff: "white",
+        fillOn: "#000000",
+        strokeOff: "#ff0000",
+        strokeOn: "blue",
         strokeWidth: 5,
-        radius: 0
+        radius: 0,
+        activeBinding: { kind: 'button', index: 1},
+        moveBinding: { kind: 'right', xAxis: 2, yAxis: 3 },
       };
     }
     case 'ellipse': {
@@ -109,14 +112,14 @@ function createItem(kind: string): CanvasItem {
         height: 50,
         x: 200,
         y: 150,
-        fillColor: "white",
-        strokeColor: "black",
+        fillOff: "white",
+        fillOn: "#000000",
+        strokeOff: "#ff0000",
+        strokeOn: "blue",
         strokeWidth: 5,
         radius: 0,
-        activeBindings: [{ kind: 'button', index: 0}],
+        activeBinding: { kind: 'button', index: 0},
         moveBinding: { kind: 'left', xAxis: 0, yAxis: 1 },
-        activeFill: "black",
-        activeStroke: "white",
       };
     }
     case 'd-button': {
@@ -131,10 +134,14 @@ function createItem(kind: string): CanvasItem {
         armLength: 50,
         x: 200,
         y: 150,
-        fillColor: "#000000",
-        strokeColor: "#ff0000",
+        fillOff: "white",
+        fillOn: "#000000",
+        strokeOff: "#ff0000",
+        strokeOn: "blue",
         strokeWidth: 5, 
-        radius: 0
+        radius: 0,
+        activeBinding: { kind: 'button', index: 0},
+        moveBinding: { kind: 'left', xAxis: 0, yAxis: 1 },
       }
     }
     case 'd-pad': {
@@ -148,10 +155,14 @@ function createItem(kind: string): CanvasItem {
         armLength: 50,
         x: 200,
         y: 150,
-        fillColor: "#000000",
-        strokeColor: "#ff0000",
+        fillOff: "white",
+        fillOn: "#000000",
+        strokeOff: "#ff0000",
+        strokeOn: "blue",
         strokeWidth: 5, 
-        radius: 0
+        radius: 0,
+        activeBinding: { kind: 'button', index: 0},
+        moveBinding: { kind: 'left', xAxis: 0, yAxis: 1 },
       }
     }
     case 'plus': {
@@ -165,10 +176,14 @@ function createItem(kind: string): CanvasItem {
         armLength: 50,
         x: 200,
         y: 150,
-        fillColor: "#000000",
-        strokeColor: "#ff0000",
+        fillOff: "white",
+        fillOn: "#000000",
+        strokeOff: "#ff0000",
+        strokeOn: "blue",
         strokeWidth: 5, 
-        radius: 0
+        radius: 0,
+        activeBinding: { kind: 'button', index: 0},
+        moveBinding: { kind: 'left', xAxis: 0, yAxis: 1 },
       }
     }
     default: {
