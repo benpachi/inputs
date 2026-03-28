@@ -10,11 +10,12 @@ const Canvas = () => {
   const selectedItem = items.find((i) => i.id === selectedId);
 
   const handleMouseDown = (e: React.MouseEvent, id: string)  => {
+    e.stopPropagation();
     const { offsetX, offsetY } = e.nativeEvent;
     const item = items.find((i) => i.id === id);
     
     if (!item) return;
-    
+
     setIsDragging(true);
     dispatch({ type: 'selected', itemId: id });
     setDragOffset({ 
@@ -24,6 +25,7 @@ const Canvas = () => {
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!isDragging || !selectedItem) return;
 
     const { offsetX, offsetY } = e.nativeEvent;
@@ -46,6 +48,7 @@ const Canvas = () => {
   return ( 
     <div className='display-panel'>
       <svg 
+        onMouseDown={() => dispatch({ type: 'selected', itemId: ''})}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
         onMouseMove={handleMouseMove}
