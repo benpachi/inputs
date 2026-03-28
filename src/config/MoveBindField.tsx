@@ -1,7 +1,7 @@
 import type { StickMoveBinding } from "../types/binding";
 
 const MoveBindField = ({ onChange, value }: {
-  value?: StickMoveBinding;
+  value: StickMoveBinding | null;
   onChange: (field: string, value: StickMoveBinding | null) => void;
 }) => {
 

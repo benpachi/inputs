@@ -97,8 +97,8 @@ function createItem(kind: string): CanvasItem {
         strokeOn: "blue",
         strokeWidth: 5,
         radius: 0,
-        activeBinding: { kind: 'button', index: 1},
-        moveBinding: { kind: 'stick', xIndex: 2, yIndex: 3 },
+        activeBinding: null,
+        moveBinding: { kind: 'stick', xIndex: 0, yIndex: 1 },
       };
     }
     case 'ellipse': {
@@ -118,8 +118,8 @@ function createItem(kind: string): CanvasItem {
         strokeOn: "blue",
         strokeWidth: 5,
         radius: 0,
-        activeBinding: { kind: 'button', index: 0},
-        moveBinding: { kind: 'stick', xIndex: 0, yIndex: 1 },
+        activeBinding: null,
+        moveBinding: null,
       };
     }
     case 'd-button': {
@@ -140,8 +140,8 @@ function createItem(kind: string): CanvasItem {
         strokeOn: "blue",
         strokeWidth: 5, 
         radius: 0,
-        activeBinding: { kind: 'button', index: 0},
-        moveBinding: { kind: 'stick', xIndex: 0, yIndex: 1 },
+        activeBinding: null,
+        moveBinding: null,
       }
     }
     case 'd-pad': {
@@ -161,8 +161,11 @@ function createItem(kind: string): CanvasItem {
         strokeOn: "blue",
         strokeWidth: 5, 
         radius: 0,
-        activeBinding: { kind: 'button', index: 0},
-        moveBinding: { kind: 'stick', xIndex: 0, yIndex: 1 },
+        upActiveBinding: null,
+        rightActiveBinding: null,
+        downActiveBinding: null,
+        leftActiveBinding: null,
+        moveBinding: null,
       }
     }
     case 'plus': {
@@ -182,8 +185,8 @@ function createItem(kind: string): CanvasItem {
         strokeOn: "blue",
         strokeWidth: 5, 
         radius: 0,
-        activeBinding: { kind: 'stick', xIndex: 0, yIndex: 1 },
-        moveBinding: { kind: 'stick', xIndex: 0, yIndex: 1 },
+        activeBinding: null,
+        moveBinding: null,
       }
     }
     default: {

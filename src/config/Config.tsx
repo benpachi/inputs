@@ -79,7 +79,11 @@ const Config = () => {
           </div>
           <div className="flexrow">
             <MoveBindField value={selectedItem.moveBinding} onChange={handleChange} />
-            <ActiveBindField value={selectedItem.activeBinding} onChange={handleChange} />
+            {('activeBinding' in selectedItem) && <ActiveBindField field='activeBinding' value={selectedItem.activeBinding} onChange={handleChange} /> }
+            {('upActiveBinding' in selectedItem) && <ActiveBindField field='upActiveBinding' value={selectedItem.upActiveBinding} onChange={handleChange} /> }
+            {('rightActiveBinding' in selectedItem) && <ActiveBindField field='rightActiveBinding' value={selectedItem.rightActiveBinding} onChange={handleChange} /> }
+            {('downActiveBinding' in selectedItem) && <ActiveBindField field='downActiveBinding' value={selectedItem.downActiveBinding} onChange={handleChange} /> }
+            {('leftActiveBinding' in selectedItem) && <ActiveBindField field='leftActiveBinding' value={selectedItem.leftActiveBinding} onChange={handleChange} /> }
           </div>
           <button onClick={() => { dispatch({ type: 'duplicated', item: selectedItem }) }}>Duplicate</button>
           <button onClick={() => { dispatch({ type: 'deleted', itemId: selectedItem.id}) }}>Delete</button>

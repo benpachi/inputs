@@ -9,8 +9,8 @@ interface PathProps {
   strokeOff: string;
   strokeOn: string;
   strokeWidth: number;
-  activeBinding?: ActiveBinding;
-  moveBinding?: StickMoveBinding;
+  activeBinding: ActiveBinding;
+  moveBinding: StickMoveBinding;
 }
 
 // Renders a single path element that can respond to controller input.

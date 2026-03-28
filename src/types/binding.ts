@@ -3,11 +3,13 @@ interface ButtonBinding {
   index: number;
 }
 
-export interface StickMoveBinding {
+interface AxesBinding {
   kind: "stick";
   xIndex: number;
   yIndex: number;
 }
 
-export type ActiveBinding = ButtonBinding | StickMoveBinding;
+export type ActiveBinding = ButtonBinding | AxesBinding | null;
+
+export type StickMoveBinding = AxesBinding | null;
 

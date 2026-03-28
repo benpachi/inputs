@@ -29,7 +29,7 @@ const DPad = ({ item }: {
   );
 
   const dArms = rotations.map((angle) => computePath(rotatePoints(armBase, origin, angle), item.radius));
-  const [dUp, dRight, dLeft, dDown] = dArms;
+  const [dUp, dRight, dDown, dLeft] = dArms;
 
 
   return ( 
@@ -41,7 +41,7 @@ const DPad = ({ item }: {
         fillOn={item.fillOn}
         strokeOn={'transparent'}
         strokeWidth={item.strokeWidth}
-        activeBinding={item.activeBinding}
+        activeBinding={item.upActiveBinding}
         moveBinding={item.moveBinding}
         rotation={item.rotation}
       />
@@ -52,7 +52,7 @@ const DPad = ({ item }: {
         fillOn={item.fillOn}
         strokeOn={'transparent'}
         strokeWidth={item.strokeWidth}
-        activeBinding={item.activeBinding}
+        activeBinding={item.rightActiveBinding}
         moveBinding={item.moveBinding}
         rotation={item.rotation}
       />
@@ -63,7 +63,7 @@ const DPad = ({ item }: {
         fillOn={item.fillOn}
         strokeOn={'transparent'}
         strokeWidth={item.strokeWidth}
-        activeBinding={item.activeBinding}
+        activeBinding={item.downActiveBinding}
         moveBinding={item.moveBinding}
         rotation={item.rotation}
       />
@@ -74,7 +74,7 @@ const DPad = ({ item }: {
         fillOn={item.fillOn}
         strokeOn={'transparent'}
         strokeWidth={item.strokeWidth}
-        activeBinding={item.activeBinding}
+        activeBinding={item.leftActiveBinding}
         moveBinding={item.moveBinding}
         rotation={item.rotation}
       />
@@ -85,7 +85,7 @@ const DPad = ({ item }: {
         fillOn={'transparent'}
         strokeOn={item.strokeOn}
         strokeWidth={item.strokeWidth}
-        activeBinding={item.activeBinding}
+        activeBinding={null}
         moveBinding={item.moveBinding}
         rotation={item.rotation}
       />

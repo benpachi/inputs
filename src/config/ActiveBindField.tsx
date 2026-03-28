@@ -2,9 +2,10 @@ import { useState } from "react";
 import type { ActiveBinding, StickMoveBinding } from "../types/binding";
 import { useGamepads } from "../context/GamepadsContext";
 
-const ActiveBindField = ({ onChange, value }: {
-  value?: ActiveBinding;
-  onChange: (field: string, value: ActiveBinding | null) => void;
+const ActiveBindField = ({ onChange, value, field }: {
+  value: ActiveBinding;
+  onChange: (field: string, value: ActiveBinding) => void;
+  field: string;
 }) => {
   const [listening, setListening] = useState(false);
   const gamepads = useGamepads();
@@ -29,7 +30,7 @@ const ActiveBindField = ({ onChange, value }: {
   if (listening && gamepad) {
     for (let i = 0; i < gamepad.buttons.length; i++) {
       if (gamepad.buttons[i].value >= 0.5) {
-        onChange('activeBinding', { kind: 'button', index: i });
+        onChange(field, { kind: 'button', index: i });
         setListening(false);
         break;
       }
@@ -37,12 +38,12 @@ const ActiveBindField = ({ onChange, value }: {
     for (let i = 0; i < gamepad.axes.length; i++) {
       if (Math.abs(gamepad.axes[i]) >= 0.25) {
         if (i === 0 || i === 1) {
-          onChange('activeBinding', leftStick);
+          onChange(field, leftStick);
           setListening(false);
           break;
         }
         if (i === 2 || i === 3) {
-          onChange('activeBinding', rightStick);
+          onChange(field, rightStick);
           setListening(false);
           break;
         }
@@ -52,14 +53,16 @@ const ActiveBindField = ({ onChange, value }: {
 
   return (
     <label>
-      {`Bound to: ${currentBinding}`} <br />
+      {field}
+      <br />
+      {`bound to: ${currentBinding}`} <br />
       <button
         onClick={() => setListening(!listening)}
       > 
         {listening ? "Waiting for input..." : "Bind input"}
       </button>
       <button
-        onClick={() => onChange('activeBinding', null)}
+        onClick={() => onChange(field, null)}
       >
         {"Clear binding"}
       </button>

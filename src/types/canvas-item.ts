@@ -18,51 +18,46 @@ interface PathBase extends ItemBase {
   fillOn: string;
   strokeOff: string;
   strokeOn: string;
-}
-
-export interface EllipseItem extends PathBase {
-  kind: "ellipse";
-  width: number;
-  height: number;
-  activeBinding?: ActiveBinding;
-  moveBinding?: StickMoveBinding;
-}
-
-export interface RectangleItem extends PathBase {
-  kind: "rectangle";
-  width: number;
-  height: number;
-  activeBinding: ActiveBinding;
   moveBinding: StickMoveBinding;
 }
 
-export interface DButtonItem extends PathBase {
+interface PathSimple extends PathBase {
+  activeBinding: ActiveBinding;
+}
+
+export interface EllipseItem extends PathSimple {
+  kind: "ellipse";
+  width: number;
+  height: number;
+}
+
+export interface RectangleItem extends PathSimple {
+  kind: "rectangle";
+  width: number;
+  height: number;
+}
+
+export interface DButtonItem extends PathSimple {
   kind: "d-button";
   pointLength: number;
   armLength: number;
   armWidth: number;
-  activeBinding: ActiveBinding;
-  moveBinding: StickMoveBinding;
 }
 
-export interface PlusItem extends PathBase {
+export interface PlusItem extends PathSimple {
   kind: "plus";
   armLength: number;
   armWidth: number;
-  activeBinding: ActiveBinding;
-  moveBinding: StickMoveBinding;
 }
 
 export interface DPadItem extends PathBase {
   kind: "d-pad";
   armLength: number;
   armWidth: number;
-  moveBinding: StickMoveBinding;
-  activeBinding: ActiveBinding;
-  /*upActiveBinding: ActiveBinding;
+  upActiveBinding: ActiveBinding;
   rightActiveBinding: ActiveBinding;
   downActiveBinding: ActiveBinding;
-  leftActiveBinding: ActiveBinding;*/
+  leftActiveBinding: ActiveBinding;
 }
 
 export type CanvasItem = EllipseItem | RectangleItem | DButtonItem | PlusItem | DPadItem;
