@@ -78,8 +78,8 @@ const Config = () => {
             <InputField field='strokeOn' value={selectedItem.strokeOn} onChange={handleChange} type='color' />
           </div>
           <div className="flexrow">
-            <MoveBindField value={selectedItem.moveBinding} onChange={handleChange}></MoveBindField>
-            <ActiveBindField></ActiveBindField>
+            <MoveBindField value={selectedItem.moveBinding} onChange={handleChange} />
+            <ActiveBindField value={selectedItem.activeBinding} onChange={handleChange} />
           </div>
           <button onClick={() => { dispatch({ type: 'duplicated', item: selectedItem }) }}>Duplicate</button>
           <button onClick={() => { dispatch({ type: 'deleted', itemId: selectedItem.id}) }}>Delete</button>

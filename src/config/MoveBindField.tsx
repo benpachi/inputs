@@ -25,7 +25,7 @@ const MoveBindField = ({ onChange, value }: {
           type="radio" 
           name="move-bind"
           checked={value === null}
-          onChange={(e) => onChange('moveBinding', null)}
+          onChange={() => onChange('moveBinding', null)}
         />{'None'}
       </label><br />
       <label>
@@ -33,7 +33,7 @@ const MoveBindField = ({ onChange, value }: {
           type="radio" 
           name="move-bind"
           checked={value?.xIndex === 0 && value?.yIndex === 1}
-          onChange={(e) => onChange('moveBinding', leftStick)}
+          onChange={() => onChange('moveBinding', leftStick)}
         />{'Left stick'}
       </label><br />
       <label>
@@ -41,7 +41,7 @@ const MoveBindField = ({ onChange, value }: {
           type="radio" 
           name="move-bind"
           checked={value?.xIndex === 2 && value?.yIndex === 3}
-          onChange={(e) => onChange('moveBinding', rightStick)}
+          onChange={() => onChange('moveBinding', rightStick)}
         />{'Right stick'}
       </label><br />
     </form>

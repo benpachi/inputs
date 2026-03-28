@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useRef, type ReactNode } from 'react';
 
-type Gamepads = Record<Gamepad['index'], Gamepad>;
+export type Gamepads = Record<Gamepad['index'], Gamepad>;
 
 const GamepadsContext = createContext<Gamepads>({});
 
