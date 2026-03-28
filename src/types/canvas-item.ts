@@ -24,8 +24,8 @@ export interface EllipseItem extends PathBase {
   kind: "ellipse";
   width: number;
   height: number;
-  activeBinding: ActiveBinding;
-  moveBinding: StickMoveBinding;
+  activeBinding?: ActiveBinding;
+  moveBinding?: StickMoveBinding;
 }
 
 export interface RectangleItem extends PathBase {

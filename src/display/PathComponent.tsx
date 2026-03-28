@@ -3,14 +3,14 @@ import { type ActiveBinding, type StickMoveBinding } from '../types/binding';
 
 interface PathProps {
   pathString: string;
+  rotation: number;
   fillOff: string;
   fillOn: string;
   strokeOff: string;
   strokeOn: string;
   strokeWidth: number;
-  activeBinding: ActiveBinding;
-  moveBinding: StickMoveBinding;
-  rotation: number;
+  activeBinding?: ActiveBinding;
+  moveBinding?: StickMoveBinding;
 }
 
 // Renders a single path element that can respond to controller input.

@@ -1,12 +1,14 @@
 import { useItems, useItemsDispatch } from "../context/ItemsContext";
+import ActiveBindField from "./ActiveBindField";
 import InputField from "./InputField";
+import MoveBindField from "./MoveBindField";
 
 const Config = () => {
   const {items, selectedId} = useItems();
   const dispatch = useItemsDispatch();
   const selectedItem = items.find((item) => item.id === selectedId);
 
-  const handleChange = (field: string, value: string | number) => {
+  const handleChange = (field: string, value: any) => {
     if (selectedItem) {
       dispatch({type: 'changed', item: {...selectedItem, [field]: value}});
     }
@@ -74,6 +76,10 @@ const Config = () => {
             <InputField field='fillOn' value={selectedItem.fillOn} onChange={handleChange} type='color' />
             <InputField field='strokeOff' value={selectedItem.strokeOff} onChange={handleChange} type='color' />
             <InputField field='strokeOn' value={selectedItem.strokeOn} onChange={handleChange} type='color' />
+          </div>
+          <div className="flexrow">
+            <MoveBindField value={selectedItem.moveBinding} onChange={handleChange}></MoveBindField>
+            <ActiveBindField></ActiveBindField>
           </div>
           <button onClick={() => { dispatch({ type: 'duplicated', item: selectedItem }) }}>Duplicate</button>
           <button onClick={() => { dispatch({ type: 'deleted', itemId: selectedItem.id}) }}>Delete</button>

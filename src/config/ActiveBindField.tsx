@@ -1,9 +1,9 @@
-
-
 const ActiveBindField = () => {
   return (
-    <>
-    </>
+    <label>
+      {'Active when:'}
+      <input/>
+    </label>
   );
 }
  
