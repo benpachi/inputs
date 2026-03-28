@@ -2,10 +2,21 @@ import { createContext, useContext, useState, useEffect, useRef, type ReactNode 
 
 export type Gamepads = Record<Gamepad['index'], Gamepad>;
 
-const GamepadsContext = createContext<Gamepads>({});
+interface GamepadsContextType {
+  gamepads: Gamepads;
+  index: number;
+  setIndex: (index: number) => void;
+  deadzone: number; 
+  setDeadzone: (deadzone: number) => void;
+}
+
+const GamepadsContext = createContext<GamepadsContextType | null>(null);
 
 export const GamepadsProvider = ({ children }: { children: ReactNode }) => {
   const [gamepads, setGamepads] = useState<Gamepads>({});
+  const [index, setIndex] = useState(0);
+  const [deadzone, setDeadzone] = useState(0.2);
+
   const requestRef = useRef<number | null>(null);
 
   const addGamepad = (gamepad: Gamepad) => {
@@ -61,8 +72,16 @@ export const GamepadsProvider = ({ children }: { children: ReactNode }) => {
     return () => cancelAnimationFrame(requestRef.current!);
   });
 
+  const contextValue: GamepadsContextType = {
+    gamepads,
+    index,
+    deadzone,
+    setIndex,
+    setDeadzone
+  }
+
   return (
-    <GamepadsContext.Provider value={gamepads}>
+    <GamepadsContext.Provider value={contextValue}>
       {children}
     </GamepadsContext.Provider>
   );

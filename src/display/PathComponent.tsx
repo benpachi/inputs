@@ -16,12 +16,11 @@ interface PathProps {
 // Renders a single path element that can respond to controller input.
 
 const PathComponent = ({ pathString, fillOff, fillOn, strokeOff, strokeOn, strokeWidth, activeBinding, moveBinding, rotation }: PathProps) => {
-  const gamepads = useGamepads();
-  let gamepad = gamepads[0];
+  const { gamepads, index, deadzone } = useGamepads();
+  let gamepad = gamepads[index];
 
   let range = 50;
   let tiltFactor = 0.25;
-  let deadzone = 0.25;
 
   let active = false;
   let tiltStrength = 0;
