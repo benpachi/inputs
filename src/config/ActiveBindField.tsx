@@ -8,8 +8,8 @@ const ActiveBindField = ({ onChange, value, field }: {
   field: string;
 }) => {
   const [listening, setListening] = useState(false);
-  const gamepads = useGamepads();
-  const gamepad = gamepads[0];
+  const { gamepads, index } = useGamepads();;
+  const gamepad = gamepads[index];
 
   const leftStick: StickMoveBinding = { kind: "stick", xIndex: 0, yIndex: 1 };
   const rightStick: StickMoveBinding = { kind: "stick", xIndex: 2, yIndex: 3 };
