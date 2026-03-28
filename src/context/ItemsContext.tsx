@@ -22,16 +22,8 @@ export const ItemsProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
-    const itemsString = localStorage.getItem('items');
-    if (itemsString) {
-      const items = JSON.parse(itemsString);
-      dispatch({type: "set", items: items});
-    }
-  }, []);
-
-  useEffect(() => {
     localStorage.setItem('items', JSON.stringify(state.items))
-  }, [state]);
+  }, [state.items]);
 
   return (
     <ItemsContext value={state}>
