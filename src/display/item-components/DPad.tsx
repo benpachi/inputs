@@ -85,7 +85,7 @@ const DPad = ({ item }: {
         fillOn={'transparent'}
         strokeOn={item.strokeOn}
         strokeWidth={item.strokeWidth}
-        activeBinding={null}
+        activeBinding={item.strokeActiveBinding}
         moveBinding={item.moveBinding}
         rotation={item.rotation}
       />

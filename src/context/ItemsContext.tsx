@@ -161,11 +161,12 @@ function createItem(kind: string): CanvasItem {
         strokeOn: "blue",
         strokeWidth: 5, 
         radius: 0,
+        moveBinding: null,
         upActiveBinding: null,
         rightActiveBinding: null,
         downActiveBinding: null,
         leftActiveBinding: null,
-        moveBinding: null,
+        strokeActiveBinding: null,
       }
     }
     case 'plus': {

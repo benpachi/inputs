@@ -84,6 +84,7 @@ const Config = () => {
             {('rightActiveBinding' in selectedItem) && <ActiveBindField field='rightActiveBinding' value={selectedItem.rightActiveBinding} onChange={handleChange} /> }
             {('downActiveBinding' in selectedItem) && <ActiveBindField field='downActiveBinding' value={selectedItem.downActiveBinding} onChange={handleChange} /> }
             {('leftActiveBinding' in selectedItem) && <ActiveBindField field='leftActiveBinding' value={selectedItem.leftActiveBinding} onChange={handleChange} /> }
+            {('strokeActiveBinding' in selectedItem) && <ActiveBindField field='strokeActiveBinding' value={selectedItem.strokeActiveBinding} onChange={handleChange} /> }
           </div>
           <button onClick={() => { dispatch({ type: 'duplicated', item: selectedItem }) }}>Duplicate</button>
           <button onClick={() => { dispatch({ type: 'deleted', itemId: selectedItem.id}) }}>Delete</button>
