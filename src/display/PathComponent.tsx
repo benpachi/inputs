@@ -56,7 +56,7 @@ const PathComponent = ({ pathString, fillOff, fillOn, strokeOff, strokeOn, strok
         dy = rawY;
       }
       tiltStrength = Math.sqrt(dx**2 + dy**2);
-      angle = Math.atan2(dy, dx);
+      angle = Math.atan2(dy, dx) * (180/Math.PI);
     }
   }
 
@@ -67,16 +67,16 @@ const PathComponent = ({ pathString, fillOff, fillOn, strokeOff, strokeOn, strok
       stroke={active ? strokeOn : strokeOff}
       strokeWidth={strokeWidth}
       transform={`
-        rotate(${angle*(180/Math.PI)} 0 0) 
+        rotate(${angle} 0 0) 
         scale(${1 - tiltStrength*tiltFactor} 1) 
         translate(${tiltStrength*range} 0) 
-        rotate(${-angle*(180/Math.PI)} 0 0)
+        rotate(${-angle} 0 0)
         rotate(${rotation} 0 0)
       `}
     />
   );
   /* 
-    Transforms in the transform property are applied in order from bottom to top.
+    Transforms are applied bottom to top, the order of operations is:
       1. Rotate according to item config
       2. Rotate by the negative of the angle to cancel out the rotation of step 5 so that it only affects positioning
       3. Translate the element according to the stick-tilt magnitude

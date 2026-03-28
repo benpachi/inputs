@@ -1,13 +1,14 @@
-import { createContext, useContext, useReducer, type ReactNode, type ActionDispatch } from 'react';
+import { createContext, useContext, useReducer, useEffect, type ReactNode, type ActionDispatch } from 'react';
 import type { CanvasItem } from '../types/canvas-item';
 
 interface State {
   items: CanvasItem[];
-  // todo: make this an array selectedIds instead
+  // todo: make this an array selectedIds instead (enable applying changes to multiple items at once)
   selectedId: string;
 }
+
 const initialState: State = {
-  items: [],
+  items: JSON.parse(localStorage.getItem('items') || '[]'),
   selectedId: ''
 }
 
@@ -20,6 +21,18 @@ export const ItemsProvider = ({ children }: { children: ReactNode }) => {
     initialState
   );
 
+  useEffect(() => {
+    const itemsString = localStorage.getItem('items');
+    if (itemsString) {
+      const items = JSON.parse(itemsString);
+      dispatch({type: "set", items: items});
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(state.items))
+  }, [state]);
+
   return (
     <ItemsContext value={state}>
       <ItemsDispatchContext value={dispatch}>
@@ -29,17 +42,20 @@ export const ItemsProvider = ({ children }: { children: ReactNode }) => {
   );
 }
 
-// todo?: probably check somewhere that there are actually objects with the ids inside selectedIds
 type ItemsAction =
-  | { type: "added"; kind: string } // todo: add functionality to adapt defaults to previous canvas item configurations
-  | { type: "changed"; item: CanvasItem } // todo (with selectedIds array implemented): take in object with changes and apply to all selected items
-  | { type: "deleted"; itemId: string } // todo (with selectedIds array implemented): delete all selected items and clear selectedIds
-  | { type: "duplicated"; item: CanvasItem } // todo (with selectedIds array implemented): duplicate all selected items and set selected to the duplicated item ids
+  | { type: "set"; items: CanvasItem[] }
+  | { type: "added"; kind: string }
+  | { type: "changed"; item: CanvasItem }
+  | { type: "deleted"; itemId: string }
+  | { type: "duplicated"; item: CanvasItem }
   | { type: "selected"; itemId: string } 
   | { type: "deselected"; itemId: string }
 
 function itemsReducer(state: State, action: ItemsAction) {
   switch (action.type) {
+    case 'set': {
+      return {...state, items: action.items, selectedId: ''};
+    }
     case 'added': {
       const newItem: CanvasItem = createItem(action.kind);
       return {...state, items: [...state.items, newItem], selectedId: newItem.id};
