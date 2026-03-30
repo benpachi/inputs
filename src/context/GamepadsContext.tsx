@@ -4,8 +4,8 @@ export type Gamepads = Record<Gamepad['index'], Gamepad>;
 
 interface GamepadsContextType {
   gamepads: Gamepads;
-  index: number;
-  setIndex: (index: number) => void;
+  selectedIndex: number;
+  setSelectedIndex: (index: number) => void;
   deadzone: number; 
   setDeadzone: (deadzone: number) => void;
 }
@@ -14,7 +14,7 @@ const GamepadsContext = createContext<GamepadsContextType | null>(null);
 
 export const GamepadsProvider = ({ children }: { children: ReactNode }) => {
   const [gamepads, setGamepads] = useState<Gamepads>({});
-  const [index, setIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [deadzone, setDeadzone] = useState(0.2);
 
   const requestRef = useRef<number | null>(null);
@@ -74,9 +74,9 @@ export const GamepadsProvider = ({ children }: { children: ReactNode }) => {
 
   const contextValue: GamepadsContextType = {
     gamepads,
-    index,
+    selectedIndex,
     deadzone,
-    setIndex,
+    setSelectedIndex,
     setDeadzone
   }
 
