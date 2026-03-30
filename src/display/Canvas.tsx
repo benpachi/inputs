@@ -46,21 +46,19 @@ const Canvas = () => {
   }
 
   return ( 
-    <div className='display-panel'>
-      <svg 
-        onMouseDown={() => dispatch({ type: 'selected', itemId: ''})}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onMouseMove={handleMouseMove}
-        className='canvas' 
-        width='400' 
-        height='300'
-      >
-        {items.map((item) => 
-          <ItemWrapper key={item.id} isSelected={selectedId === item.id} onMouseDown={handleMouseDown} canvasItem={item}/>
-        )}
-      </svg>
-    </div>
+    <svg 
+      onMouseDown={() => dispatch({ type: 'selected', itemId: ''})}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      className='canvas' 
+      width='640' 
+      height='360'
+    >
+      {items.map((item) => 
+        <ItemWrapper key={item.id} isSelected={selectedId === item.id} onMouseDown={handleMouseDown} canvasItem={item}/>
+      )}
+    </svg>
   );
 }
  

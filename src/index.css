@@ -11,7 +11,6 @@ html, body {
 
 body {
   margin: 0;
-  border: 3px solid blue;
 }
 
 #root {
@@ -20,40 +19,86 @@ body {
 }
 
 .app {
-  border: 3px solid red;
   height: 100%;
-  justify-content: space-between;
 }
 
 .flexrow {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+}
+
+.layout-flexrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.layout-flexcol {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
 .config-card {
-  margin: 1rem;
-  border: 3px solid green;
-  flex-grow: 1;
-  width: 20em;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 .config-controls {
   display: flex;
   flex-direction: column;
+  gap: 24px;
+  flex: 1;
 }
 
-.config-controls > div, button {
-  margin-top: 16px;
+.config-content {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 24px;
 }
 
-.display-panel {
-  border: 3px solid green;
-  flex-grow: 1;
+.config-left {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.config-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.config-section-title {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.config-grid.full {
+  grid-template-columns: 1fr;
+}
+
+.config-grid.four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.config-controls > button {
+  align-self: flex-start;
 }
 
 .canvas {
-  border: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
 }
+

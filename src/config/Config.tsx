@@ -36,60 +36,97 @@ const Config = () => {
     }
   }
 
-  return ( 
+  return (
     <div className='config-card'>
       <div className='config-controls'>
-        <div className="flexrow" style={{justifyContent: 'start'}}>
-          <button onClick={() => dispatch({type: 'added', kind: 'ellipse'})}>add ellipse</button>
-          <button onClick={() => dispatch({type: 'added', kind: 'rectangle'})}>add rectangle</button>
-          <button onClick={() => dispatch({type: 'added', kind: 'd-button'})}>add d-button</button>
-          <button onClick={() => dispatch({type: 'added', kind: 'plus'})}>add plus</button>
-          <button onClick={() => dispatch({type: 'added', kind: 'd-pad'})}>add d-pad</button>
-        </div>
-        <div className="flexrow" style={{justifyContent: 'start'}}>
-          <label htmlFor="canvasItemSelector">Select canvas item </label>
-          <select 
-            value={selectedId} 
-            id="canvasItemSelector" 
-            onChange={(e) => dispatch({type: 'selected', itemId: e.target.value})}
-          >
-            <option value="">(none)</option>
-            {items.map((item) => (
-              <option key={item.id} value={item.id}>{item.name}</option>
-            ))}
-          </select>
-        </div>
+        <div className="config-content">
+          <div className="config-left">
+            <div className="config-section">
+              <div className="config-section-title">Add Item</div>
+              <div className="flexrow" style={{justifyContent: 'flex-start', flexWrap: 'wrap', gap: '8px'}}>
+                <button onClick={() => dispatch({type: 'added', kind: 'ellipse'})}>Ellipse</button>
+                <button onClick={() => dispatch({type: 'added', kind: 'rectangle'})}>Rectangle</button>
+                <button onClick={() => dispatch({type: 'added', kind: 'd-button'})}>D-Button</button>
+                <button onClick={() => dispatch({type: 'added', kind: 'plus'})}>Plus</button>
+                <button onClick={() => dispatch({type: 'added', kind: 'd-pad'})}>D-Pad</button>
+              </div>
+            </div>
 
-        {selectedItem ? 
-        <div className="config-controls">
-          <div className="flexrow">
-            <InputField field='x' value={selectedItem.x} onChange={handleChange} type='number' />
-            <InputField field='y' value={selectedItem.y} onChange={handleChange} type='number' />
+            <div className="config-section">
+              <div className="config-section-title">Select Item</div>
+              <div className="flexrow">
+                <select
+                  value={selectedId}
+                  onChange={(e) => dispatch({type: 'selected', itemId: e.target.value})}
+                >
+                  <option value="">(none)</option>
+                  {items.map((item) => (
+                    <option key={item.id} value={item.id}>{item.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {selectedItem ? (
+              <>
+                <div className="config-section">
+                  <div className="config-section-title">Orientation</div>
+                  <div className="config-grid">
+                    <InputField field='x' value={selectedItem.x} onChange={handleChange} type='number' />
+                    <InputField field='y' value={selectedItem.y} onChange={handleChange} type='number' />
+                    <InputField field='rotation' value={selectedItem.rotation} onChange={handleChange} type='number' />
+                  </div>
+                </div>
+                <div className="config-section">
+                  <div className="config-section-title">Dimensions</div>
+                  <div className="config-grid">
+                    {extraFields}
+                    <InputField field='strokeWidth' value={selectedItem.strokeWidth} onChange={handleChange} type='number' />
+                  </div>
+                </div>
+                <div className="config-section">
+                  <div className="config-section-title">Colours (unpressed)</div>
+                  <div className="config-grid four">
+                    <InputField field='fillOff' value={selectedItem.fillOff} onChange={handleChange} type='color' />
+                    <InputField field='strokeOff' value={selectedItem.strokeOff} onChange={handleChange} type='color' />
+                  </div>
+                </div>
+                <div className="config-section">
+                  <div className="config-section-title">Colours (pressed)</div>
+                  <div className="config-grid four">
+                    <InputField field='fillOn' value={selectedItem.fillOn} onChange={handleChange} type='color' />
+                    <InputField field='strokeOn' value={selectedItem.strokeOn} onChange={handleChange} type='color' />
+                  </div>
+                </div>
+
+                <div className="config-section">
+                  <div className="config-section-title">Actions</div>
+                  <div className="flexrow" style={{gap: '8px'}}>
+                    <button onClick={() => { dispatch({ type: 'duplicated', item: selectedItem }) }}>Duplicate</button>
+                    <button onClick={() => { dispatch({ type: 'deleted', itemId: selectedItem.id }) }}>Delete</button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <p>No canvas item selected</p>
+            )}
           </div>
-          {extraFields}
-          <div className="flexrow">
-            <InputField field='rotation' value={selectedItem.rotation} onChange={handleChange} type='number' />
-            <InputField field='strokeWidth' value={selectedItem.strokeWidth} onChange={handleChange} type='number' />
-          </div>
-          <div className="flexrow">
-            <InputField field='fillOff' value={selectedItem.fillOff} onChange={handleChange} type='color' />
-            <InputField field='fillOn' value={selectedItem.fillOn} onChange={handleChange} type='color' />
-            <InputField field='strokeOff' value={selectedItem.strokeOff} onChange={handleChange} type='color' />
-            <InputField field='strokeOn' value={selectedItem.strokeOn} onChange={handleChange} type='color' />
-          </div>
-          <div className="flexrow">
-            <MoveBindField value={selectedItem.moveBinding} onChange={handleChange} />
-            {('activeBinding' in selectedItem) && <ActiveBindField field='activeBinding' value={selectedItem.activeBinding} onChange={handleChange} /> }
-            {('upActiveBinding' in selectedItem) && <ActiveBindField field='upActiveBinding' value={selectedItem.upActiveBinding} onChange={handleChange} /> }
-            {('rightActiveBinding' in selectedItem) && <ActiveBindField field='rightActiveBinding' value={selectedItem.rightActiveBinding} onChange={handleChange} /> }
-            {('downActiveBinding' in selectedItem) && <ActiveBindField field='downActiveBinding' value={selectedItem.downActiveBinding} onChange={handleChange} /> }
-            {('leftActiveBinding' in selectedItem) && <ActiveBindField field='leftActiveBinding' value={selectedItem.leftActiveBinding} onChange={handleChange} /> }
-            {('strokeActiveBinding' in selectedItem) && <ActiveBindField field='strokeActiveBinding' value={selectedItem.strokeActiveBinding} onChange={handleChange} /> }
-          </div>
-          <button onClick={() => { dispatch({ type: 'duplicated', item: selectedItem }) }}>Duplicate</button>
-          <button onClick={() => { dispatch({ type: 'deleted', itemId: selectedItem.id}) }}>Delete</button>
+
+          {selectedItem && (
+            <div className="config-section">
+              <div className="config-section-title">Bindings</div>
+              <div className="config-grid full">
+                <MoveBindField value={selectedItem.moveBinding} onChange={handleChange} />
+                {('activeBinding' in selectedItem) && <ActiveBindField field='activeBinding' value={selectedItem.activeBinding} onChange={handleChange} /> }
+                {('upActiveBinding' in selectedItem) && <ActiveBindField field='upActiveBinding' value={selectedItem.upActiveBinding} onChange={handleChange} /> }
+                {('rightActiveBinding' in selectedItem) && <ActiveBindField field='rightActiveBinding' value={selectedItem.rightActiveBinding} onChange={handleChange} /> }
+                {('downActiveBinding' in selectedItem) && <ActiveBindField field='downActiveBinding' value={selectedItem.downActiveBinding} onChange={handleChange} /> }
+                {('leftActiveBinding' in selectedItem) && <ActiveBindField field='leftActiveBinding' value={selectedItem.leftActiveBinding} onChange={handleChange} /> }
+                {('strokeActiveBinding' in selectedItem) && <ActiveBindField field='strokeActiveBinding' value={selectedItem.strokeActiveBinding} onChange={handleChange} /> }
+              </div>
+            </div>
+          )}
         </div>
-         : <p>No canvas item selected</p>}
       </div>
     </div>
   );

@@ -9,14 +9,14 @@ const DPad = ({ item }: {
   const w = item.armWidth; 
   const l = item.armLength;
   //Correction for tiny gaps between dbutton paths.
-  //const nudge = Math.SQRT1_2/10;
+  const nudge = Math.SQRT1_2/2;
   const origin: Point = {x: 0, y: 0};
 
-  const point0: Point = {x: 0, y: 0};
-  const point1: Point = {x: -w/2, y: -w/2};
+  const point0: Point = {x: 0, y: nudge};
+  const point1: Point = {x: -w/2, y: -w/2 + nudge};
   const point2: Point = {x: -w/2, y: -l};
   const point3: Point = {x: w/2, y: -l};
-  const point4: Point = {x: w/2, y: -w/2};
+  const point4: Point = {x: w/2, y: -w/2 + nudge};
 
   const armBase: PointSpec[] = [{...point0, maxRadius: 0}, {...point1, maxRadius: 0}, {...point2}, {...point3}, {...point4, maxRadius: 0}];
   const patternBase: PointSpec[] = [{...point1, maxRadius: item.strokeWidth/2}, {...point2}, {...point3}]; 
