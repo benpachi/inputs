@@ -1,13 +1,19 @@
-const InputField = ({field, value, onChange, type}: {
+const InputField = ({field, value, label, onChange, type}: {
   field: string;
   value: string | number;
+  label: string;
   onChange: (field: string, value: string | number) => void;
   type: string;
 }) => {
   return (
-    <label>
-      {field}
-      <input value={value} onChange={(e) => onChange(field, (type !== 'color') ? Number(e.target.value) : e.target.value)} type={type} />
+    <label className={'flexrow'} style={{justifyContent: 'space-between'}}>
+      {label}
+      <input 
+        value={value} 
+        type={type} 
+        style={{width: '60%'}}
+        onChange={(e) => onChange(field, (type !== 'color') ? Number(e.target.value) : e.target.value)} 
+      />
     </label>
   );
 }

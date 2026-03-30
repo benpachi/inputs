@@ -2,10 +2,11 @@ import { useState } from "react";
 import type { ActiveBinding, StickMoveBinding } from "../types/binding";
 import { useGamepads } from "../context/GamepadsContext";
 
-const ActiveBindField = ({ onChange, value, field }: {
+const ActiveBindField = ({ onChange, value, field, label }: {
   value: ActiveBinding;
   onChange: (field: string, value: ActiveBinding) => void;
   field: string;
+  label: string;
 }) => {
   const [listening, setListening] = useState(false);
   const { gamepads, index } = useGamepads();;
@@ -53,7 +54,7 @@ const ActiveBindField = ({ onChange, value, field }: {
 
   return (
     <label>
-      {field}
+      {label}
       <br />
       {`bound to: ${currentBinding}`} <br />
       <button

@@ -17,22 +17,22 @@ const Config = () => {
   const extraFields: React.ReactElement[] = [];
   if (selectedItem) {
     if ('width' in selectedItem) {
-      extraFields.push(<InputField key='width' field='width' value={(selectedItem).width} onChange={handleChange} type='number' />);
+      extraFields.push(<InputField key='width' label='Width' field='width' value={(selectedItem).width} onChange={handleChange} type='number' />);
     }
     if ('height' in selectedItem) {
-      extraFields.push(<InputField key='height' field='height' value={(selectedItem).height} onChange={handleChange} type='number' />);
+      extraFields.push(<InputField key='height' label='Height' field='height' value={(selectedItem).height} onChange={handleChange} type='number' />);
     }
     if ('pointLength' in selectedItem) {
-      extraFields.push(<InputField key='pointLength' field='pointLength' value={(selectedItem).pointLength} onChange={handleChange} type='number' />);
+      extraFields.push(<InputField key='pointLength' label='Point Length' field='pointLength' value={(selectedItem).pointLength} onChange={handleChange} type='number' />);
     }
     if ('armLength' in selectedItem) {
-      extraFields.push(<InputField key='armLength' field='armLength' value={(selectedItem).armLength} onChange={handleChange} type='number' />);
+      extraFields.push(<InputField key='armLength' label='Arm Length' field='armLength' value={(selectedItem).armLength} onChange={handleChange} type='number' />);
     }
     if ('armWidth' in selectedItem) {
-      extraFields.push(<InputField key='armWidth' field='armWidth' value={(selectedItem).armWidth} onChange={handleChange} type='number' />);
+      extraFields.push(<InputField key='armWidth' label='Arm Width' field='armWidth' value={(selectedItem).armWidth} onChange={handleChange} type='number' />);
     }
     if ('radius' in selectedItem) {
-      extraFields.push(<InputField key='radius' field='radius' value={(selectedItem).radius} onChange={handleChange} type='number' />)
+      extraFields.push(<InputField key='radius' label='Border Radius' field='radius' value={(selectedItem).radius} onChange={handleChange} type='number' />)
     }
   }
 
@@ -72,30 +72,30 @@ const Config = () => {
                 <div className="config-section">
                   <div className="config-section-title">Orientation</div>
                   <div className="config-grid">
-                    <InputField field='x' value={selectedItem.x} onChange={handleChange} type='number' />
-                    <InputField field='y' value={selectedItem.y} onChange={handleChange} type='number' />
-                    <InputField field='rotation' value={selectedItem.rotation} onChange={handleChange} type='number' />
+                    <InputField label='X' field='x' value={selectedItem.x} onChange={handleChange} type='number' />
+                    <InputField label='Y' field='y' value={selectedItem.y} onChange={handleChange} type='number' />
+                    <InputField label='Rotation' field='rotation' value={selectedItem.rotation} onChange={handleChange} type='number' />
                   </div>
                 </div>
                 <div className="config-section">
                   <div className="config-section-title">Dimensions</div>
                   <div className="config-grid">
                     {extraFields}
-                    <InputField field='strokeWidth' value={selectedItem.strokeWidth} onChange={handleChange} type='number' />
+                    <InputField label='Border Width' field='strokeWidth' value={selectedItem.strokeWidth} onChange={handleChange} type='number' />
                   </div>
                 </div>
                 <div className="config-section">
                   <div className="config-section-title">Colours (unpressed)</div>
                   <div className="config-grid four">
-                    <InputField field='fillOff' value={selectedItem.fillOff} onChange={handleChange} type='color' />
-                    <InputField field='strokeOff' value={selectedItem.strokeOff} onChange={handleChange} type='color' />
+                    <InputField label='Fill' field='fillOff' value={selectedItem.fillOff} onChange={handleChange} type='color' /> <br />
+                    <InputField label='Border' field='strokeOff' value={selectedItem.strokeOff} onChange={handleChange} type='color' />
                   </div>
                 </div>
                 <div className="config-section">
                   <div className="config-section-title">Colours (pressed)</div>
                   <div className="config-grid four">
-                    <InputField field='fillOn' value={selectedItem.fillOn} onChange={handleChange} type='color' />
-                    <InputField field='strokeOn' value={selectedItem.strokeOn} onChange={handleChange} type='color' />
+                    <InputField label='Fill' field='fillOn' value={selectedItem.fillOn} onChange={handleChange} type='color' /> <br />
+                    <InputField label='Border' field='strokeOn' value={selectedItem.strokeOn} onChange={handleChange} type='color' />
                   </div>
                 </div>
 
@@ -117,12 +117,12 @@ const Config = () => {
               <div className="config-section-title">Bindings</div>
               <div className="config-grid full">
                 <MoveBindField value={selectedItem.moveBinding} onChange={handleChange} />
-                {('activeBinding' in selectedItem) && <ActiveBindField field='activeBinding' value={selectedItem.activeBinding} onChange={handleChange} /> }
-                {('upActiveBinding' in selectedItem) && <ActiveBindField field='upActiveBinding' value={selectedItem.upActiveBinding} onChange={handleChange} /> }
-                {('rightActiveBinding' in selectedItem) && <ActiveBindField field='rightActiveBinding' value={selectedItem.rightActiveBinding} onChange={handleChange} /> }
-                {('downActiveBinding' in selectedItem) && <ActiveBindField field='downActiveBinding' value={selectedItem.downActiveBinding} onChange={handleChange} /> }
-                {('leftActiveBinding' in selectedItem) && <ActiveBindField field='leftActiveBinding' value={selectedItem.leftActiveBinding} onChange={handleChange} /> }
-                {('strokeActiveBinding' in selectedItem) && <ActiveBindField field='strokeActiveBinding' value={selectedItem.strokeActiveBinding} onChange={handleChange} /> }
+                {('activeBinding' in selectedItem) && <ActiveBindField field='activeBinding' label={selectedItem.name} value={selectedItem.activeBinding} onChange={handleChange} /> }
+                {('upActiveBinding' in selectedItem) && <ActiveBindField field='upActiveBinding' label={'D-Pad Up'} value={selectedItem.upActiveBinding} onChange={handleChange} /> }
+                {('rightActiveBinding' in selectedItem) && <ActiveBindField field='rightActiveBinding' label={'D-Pad Right'} value={selectedItem.rightActiveBinding} onChange={handleChange} /> }
+                {('downActiveBinding' in selectedItem) && <ActiveBindField field='downActiveBinding' label={'D-Pad Down'} value={selectedItem.downActiveBinding} onChange={handleChange} /> }
+                {('leftActiveBinding' in selectedItem) && <ActiveBindField field='leftActiveBinding' label={'D-Pad Left'} value={selectedItem.leftActiveBinding} onChange={handleChange} /> }
+                {('strokeActiveBinding' in selectedItem) && <ActiveBindField field='strokeActiveBinding' label={'Border'} value={selectedItem.strokeActiveBinding} onChange={handleChange} /> }
               </div>
             </div>
           )}
