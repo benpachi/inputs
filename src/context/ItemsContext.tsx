@@ -1,7 +1,7 @@
-import { createContext, useContext, useReducer, useEffect, type ReactNode, type ActionDispatch } from 'react';
+import { useReducer, useEffect, createContext, type ReactNode, type ActionDispatch } from 'react';
 import type { CanvasItem } from '../types/canvas-item';
 
-interface State {
+export interface State {
   items: CanvasItem[];
   // todo: make this an array selectedIds instead (enable applying changes to multiple items at once)
   selectedId: string;
@@ -15,7 +15,7 @@ const initialState: State = {
 const ItemsContext = createContext<State | null>(null);
 const ItemsDispatchContext = createContext<ActionDispatch<[action: ItemsAction]> | null>(null);
 
-export const ItemsProvider = ({ children }: { children: ReactNode }) => {
+const ItemsProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(
     itemsReducer,
     initialState
@@ -34,7 +34,7 @@ export const ItemsProvider = ({ children }: { children: ReactNode }) => {
   );
 }
 
-type ItemsAction =
+export type ItemsAction =
   | { type: "set"; items: CanvasItem[] }
   | { type: "added"; kind: string }
   | { type: "changed"; item: CanvasItem }
@@ -204,16 +204,4 @@ function createItem(kind: string): CanvasItem {
   }
 }
 
-
-// These hooks are to eliminate null as a possible type for context. They are also just more descriptively named.
-export function useItems() {
-  const context = useContext(ItemsContext);
-  if (!context) { throw new Error('useItems must be used within a Provider') }
-  return context;
-};
-
-export function useItemsDispatch() {
-  const context = useContext(ItemsDispatchContext);
-  if (!context) { throw new Error('useItemsDispatch must be used within a Provider') }
-  return context;
-}
+export { ItemsProvider, ItemsContext, ItemsDispatchContext }

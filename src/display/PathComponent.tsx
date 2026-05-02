@@ -1,4 +1,4 @@
-import { useGamepads } from '../context/GamepadsContext';
+import { useGamepads } from '../context/useGamepads';
 import { type ActiveBinding, type StickMoveBinding } from '../types/binding';
 
 interface PathProps {
@@ -17,10 +17,10 @@ interface PathProps {
 
 const PathComponent = ({ pathString, fillOff, fillOn, strokeOff, strokeOn, strokeWidth, activeBinding, moveBinding, rotation }: PathProps) => {
   const { gamepads, selectedIndex, deadzone } = useGamepads();
-  let gamepad = gamepads[selectedIndex];
+  const gamepad = gamepads[selectedIndex];
 
-  let range = 50;
-  let tiltFactor = 0.25;
+  const range = 50;
+  const tiltFactor = 0.25;
 
   let active = false;
   let tiltStrength = 0;

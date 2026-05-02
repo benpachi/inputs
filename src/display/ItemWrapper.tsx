@@ -23,9 +23,10 @@ const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
         return <Plus item={item} />
       case 'd-pad':
         return <DPad item={item} />
-      default:
+      default: {
         const _exhaustiveCheck: never = item;
         return _exhaustiveCheck;
+      }
     }
   }
   

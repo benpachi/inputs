@@ -1,7 +1,7 @@
-import { useGamepads } from "../context/GamepadsContext";
+import { useGamepads } from "../context/useGamepads";
 
 const GamepadConfig = () => {
-  const { gamepads, selectedIndex, deadzone, setSelectedIndex, setDeadzone } = useGamepads();
+  const { gamepads, deadzone, setSelectedIndex, setDeadzone } = useGamepads();
 
   const indices = Object.keys(gamepads);
 

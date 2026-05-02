@@ -1,4 +1,4 @@
-import { useItems, useItemsDispatch } from "../context/ItemsContext";
+import { useItems, useItemsDispatch } from "../context/useItems";
 import ActiveBindField from "./ActiveBindField";
 import InputField from "./InputField";
 import MoveBindField from "./MoveBindField";
@@ -8,7 +8,7 @@ const Config = () => {
   const dispatch = useItemsDispatch();
   const selectedItem = items.find((item) => item.id === selectedId);
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: unknown) => {
     if (selectedItem) {
       dispatch({type: 'changed', item: {...selectedItem, [field]: value}});
     }

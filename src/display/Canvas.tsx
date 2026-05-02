@@ -1,4 +1,4 @@
-import { useItems, useItemsDispatch } from "../context/ItemsContext";
+import { useItems, useItemsDispatch } from "../context/useItems";
 import { useState } from "react";
 import ItemWrapper from "./ItemWrapper";
 

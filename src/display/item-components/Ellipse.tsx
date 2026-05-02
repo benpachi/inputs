@@ -6,7 +6,7 @@ const Ellipse = ({ item }: {
 }) => {
   const w = item.width;
   const h = item.height;
-  let d = `M ${-w/2} 0 ` +
+  const d = `M ${-w/2} 0 ` +
           `A ${w/2} ${h/2} 0 0 0 ${w/2} 0 ` +
           `A ${w/2} ${h/2} 0 0 0 ${-w/2} 0 Z`;
   

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ActiveBinding, StickMoveBinding } from "../types/binding";
-import { useGamepads } from "../context/GamepadsContext";
+import { useGamepads } from "../context/useGamepads";
 
 const ActiveBindField = ({ onChange, value, field, label }: {
   value: ActiveBinding;

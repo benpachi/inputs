@@ -1,8 +1,9 @@
-import { createContext, useContext, useState, useEffect, useRef, type ReactNode } from 'react';
+import { useState, useEffect, useRef, createContext, type ReactNode } from 'react';
+//import { GamepadsContext } from './GamepadsContext';
 
 export type Gamepads = Record<Gamepad['index'], Gamepad>;
 
-interface GamepadsContextType {
+export interface GamepadsContextType {
   gamepads: Gamepads;
   selectedIndex: number;
   setSelectedIndex: (index: number) => void;
@@ -12,7 +13,7 @@ interface GamepadsContextType {
 
 const GamepadsContext = createContext<GamepadsContextType | null>(null);
 
-export const GamepadsProvider = ({ children }: { children: ReactNode }) => {
+const GamepadsProvider = ({ children }: { children: ReactNode }) => {
   const [gamepads, setGamepads] = useState<Gamepads>({});
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [deadzone, setDeadzone] = useState(0.2);
@@ -87,8 +88,4 @@ export const GamepadsProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export function useGamepads() {
-  const context = useContext(GamepadsContext);
-  if (!context) { throw new Error('useGamepads must be used within a Provider') }
-  return context;
-};
+export { GamepadsProvider, GamepadsContext }
