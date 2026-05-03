@@ -1,6 +1,6 @@
 import type { DPadItem } from "../../types/canvas-item";
-import { type PointSpec, type Point, rotatePoints } from "../../util/point";
-import { computePath } from "../../util/computePath";
+import { type Point } from "../../util/point";
+import { type PathNode, createNode, rotatePathNodes, repeatNodePattern, computePath } from "../../util/computePath";
 import PathComponent from "../PathComponent";
 
 const DPad = ({ item }: {
@@ -10,32 +10,40 @@ const DPad = ({ item }: {
   const l = item.armLength;
   //Correction for tiny gaps between dbutton paths.
   const nudge = Math.SQRT1_2/2;
-  const origin: Point = {x: 0, y: 0};
 
-  const point0: Point = {x: 0, y: nudge};
-  const point1: Point = {x: -w/2, y: -w/2 + nudge};
-  const point2: Point = {x: -w/2, y: -l};
-  const point3: Point = {x: w/2, y: -l};
-  const point4: Point = {x: w/2, y: -w/2 + nudge};
+  const points: Point[] = [];
+  points.push({x: 0, y: 0 + nudge});
+  points.push({x: -w/2, y: -w/2 + nudge});
+  points.push({x: -w/2, y: -l});
+  points.push({x: w/2, y: -l});
+  points.push({x: w/2, y: -w/2 + nudge});
 
-  const armBase: PointSpec[] = [{...point0, maxRadius: 0}, {...point1, maxRadius: 0}, {...point2}, {...point3}, {...point4, maxRadius: 0}];
-  const patternBase: PointSpec[] = [{...point1, maxRadius: item.strokeWidth/2}, {...point2}, {...point3}]; 
+  const dButtonTemplate: PathNode[] = [];
+  dButtonTemplate.push(createNode(points[0], item.radius, 0, 0));
+  dButtonTemplate.push(createNode(points[1], item.radius, 0, 0));
+  dButtonTemplate.push(createNode(points[2], item.radius));
+  dButtonTemplate.push(createNode(points[3], item.radius));
+  dButtonTemplate.push(createNode(points[4], item.radius, 0, 0));
 
-  const rotations = [0, 90, 180, 270];
-  
-  const dOutline = computePath(
-    rotations.flatMap((angle) => rotatePoints(patternBase, origin, angle)),
-    item.radius
-  );
+  // todo: just put this in a function
+  const delta = 360 / 4;
+  const angles = [];
+  for (let degrees = 0; degrees < 360; degrees += delta) {
+    angles.push(degrees);
+  }
+  const [upNodes, rightNodes, downNodes, leftNodes] = angles.map((angle) => rotatePathNodes(dButtonTemplate, angle));
 
-  const dArms = rotations.map((angle) => computePath(rotatePoints(armBase, origin, angle), item.radius));
-  const [dUp, dRight, dDown, dLeft] = dArms;
+  const borderPattern: PathNode[] = [];
+  borderPattern.push(createNode(points[1], item.radius, 0, item.strokeWidth/2));
+  borderPattern.push(createNode(points[2], item.radius));
+  borderPattern.push(createNode(points[3], item.radius));
 
+  const borderNodes = repeatNodePattern(borderPattern, 4);
 
   return ( 
     <>
       <PathComponent 
-        pathString={dUp}
+        pathString={computePath(upNodes)}
         fillOff={item.fillOff}
         strokeOff={'transparent'}
         fillOn={item.fillOn}
@@ -46,7 +54,7 @@ const DPad = ({ item }: {
         rotation={item.rotation}
       />
       <PathComponent 
-        pathString={dRight}
+        pathString={computePath(rightNodes)}
         fillOff={item.fillOff}
         strokeOff={'transparent'}
         fillOn={item.fillOn}
@@ -57,7 +65,7 @@ const DPad = ({ item }: {
         rotation={item.rotation}
       />
       <PathComponent 
-        pathString={dDown}
+        pathString={computePath(downNodes)}
         fillOff={item.fillOff}
         strokeOff={'transparent'}
         fillOn={item.fillOn}
@@ -68,7 +76,7 @@ const DPad = ({ item }: {
         rotation={item.rotation}
       />
       <PathComponent 
-        pathString={dLeft}
+        pathString={computePath(leftNodes)}
         fillOff={item.fillOff}
         strokeOff={'transparent'}
         fillOn={item.fillOn}
@@ -79,7 +87,7 @@ const DPad = ({ item }: {
         rotation={item.rotation}
       />
       <PathComponent 
-        pathString={dOutline}         
+        pathString={computePath(borderNodes)}         
         fillOff={'transparent'}
         strokeOff={item.strokeOff}
         fillOn={'transparent'}

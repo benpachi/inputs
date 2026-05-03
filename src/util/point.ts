@@ -3,19 +3,17 @@ export interface Point {
 	y: number;
 }
 
-export interface PointSpec extends Point {
-	maxRadius?: number;
-}
+const origin: Point = {x: 0, y: 0};
 
-export function rotatePoints(points: Point[], origin: Point, degrees: number): Point[] {
+export function rotatePoints(points: Point[], degrees: number, center: Point = origin): Point[] {
 	const radians = degrees * Math.PI / 180;
 	return points.map((point) => {
-		const x = point.x - origin.x;
-		const y = point.y - origin.y;
+		const x = point.x - center.x;
+		const y = point.y - center.y;
 		return {
 			...point,
-			x: x * Math.cos(radians) - y * Math.sin(radians) + origin.x,
-			y: x * Math.sin(radians) + y * Math.cos(radians) + origin.y,
+			x: x * Math.cos(radians) - y * Math.sin(radians) + center.x,
+			y: x * Math.sin(radians) + y * Math.cos(radians) + center.y,
 		};
 	});
 }

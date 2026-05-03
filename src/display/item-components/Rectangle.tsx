@@ -1,6 +1,5 @@
 import type { RectangleItem } from "../../types/canvas-item";
-import { type PointSpec, type Point } from "../../util/point";
-import { computePath } from "../../util/computePath";
+import { type PathNode, createNode, computePath, } from "../../util/computePath";
 import PathComponent from "../PathComponent";
 
 const Rectangle = ({ item }: {
@@ -9,18 +8,15 @@ const Rectangle = ({ item }: {
   const w = item.width;
   const h = item.height;
 
-  const point0: Point = {x: -w/2, y: h/2};
-  const point1: Point = {x: -w/2, y: -h/2};
-  const point2: Point = {x: w/2, y: -h/2};
-  const point3: Point = {x: w/2, y: h/2};
-
-  const points: PointSpec[] = [{...point0}, {...point1}, {...point2}, {...point3}];
-
-  const d = computePath(points, item.radius);
+  const nodes: PathNode[] = [];
+  nodes.push(createNode({x: -w/2, y: h/2}, item.radius));
+  nodes.push(createNode({x: -w/2, y: -h/2}, item.radius));
+  nodes.push(createNode({x: w/2, y: -h/2}, item.radius));
+  nodes.push(createNode({x: w/2, y: h/2}, item.radius));
 
   return (
     <PathComponent 
-      pathString={d}
+      pathString={computePath(nodes)}
       fillOff={item.fillOff}
       strokeOff={item.strokeOff}
       fillOn={item.fillOn}

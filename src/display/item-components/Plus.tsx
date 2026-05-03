@@ -1,31 +1,23 @@
 import type { PlusItem } from "../../types/canvas-item";
-import { type PointSpec, type Point, rotatePoints } from "../../util/point";
-import { computePath } from "../../util/computePath";
+import { type PathNode, createNode, repeatNodePattern, computePath, } from "../../util/computePath";
 import PathComponent from "../PathComponent";
 
 const Plus = ({ item }: {
   item: PlusItem,
 }) => {
   const w = item.armWidth;
-  const l = item.armLength
-  const origin: Point = {x: 0, y: 0};
+  const l = item.armLength;
 
-  const point0: Point = {x: -w/2, y: -w/2};
-  const point1: Point = {x: -w/2, y: -l};
-  const point2: Point = {x: w/2, y: -l};
+  const pattern: PathNode[] = [];
+  pattern.push(createNode({x: -w/2, y: -w/2}, item.radius, 0, item.strokeWidth/2));
+  pattern.push(createNode({x: -w/2, y: -l}, item.radius));
+  pattern.push(createNode({x: w/2, y: -l}, item.radius));
 
-  const patternBase: PointSpec[] = [{...point0, maxRadius: item.strokeWidth/2}, {...point1}, {...point2}]; 
-
-  const rotations = [0, 90, 180, 270];
-
-  const d = computePath(
-    rotations.flatMap((angle) => rotatePoints(patternBase, origin, angle)),
-    item.radius
-  );
+  const nodes: PathNode[] = repeatNodePattern(pattern, 4);
 
   return (
     <PathComponent 
-      pathString={d}
+      pathString={computePath(nodes)}
       fillOff={item.fillOff}
       strokeOff={item.strokeOff}
       fillOn={item.fillOn}
