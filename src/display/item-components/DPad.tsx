@@ -1,6 +1,7 @@
 import type { DPadItem } from "../../types/canvas-item";
 import { type Point } from "../../util/point";
-import { computePath, } from "../util/computePath";
+import { computePath } from "../util/computePath";
+import { clampValue } from "../../util/math";
 import { type PathNode, createNode, repeatNodePattern } from "../util/pathNode";
 import PathComponent from "../PathComponent";
 
@@ -20,15 +21,15 @@ const DPad = ({ item }: {
   points.push({x: w/2, y: -w/2});
 
   const dButtonPattern: PathNode[] = [];
-  dButtonPattern.push(createNode(points[0], item.radius, 0, 0));
-  dButtonPattern.push(createNode(points[1], item.radius, 0, 0));
+  dButtonPattern.push(createNode(points[0], clampValue(item.radius, 0, 0)));
+  dButtonPattern.push(createNode(points[1], clampValue(item.radius, 0, 0)));
   dButtonPattern.push(createNode(points[2], item.radius));
   dButtonPattern.push(createNode(points[3], item.radius));
-  dButtonPattern.push(createNode(points[4], item.radius, 0, 0));
+  dButtonPattern.push(createNode(points[4], clampValue(item.radius, 0, 0)));
   const [upNodes, rightNodes, downNodes, leftNodes] = repeatNodePattern(dButtonPattern, 4);
 
   const borderPattern: PathNode[] = [];
-  borderPattern.push(createNode(points[1], item.radius, 0, item.strokeWidth/2));
+  borderPattern.push(createNode(points[1], clampValue(item.radius, 0, item.strokeWidth/2)));
   borderPattern.push(createNode(points[2], item.radius));
   borderPattern.push(createNode(points[3], item.radius));
   const borderNodes = repeatNodePattern(borderPattern, 4).flat();

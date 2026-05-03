@@ -1,5 +1,4 @@
 import { type Point } from "../../util/point";
-import { clampValue } from "../../util/math";
 import { rotatePoint } from "../../util/point";
 
 // Node on the path with incoming/outgoing radii
@@ -9,11 +8,22 @@ export interface PathNode {
   rOut: number;
 }
 
-export function createNode(point: Point, radius: number, minRadius?: number, maxRadius?: number): PathNode {
-  return {
-    point: point,
-    rIn: clampValue(radius, minRadius, maxRadius),
-    rOut: clampValue(radius, minRadius, maxRadius)
+// Constructs a PathNode object given a single radius or two specific incoming/outgoing radii
+export function createNode(point: Point, radius: number): PathNode;
+export function createNode(point: Point, radiusIn: number, radiusOut: number): PathNode;
+export function createNode(point: Point, radiusOrRadiusIn: number, radiusOut?: number): PathNode {
+  if (radiusOut !== undefined) {
+    return {
+      point: point,
+      rIn: radiusOrRadiusIn,
+      rOut: radiusOut
+    }
+  } else {
+    return {
+      point: point,
+      rIn: radiusOrRadiusIn,
+      rOut: radiusOrRadiusIn
+    }
   }
 }
 
@@ -24,7 +34,7 @@ export function rotatePathNodes(nodes: PathNode[], degrees: number): PathNode[] 
   }));
 }
 
-// Returns an array of PathNode arrays
+// Returns an array of PathNode arrays, repeated in a circular pattern about the origin
 export function repeatNodePattern(template: PathNode[], degree: number): PathNode[][] {
   const delta = 360 / degree;
   const angles = [];
