@@ -1,5 +1,4 @@
-import { type Point } from "../../util/point";
-import { rotatePoint } from "../../util/point";
+import { type Point, rotatePoint } from "../../util/point";
 
 // Node on the path with incoming/outgoing radii
 export interface PathNode {
@@ -34,12 +33,13 @@ export function rotatePathNodes(nodes: PathNode[], degrees: number): PathNode[] 
   }));
 }
 
-// Returns an array of PathNode arrays, repeated in a circular pattern about the origin
-export function repeatNodePattern(template: PathNode[], degree: number): PathNode[][] {
-  const delta = 360 / degree;
-  const angles = [];
-  for (let degrees = 0; degrees < 360; degrees += delta) {
-    angles.push(degrees);
+// Returns an array of PathNode arrays, repeated in a circular pattern about the origin.
+// The degree is the number of times the pattern is to be repeated.
+export function repeatNodePattern(pattern: PathNode[], degree: number): PathNode[][] {
+  const angle = 360 / degree;
+  const patternArray = [];
+  for (let degrees = 0; degrees < 360; degrees += angle) {
+    patternArray.push(rotatePathNodes(pattern, degrees));
   }
-  return angles.map((angle) => rotatePathNodes(template, angle));
+  return patternArray;
 }

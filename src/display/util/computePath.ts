@@ -11,14 +11,14 @@ interface QuadraticBezier {
 
 // Takes in an ordered array of path nodes with radii, returns an SVG path string
 export function computePath(nodes: PathNode[]): string {
-  resolveNodeRadii(nodes);
+  scaleRadii(nodes);
   const curves = computeCurves(nodes);
   return buildPath(curves);
 }
 
 // Ensures the radii of adjacent nodes don't exceed the distance between them, scaling them down if needed
 // Currently scales the radii of each corner separately
-function resolveNodeRadii(nodes: PathNode[]) {
+function scaleRadii(nodes: PathNode[]) {
   const l = nodes.length;
 
   for (let i = 0; i < l; i++) {
