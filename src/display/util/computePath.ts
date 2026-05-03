@@ -1,11 +1,6 @@
-import { lerpPoint, type Point, pointDist, approxEqual, rotatePoints } from "./point";
-
-// Node on the path with incoming/outgoing radii
-export interface PathNode {
-  point: Point;
-  rIn: number;
-  rOut: number;
-}
+import { type Point, pointDist, lerpPoint } from "../../util/point";
+import { approxEqual } from "../../util/math";
+import { type PathNode } from "./pathNode";
 
 // Representation of a quadratic bézier curve
 interface QuadraticBezier {
@@ -14,42 +9,16 @@ interface QuadraticBezier {
   end: Point;
 }
 
-export function createNode(point: Point, radius: number, minRadius?: number, maxRadius?: number): PathNode {
-  return {
-    point: point,
-    rIn: clampValue(radius, minRadius, maxRadius),
-    rOut: clampValue(radius, minRadius, maxRadius)
-  }
-}
-
-export function rotatePathNodes(nodes: PathNode[], degrees: number): PathNode[] {
-  const rotatedPoints = rotatePoints(nodes.map(node => node.point), degrees);
-  return rotatedPoints.map((point, i) => ({
-    point,
-    rIn: nodes[i].rIn,
-    rOut: nodes[i].rOut
-  }));
-}
-
-export function repeatNodePattern(template: PathNode[], degree: number): PathNode[] {
-  const delta = 360 / degree;
-  const angles = [];
-  for (let degrees = 0; degrees < 360; degrees += delta) {
-    angles.push(degrees);
-  }
-  return angles.flatMap((angle) => rotatePathNodes(template, angle))
-}
-
 // Takes in an ordered array of path nodes with radii, returns an SVG path string
 export function computePath(nodes: PathNode[]): string {
-  resolveRadii(nodes);
+  resolveNodeRadii(nodes);
   const curves = computeCurves(nodes);
   return buildPath(curves);
 }
 
 // Ensures the radii of adjacent nodes don't exceed the distance between them, scaling them down if needed
 // Currently scales the radii of each corner separately
-function resolveRadii(nodes: PathNode[]) {
+function resolveNodeRadii(nodes: PathNode[]) {
   const l = nodes.length;
 
   for (let i = 0; i < l; i++) {
@@ -108,17 +77,4 @@ function buildPath(curves: QuadraticBezier[]): string {
   }
 
   return d += 'Z';
-}
-
-function clampValue(value: number, min?: number, max?: number): number {
-  if (min && max && min > max) {
-    return value;
-  }
-  if (min && value < min) {
-    value = min;
-  }
-  if (max && value > max) {
-    value = max;
-  }
-  return value;
 }

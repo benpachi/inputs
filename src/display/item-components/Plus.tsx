@@ -1,5 +1,6 @@
 import type { PlusItem } from "../../types/canvas-item";
-import { type PathNode, createNode, repeatNodePattern, computePath, } from "../../util/computePath";
+import { computePath, } from "../util/computePath";
+import { type PathNode, createNode, repeatNodePattern } from "../util/pathNode";
 import PathComponent from "../PathComponent";
 
 const Plus = ({ item }: {
@@ -8,12 +9,11 @@ const Plus = ({ item }: {
   const w = item.armWidth;
   const l = item.armLength;
 
-  const pattern: PathNode[] = [];
-  pattern.push(createNode({x: -w/2, y: -w/2}, item.radius, 0, item.strokeWidth/2));
-  pattern.push(createNode({x: -w/2, y: -l}, item.radius));
-  pattern.push(createNode({x: w/2, y: -l}, item.radius));
-
-  const nodes: PathNode[] = repeatNodePattern(pattern, 4);
+  const plusPattern: PathNode[] = [];
+  plusPattern.push(createNode({x: -w/2, y: -w/2}, item.radius, 0, item.strokeWidth/2));
+  plusPattern.push(createNode({x: -w/2, y: -l}, item.radius));
+  plusPattern.push(createNode({x: w/2, y: -l}, item.radius));
+  const nodes: PathNode[] = repeatNodePattern(plusPattern, 4).flat();
 
   return (
     <PathComponent 

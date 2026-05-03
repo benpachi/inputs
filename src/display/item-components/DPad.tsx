@@ -1,6 +1,7 @@
 import type { DPadItem } from "../../types/canvas-item";
 import { type Point } from "../../util/point";
-import { type PathNode, createNode, rotatePathNodes, repeatNodePattern, computePath } from "../../util/computePath";
+import { computePath, } from "../util/computePath";
+import { type PathNode, createNode, repeatNodePattern } from "../util/pathNode";
 import PathComponent from "../PathComponent";
 
 const DPad = ({ item }: {
@@ -8,37 +9,29 @@ const DPad = ({ item }: {
 }) => {
   const w = item.armWidth; 
   const l = item.armLength;
-  //Correction for tiny gaps between dbutton paths.
-  const nudge = Math.SQRT1_2/2;
+  // Correction for tiny gaps between dbutton paths.
+  // const nudge = Math.SQRT1_2/2;
 
   const points: Point[] = [];
-  points.push({x: 0, y: 0 + nudge});
-  points.push({x: -w/2, y: -w/2 + nudge});
+  points.push({x: 0, y: 0});
+  points.push({x: -w/2, y: -w/2});
   points.push({x: -w/2, y: -l});
   points.push({x: w/2, y: -l});
-  points.push({x: w/2, y: -w/2 + nudge});
+  points.push({x: w/2, y: -w/2});
 
-  const dButtonTemplate: PathNode[] = [];
-  dButtonTemplate.push(createNode(points[0], item.radius, 0, 0));
-  dButtonTemplate.push(createNode(points[1], item.radius, 0, 0));
-  dButtonTemplate.push(createNode(points[2], item.radius));
-  dButtonTemplate.push(createNode(points[3], item.radius));
-  dButtonTemplate.push(createNode(points[4], item.radius, 0, 0));
-
-  // todo: just put this in a function
-  const delta = 360 / 4;
-  const angles = [];
-  for (let degrees = 0; degrees < 360; degrees += delta) {
-    angles.push(degrees);
-  }
-  const [upNodes, rightNodes, downNodes, leftNodes] = angles.map((angle) => rotatePathNodes(dButtonTemplate, angle));
+  const dButtonPattern: PathNode[] = [];
+  dButtonPattern.push(createNode(points[0], item.radius, 0, 0));
+  dButtonPattern.push(createNode(points[1], item.radius, 0, 0));
+  dButtonPattern.push(createNode(points[2], item.radius));
+  dButtonPattern.push(createNode(points[3], item.radius));
+  dButtonPattern.push(createNode(points[4], item.radius, 0, 0));
+  const [upNodes, rightNodes, downNodes, leftNodes] = repeatNodePattern(dButtonPattern, 4);
 
   const borderPattern: PathNode[] = [];
   borderPattern.push(createNode(points[1], item.radius, 0, item.strokeWidth/2));
   borderPattern.push(createNode(points[2], item.radius));
   borderPattern.push(createNode(points[3], item.radius));
-
-  const borderNodes = repeatNodePattern(borderPattern, 4);
+  const borderNodes = repeatNodePattern(borderPattern, 4).flat();
 
   return ( 
     <>

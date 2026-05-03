@@ -1,5 +1,6 @@
 import type { RectangleItem } from "../../types/canvas-item";
-import { type PathNode, createNode, computePath, } from "../../util/computePath";
+import { computePath, } from "../util/computePath";
+import { type PathNode, createNode } from "../util/pathNode";
 import PathComponent from "../PathComponent";
 
 const Rectangle = ({ item }: {
