@@ -3,13 +3,12 @@ import type { CanvasItem } from '../types/canvas-item';
 
 export interface State {
   items: CanvasItem[];
-  // todo: make this an array selectedIds instead (enable applying changes to multiple items at once)
-  selectedId: string;
+  selectedIds: string[];
 }
 
 const initialState: State = {
   items: JSON.parse(localStorage.getItem('items') || '[]'),
-  selectedId: ''
+  selectedIds: ['']
 }
 
 const ItemsContext = createContext<State | null>(null);
@@ -35,24 +34,20 @@ const ItemsProvider = ({ children }: { children: ReactNode }) => {
 }
 
 export type ItemsAction =
-  | { type: "set"; items: CanvasItem[] }
-  | { type: "added"; kind: string }
-  | { type: "changed"; item: CanvasItem }
-  | { type: "deleted"; itemId: string }
-  | { type: "duplicated"; item: CanvasItem }
-  | { type: "selected"; itemId: string } 
-  | { type: "deselected"; itemId: string }
+  | { type: "added_item"; kind: string }
+  | { type: "changed_item"; item: CanvasItem }
+  | { type: "deleted_selected" }
+  | { type: "duplicated_selected"; item: CanvasItem }
+  | { type: "added_selection"; id: string } 
+  | { type: "cleared_selection"; }
 
 function itemsReducer(state: State, action: ItemsAction) {
   switch (action.type) {
-    case 'set': {
-      return {...state, items: action.items, selectedId: ''};
-    }
-    case 'added': {
+    case 'added_item': {
       const newItem: CanvasItem = createItem(action.kind);
-      return {...state, items: [...state.items, newItem], selectedId: newItem.id};
+      return {...state, items: [...state.items, newItem], selectedIds: [newItem.id]};
     }
-    case 'changed': {
+    case 'changed_item': {
       return {
         ...state, 
         items: state.items.map(item => {
@@ -64,18 +59,27 @@ function itemsReducer(state: State, action: ItemsAction) {
         })
       };
     }
-    case 'deleted': {
-      return {...state, items: state.items.filter(i => i.id !== action.itemId), selectedId: ''};
+    case 'deleted_selected': {
+      return {...state, items: state.items.filter((item) => state.selectedIds.includes(item.id)), selectedIds: [] as string[]};
     }
-    case 'duplicated': {
-      const newItem: CanvasItem = {...action.item, id: crypto.randomUUID(), x: action.item.x+15, y: action.item.y+15};
-      return {...state, items: [...state.items, newItem], selectedId: newItem.id};
+    case 'duplicated_selected': {
+      const newState = { ...state, selectedIds: [] as string[]}
+      state.selectedIds.forEach((selectedId) => {
+        const selectedItem = state.items.find((item) => item.id === selectedId);
+        if (selectedItem !== undefined) {
+          const newID = crypto.randomUUID();
+          const newItem = {...selectedItem, id: newID, x: selectedItem.x + 15, y: selectedItem.y + 15}
+          newState.items.push(newItem);
+          newState.selectedIds.push(newID);
+        }
+      });
+      return newState;
     }
-    case 'selected': {
-      return {...state, selectedId: action.itemId};
+    case 'added_selection': {
+      return {...state, selectedIds: [...state.selectedIds, action.id]};
     }
-    case 'deselected': {
-      return {...state, selectedId: ''};
+    case 'cleared_selection': {
+      return {...state, selectedIds: [] as string[]};
     }
     // Set off a TypeScript error if some other type is able to make it here
     default: {
