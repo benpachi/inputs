@@ -8,7 +8,7 @@ export interface State {
 
 const initialState: State = {
   items: JSON.parse(localStorage.getItem('items') || '[]'),
-  selectedIds: ['']
+  selectedIds: [] as string[]
 }
 
 const ItemsContext = createContext<State | null>(null);
@@ -37,9 +37,10 @@ export type ItemsAction =
   | { type: "added_item"; kind: string }
   | { type: "changed_item"; item: CanvasItem }
   | { type: "deleted_selected" }
-  | { type: "duplicated_selected"; item: CanvasItem }
+  | { type: "duplicated_selected"; }
   | { type: "added_selection"; id: string } 
-  | { type: "cleared_selection"; }
+  | { type: "set_single_selection"; id: string}
+  | { type: "cleared_selections"; }
 
 function itemsReducer(state: State, action: ItemsAction) {
   switch (action.type) {
@@ -76,9 +77,16 @@ function itemsReducer(state: State, action: ItemsAction) {
       return newState;
     }
     case 'added_selection': {
-      return {...state, selectedIds: [...state.selectedIds, action.id]};
+      if (state.selectedIds.includes(action.id)) {
+        return state;
+      } else {
+        return {...state, selectedIds: [...state.selectedIds, action.id]};
+      }
     }
-    case 'cleared_selection': {
+    case 'set_single_selection': {
+      return {...state, selectedIds: [action.id]};
+    }
+    case 'cleared_selections': {
       return {...state, selectedIds: [] as string[]};
     }
     // Set off a TypeScript error if some other type is able to make it here

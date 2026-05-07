@@ -1,53 +1,66 @@
 import { useItems, useItemsDispatch } from "../context/useItems";
 import { useState } from "react";
 import ItemWrapper from "./ItemWrapper";
+import type { Point } from "../util/point";
 
 const Canvas = () => {
-  const {items, selectedId} = useItems();
+  const {items, selectedIds} = useItems();
   const dispatch = useItemsDispatch();
   const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
-  const selectedItem = items.find((i) => i.id === selectedId);
 
-  const handleMouseDown = (e: React.MouseEvent, id: string)  => {
+  const handleMouseDownOnItem = (e: React.MouseEvent, id: string)  => {
     e.stopPropagation();
-    const { offsetX, offsetY } = e.nativeEvent;
-    const item = items.find((i) => i.id === id);
-    
-    if (!item) return;
+    if (!items.find((item) => item.id === id)) return;
+
+    if (!selectedIds.includes(id)) {
+      if (e.shiftKey) {
+        dispatch({ type: 'added_selection', id: id });
+      } else {
+        dispatch({ type: 'set_single_selection', id: id });
+      }
+    }
 
     setIsDragging(true);
-    dispatch({ type: 'selected', itemId: id });
-    setDragOffset({ 
-      x: offsetX - item.x, 
-      y: offsetY - item.y 
-    });
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!isDragging || !selectedItem) return;
+    if (!isDragging) return;
 
-    const { offsetX, offsetY } = e.nativeEvent;
+    const { movementX, movementY } = e.nativeEvent;
 
-    dispatch({
-      type: 'changed', 
-      item: {
-        ...selectedItem, 
-        x: offsetX - dragOffset.x, 
-        y: offsetY - dragOffset.y,
-      }
+    moveSelectedItems({ 
+      x: -movementX, 
+      y: -movementY 
     });
   }
 
   const handleMouseUp = () => {
     setIsDragging(false);
-    setDragOffset({ x: 0, y: 0 })
+  }
+
+  const moveSelectedItems = (vector: Point) => {
+    for (const id of selectedIds) {
+      console.log(id);
+      const selectedItem = items.find((item) => item.id === id);
+      if (selectedItem) {
+        console.log('hello');
+        dispatch({
+          type: 'changed_item',
+          item: {
+            ...selectedItem,
+            x: selectedItem.x - vector.x,
+            y: selectedItem.y - vector.y
+          }
+        })
+      }
+
+    }
   }
 
   return ( 
     <svg 
-      onMouseDown={() => dispatch({ type: 'selected', itemId: ''})}
+      onMouseDown={() => dispatch({ type: 'cleared_selections' })}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
       onMouseMove={handleMouseMove}
@@ -56,7 +69,7 @@ const Canvas = () => {
       height='360'
     >
       {items.map((item) => 
-        <ItemWrapper key={item.id} isSelected={selectedId === item.id} onMouseDown={handleMouseDown} canvasItem={item}/>
+        <ItemWrapper key={item.id} isSelected={selectedIds.includes(item.id)} onMouseDown={handleMouseDownOnItem} canvasItem={item}/>
       )}
     </svg>
   );

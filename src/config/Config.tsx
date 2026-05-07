@@ -4,13 +4,13 @@ import InputField from "./InputField";
 import MoveBindField from "./MoveBindField";
 
 const Config = () => {
-  const {items, selectedId} = useItems();
+  const {items, selectedIds} = useItems();
   const dispatch = useItemsDispatch();
-  const selectedItem = items.find((item) => item.id === selectedId);
+  const selectedItem = items.find((item) => item.id === selectedIds[0]);
 
   const handleChange = (field: string, value: unknown) => {
     if (selectedItem) {
-      dispatch({type: 'changed', item: {...selectedItem, [field]: value}});
+      dispatch({type: 'changed_item', item: {...selectedItem, [field]: value}});
     }
   }
 
@@ -44,11 +44,11 @@ const Config = () => {
             <div className="config-section">
               <div className="config-section-title">Add Item</div>
               <div className="flexrow" style={{justifyContent: 'flex-start', flexWrap: 'wrap', gap: '8px'}}>
-                <button onClick={() => dispatch({type: 'added', kind: 'ellipse'})}>Ellipse</button>
-                <button onClick={() => dispatch({type: 'added', kind: 'rectangle'})}>Rectangle</button>
-                <button onClick={() => dispatch({type: 'added', kind: 'd-button'})}>D-Button</button>
-                <button onClick={() => dispatch({type: 'added', kind: 'plus'})}>Plus</button>
-                <button onClick={() => dispatch({type: 'added', kind: 'd-pad'})}>D-Pad</button>
+                <button onClick={() => dispatch({type: 'added_item', kind: 'ellipse'})}>Ellipse</button>
+                <button onClick={() => dispatch({type: 'added_item', kind: 'rectangle'})}>Rectangle</button>
+                <button onClick={() => dispatch({type: 'added_item', kind: 'd-button'})}>D-Button</button>
+                <button onClick={() => dispatch({type: 'added_item', kind: 'plus'})}>Plus</button>
+                <button onClick={() => dispatch({type: 'added_item', kind: 'd-pad'})}>D-Pad</button>
               </div>
             </div>
 
@@ -56,8 +56,8 @@ const Config = () => {
               <div className="config-section-title">Select Item</div>
               <div className="flexrow">
                 <select
-                  value={selectedId}
-                  onChange={(e) => dispatch({type: 'selected', itemId: e.target.value})}
+                  value={selectedIds[0]}
+                  onChange={(e) => dispatch({type: 'set_single_selection', id: e.target.value})}
                 >
                   <option value="">(none)</option>
                   {items.map((item) => (
@@ -102,8 +102,8 @@ const Config = () => {
                 <div className="config-section">
                   <div className="config-section-title">Actions</div>
                   <div className="flexrow" style={{gap: '8px'}}>
-                    <button onClick={() => { dispatch({ type: 'duplicated', item: selectedItem }) }}>Duplicate</button>
-                    <button onClick={() => { dispatch({ type: 'deleted', itemId: selectedItem.id }) }}>Delete</button>
+                    <button onClick={() => { dispatch({ type: 'duplicated_selected' }) }}>Duplicate</button>
+                    <button onClick={() => { dispatch({ type: 'deleted_selected' }) }}>Delete</button>
                   </div>
                 </div>
               </>
