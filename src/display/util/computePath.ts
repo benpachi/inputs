@@ -17,7 +17,7 @@ export function computePath(nodes: PathNode[]): string {
 }
 
 // Ensures the radii of adjacent nodes don't exceed the distance between them, scaling them down if needed
-// Currently scales the radii of each corner separately
+// Currently scales the radii of each node separately
 function scaleRadii(nodes: PathNode[]) {
   const l = nodes.length;
 
@@ -36,7 +36,7 @@ function scaleRadii(nodes: PathNode[]) {
   }
 }
 
-// Take in an array of corner objects, return an array of bézier curve representations
+// Take in an array of path nodes, return an array of bézier curve representations
 function computeCurves(nodes: PathNode[]): QuadraticBezier[] {
   const l = nodes.length;
   return nodes.map((curr, i) => {

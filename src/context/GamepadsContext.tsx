@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, createContext, type ReactNode } from 'react';
-//import { GamepadsContext } from './GamepadsContext';
 
 export type Gamepads = Record<Gamepad['index'], Gamepad>;
 

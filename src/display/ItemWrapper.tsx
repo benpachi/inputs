@@ -4,43 +4,62 @@ import Ellipse from "./item-components/Ellipse";
 import DButton from "./item-components/DButton";
 import Plus from "./item-components/Plus";
 import DPad from "./item-components/DPad";
+import { useRef } from 'react';
+import { useBBox } from './hooks/useBoundingBox';
 
 const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
     canvasItem: CanvasItem, 
     isSelected: boolean,
     onMouseDown: (e: React.MouseEvent, id: string) => void;
   }) => {
-  
-  const renderCanvasItem = (item: CanvasItem) => {
-    switch (item.kind) {
+
+  const elementRef = useRef<SVGGElement>(null);
+  const bbox = useBBox(elementRef, canvasItem);
+
+  const renderCanvasItem = () => {
+    switch (canvasItem.kind) {
       case 'rectangle':
-        return <Rectangle item={item} />
+        return <Rectangle item={canvasItem} />
       case 'ellipse':
-        return <Ellipse item={item} />
+        return <Ellipse item={canvasItem} />
       case 'd-button':
-        return <DButton item={item} />
+        return <DButton item={canvasItem} />
       case 'plus':
-        return <Plus item={item} />
+        return <Plus item={canvasItem} />
       case 'd-pad':
-        return <DPad item={item} />
+        return <DPad item={canvasItem} />
       default: {
-        const _exhaustiveCheck: never = item;
+        const _exhaustiveCheck: never = canvasItem;
         return _exhaustiveCheck;
       }
     }
   }
-  
+
   return (
-    <g
-      onMouseDown={(e) => onMouseDown(e, canvasItem.id)}
-      overflow="visible"
-      transform={`
-        translate(${canvasItem.x}, ${canvasItem.y}) 
-      `}
-      filter={isSelected ? 'drop-shadow(0 0 4px #000000)' : undefined}
-    >
-      {renderCanvasItem(canvasItem)}
-    </g>
+    <>
+      {bbox && isSelected ? 
+        <g transform={`translate(${canvasItem.x}, ${canvasItem.y})`}>
+          <rect 
+            x={bbox.x - canvasItem.strokeWidth/2}
+            y={bbox.y - canvasItem.strokeWidth/2}
+            width={bbox.width + canvasItem.strokeWidth} 
+            height={bbox.height + canvasItem.strokeWidth} 
+            stroke='blue' 
+            fill='transparent'
+          />
+        </g>
+      : <></>}
+      <g
+        ref={elementRef}
+        onMouseDown={(e) => onMouseDown(e, canvasItem.id)}
+        overflow="visible"
+        transform={`
+          translate(${canvasItem.x}, ${canvasItem.y}) 
+        `}
+      >
+        {renderCanvasItem()}
+      </g>
+    </>
   );
 }
  
