@@ -14,7 +14,7 @@ const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
   }) => {
 
   const elementRef = useRef<SVGGElement>(null);
-  const bbox = useBBox(elementRef, canvasItem);
+  const bbox = useBBox(elementRef);
 
   const renderCanvasItem = () => {
     switch (canvasItem.kind) {
