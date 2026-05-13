@@ -1,4 +1,4 @@
-import type { PlusItem } from "../../types/canvas-item";
+import type { PlusItem } from "../../types/display-item";
 import { computePath, } from "../util/computePath";
 import { clampValue } from "../../util/math";
 import { type PathNode, createNode, repeatNodePattern } from "../util/pathNode";

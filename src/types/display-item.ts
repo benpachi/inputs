@@ -61,4 +61,4 @@ export interface DPadItem extends PathBase {
   strokeActiveBinding: ActiveBinding;
 }
 
-export type CanvasItem = EllipseItem | RectangleItem | DButtonItem | PlusItem | DPadItem;
+export type DisplayItem = EllipseItem | RectangleItem | DButtonItem | PlusItem | DPadItem;

@@ -1,4 +1,4 @@
-import type { CanvasItem } from '../types/canvas-item';
+import type { DisplayItem } from '../types/display-item';
 import Rectangle from "./item-components/Rectangle";
 import Ellipse from "./item-components/Ellipse";
 import DButton from "./item-components/DButton";
@@ -8,13 +8,14 @@ import { useRef } from 'react';
 import { useBBox } from './hooks/useBoundingBox';
 
 const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
-    canvasItem: CanvasItem, 
+    canvasItem: DisplayItem, 
     isSelected: boolean,
     onMouseDown: (e: React.MouseEvent, id: string) => void;
   }) => {
 
   const elementRef = useRef<SVGGElement>(null);
   const bbox = useBBox(elementRef);
+  // getBBox() 'stroke: true' setting doesn't work, so for now I have to let this component be coupled with its associated item
 
   const renderCanvasItem = () => {
     switch (canvasItem.kind) {
@@ -36,30 +37,26 @@ const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
   }
 
   return (
-    <>
-      {bbox && isSelected ? 
-        <g transform={`translate(${canvasItem.x}, ${canvasItem.y})`}>
-          <rect 
-            x={bbox.x - canvasItem.strokeWidth/2}
-            y={bbox.y - canvasItem.strokeWidth/2}
-            width={bbox.width + canvasItem.strokeWidth} 
-            height={bbox.height + canvasItem.strokeWidth} 
-            stroke='blue' 
-            fill='transparent'
-          />
-        </g>
-      : <></>}
-      <g
-        ref={elementRef}
-        onMouseDown={(e) => onMouseDown(e, canvasItem.id)}
-        overflow="visible"
-        transform={`
-          translate(${canvasItem.x}, ${canvasItem.y}) 
-        `}
-      >
+    <g 
+      transform={`translate(${canvasItem.x}, ${canvasItem.y})`}
+      onMouseDown={(e) => (onMouseDown(e, canvasItem.id))}
+      overflow="visible"
+    >
+      <g ref={elementRef} >
         {renderCanvasItem()}
       </g>
-    </>
+      {bbox && isSelected ? 
+        <rect 
+          x={bbox.x - canvasItem.strokeWidth/2}
+          y={bbox.y - canvasItem.strokeWidth/2}
+          width={bbox.width + canvasItem.strokeWidth} 
+          height={bbox.height + canvasItem.strokeWidth} 
+          stroke='blue'
+          fill='transparent'
+          opacity='0.8'
+        /> : null
+      }
+    </g>
   );
 }
  

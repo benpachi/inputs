@@ -1,5 +1,5 @@
 import Config from './config/Config';
-import Canvas from './display/Canvas';
+import DisplayCanvas from './display/Canvas';
 import { ItemsProvider } from './context/ItemsContext';
 import { GamepadsProvider } from './context/GamepadsContext';
 import GamepadConfig from './config/GamepadConfig';
@@ -10,7 +10,7 @@ function App() {
       <GamepadsProvider>
         <section className='layout-flexrow'>
           <section className='layout-flexcol'>
-            <Canvas />
+            <DisplayCanvas width={640} height={360} />
             <GamepadConfig />
           </ section>
           <Config />

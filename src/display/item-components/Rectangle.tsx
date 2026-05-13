@@ -1,4 +1,4 @@
-import type { RectangleItem } from "../../types/canvas-item";
+import type { RectangleItem } from "../../types/display-item";
 import { computePath, } from "../util/computePath";
 import { type PathNode, createNode } from "../util/pathNode";
 import PathComponent from "../PathComponent";

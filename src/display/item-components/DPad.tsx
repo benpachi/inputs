@@ -1,4 +1,4 @@
-import type { DPadItem } from "../../types/canvas-item";
+import type { DPadItem } from "../../types/display-item";
 import { type Point } from "../../util/point";
 import { computePath } from "../util/computePath";
 import { clampValue } from "../../util/math";

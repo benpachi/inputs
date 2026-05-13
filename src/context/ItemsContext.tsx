@@ -1,8 +1,8 @@
 import { useReducer, useEffect, createContext, type ReactNode, type ActionDispatch } from 'react';
-import type { CanvasItem } from '../types/canvas-item';
+import type { DisplayItem } from '../types/display-item';
 
 export interface State {
-  items: CanvasItem[];
+  items: DisplayItem[];
   selectedIds: string[];
 }
 
@@ -35,17 +35,18 @@ const ItemsProvider = ({ children }: { children: ReactNode }) => {
 
 export type ItemsAction =
   | { type: "added_item"; kind: string }
-  | { type: "changed_item"; item: CanvasItem }
+  | { type: "changed_item"; item: DisplayItem }
   | { type: "deleted_selected" }
   | { type: "duplicated_selected"; }
   | { type: "added_selection"; id: string } 
-  | { type: "set_single_selection"; id: string}
+  | { type: "set_single_selection"; id: string }
+  | { type: "removed_selection"; id: string }
   | { type: "cleared_selections"; }
 
 function itemsReducer(state: State, action: ItemsAction) {
   switch (action.type) {
     case 'added_item': {
-      const newItem: CanvasItem = createItem(action.kind);
+      const newItem: DisplayItem = createItem(action.kind);
       return {...state, items: [...state.items, newItem], selectedIds: [newItem.id]};
     }
     case 'changed_item': {
@@ -86,6 +87,9 @@ function itemsReducer(state: State, action: ItemsAction) {
     case 'set_single_selection': {
       return {...state, selectedIds: [action.id]};
     }
+    case 'removed_selection': {
+      return {...state, selectedIds: state.selectedIds.filter((id) => id !== action.id)}
+    }
     case 'cleared_selections': {
       return {...state, selectedIds: [] as string[]};
     }
@@ -98,7 +102,7 @@ function itemsReducer(state: State, action: ItemsAction) {
 }
 
 // todo: put this somewhere else I just don't know how to go about organizing right now
-function createItem(kind: string): CanvasItem {
+function createItem(kind: string): DisplayItem {
   switch (kind) {
     case 'rectangle': {
       return {

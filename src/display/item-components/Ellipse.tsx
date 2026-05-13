@@ -1,4 +1,4 @@
-import type { EllipseItem } from "../../types/canvas-item";
+import type { EllipseItem } from "../../types/display-item";
 import PathComponent from "../PathComponent"
 
 const Ellipse = ({ item }: {

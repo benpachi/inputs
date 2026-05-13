@@ -1,4 +1,4 @@
-import type { DButtonItem } from "../../types/canvas-item";
+import type { DButtonItem } from "../../types/display-item";
 import { computePath, } from "../util/computePath";
 import { type PathNode, createNode } from "../util/pathNode";
 import PathComponent from "../PathComponent";
