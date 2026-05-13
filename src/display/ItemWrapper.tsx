@@ -4,18 +4,21 @@ import Ellipse from "./item-components/Ellipse";
 import DButton from "./item-components/DButton";
 import Plus from "./item-components/Plus";
 import DPad from "./item-components/DPad";
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useBBox } from './hooks/useBoundingBox';
 
-const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
+const ItemWrapper = ({ canvasItem, onMouseDown, onBBoxChange }: {
     canvasItem: DisplayItem, 
-    isSelected: boolean,
     onMouseDown: (e: React.MouseEvent, id: string) => void;
+    onBBoxChange: (id: string, bbox: DOMRect | null) => void;
   }) => {
 
   const elementRef = useRef<SVGGElement>(null);
   const bbox = useBBox(elementRef);
-  // getBBox() 'stroke: true' setting doesn't work, so for now I have to let this component be coupled with its associated item
+
+  useEffect(() => {
+    onBBoxChange(canvasItem.id, bbox);
+  }, [bbox, canvasItem.id, onBBoxChange])
 
   const renderCanvasItem = () => {
     switch (canvasItem.kind) {
@@ -38,24 +41,12 @@ const ItemWrapper = ({ canvasItem, isSelected, onMouseDown }: {
 
   return (
     <g 
+      ref={elementRef}
       transform={`translate(${canvasItem.x}, ${canvasItem.y})`}
       onMouseDown={(e) => (onMouseDown(e, canvasItem.id))}
       overflow="visible"
     >
-      <g ref={elementRef} >
-        {renderCanvasItem()}
-      </g>
-      {bbox && isSelected ? 
-        <rect 
-          x={bbox.x - canvasItem.strokeWidth/2}
-          y={bbox.y - canvasItem.strokeWidth/2}
-          width={bbox.width + canvasItem.strokeWidth} 
-          height={bbox.height + canvasItem.strokeWidth} 
-          stroke='blue'
-          fill='transparent'
-          opacity='0.8'
-        /> : null
-      }
+      {renderCanvasItem()}
     </g>
   );
 }

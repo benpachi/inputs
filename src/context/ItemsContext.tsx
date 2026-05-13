@@ -62,7 +62,7 @@ function itemsReducer(state: State, action: ItemsAction) {
       };
     }
     case 'deleted_selected': {
-      return {...state, items: state.items.filter((item) => state.selectedIds.includes(item.id)), selectedIds: [] as string[]};
+      return {...state, items: state.items.filter((item) => !state.selectedIds.includes(item.id)), selectedIds: [] as string[]};
     }
     case 'duplicated_selected': {
       const newState = { ...state, selectedIds: [] as string[]}

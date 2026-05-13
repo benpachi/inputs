@@ -1,7 +1,9 @@
 import { useItems, useItemsDispatch } from "../context/useItems";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import ItemWrapper from "./ItemWrapper";
-import type { Point } from "../util/point";
+import { isPointInRect, type Point } from "../util/point";
+import SelectionFrame from "./SelectionFrame";
+import SelectionArea from "./SelectionArea";
 
 const DisplayCanvas = ({width, height}: {
   width: number,
@@ -9,6 +11,12 @@ const DisplayCanvas = ({width, height}: {
 }) => {
   const {items, selectedIds} = useItems();
   const dispatch = useItemsDispatch();
+
+  const [itemBBoxes, setItemBBoxes] = useState<Record<string, DOMRect | null>>({});
+  const handleBBoxChange = useCallback((id: string, bbox: DOMRect | null) => {
+    setItemBBoxes(prev => ({ ...prev, [id]: bbox }));
+  }, []);
+
   const [isDraggingItems, setIsDraggingItems] = useState(false);
   const [isDraggingCanvas, setIsDraggingCanvas] = useState(false);
   const [dragStart, setDragStart] = useState({x: 0, y: 0});
@@ -96,14 +104,19 @@ const DisplayCanvas = ({width, height}: {
     }
   }
 
-  const isPointInRect = (point: Point, start: Point, current: Point) => {
-    const minX = Math.min(start.x, current.x);
-    const maxX = Math.max(start.x, current.x);
-    const minY = Math.min(start.y, current.y);
-    const maxY = Math.max(start.y, current.y);
-    
-    return point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY;
-  };
+  const itemComponents: React.ReactElement[] = [];
+  const selectionFrames: React.ReactElement[] = [];
+
+  items.forEach((item) => {
+    itemComponents.push(
+      <ItemWrapper key={item.id} canvasItem={item} onMouseDown={handleMouseDownOnItem} onBBoxChange={handleBBoxChange} />    
+    );
+    if (selectedIds.includes(item.id)) {
+      selectionFrames.push(
+        <SelectionFrame key={`sel-${item.id}`} item={item} bbox={itemBBoxes[item.id]} onMouseDown={handleMouseDownOnItem} />
+      );
+    }
+  });
 
   return ( 
     <svg 
@@ -115,23 +128,9 @@ const DisplayCanvas = ({width, height}: {
       width={width}
       height={height}
     >
-      {items.map((item) => 
-        <ItemWrapper 
-          key={item.id}
-          isSelected={selectedIds.includes(item.id)} 
-          onMouseDown={handleMouseDownOnItem} 
-          canvasItem={item}
-        />
-      )}
-      {isDraggingCanvas ? <rect
-        width={Math.abs(dragCurrent.x - dragStart.x)}
-        height={Math.abs(dragCurrent.y - dragStart.y)}
-        x={Math.min(dragStart.x, dragCurrent.x)}
-        y={Math.min(dragStart.y, dragCurrent.y)}
-        fill="blue"
-        opacity='0.2'
-       /> : null
-      }
+      {itemComponents}
+      {selectionFrames}
+      {isDraggingCanvas ? <SelectionArea p1={dragStart} p2={dragCurrent} /> : null}
     </svg>
   );
 }

@@ -23,3 +23,12 @@ export function lerpPoint(p1: Point, p2: Point, t: number): Point {
 		y: p1.y + (p2.y - p1.y) * t
 	}
 }
+
+export function isPointInRect(point: Point, r1: Point, r2: Point): boolean {
+	const minX = Math.min(r1.x, r2.x);
+	const maxX = Math.max(r1.x, r2.x);
+	const minY = Math.min(r1.y, r2.y);
+	const maxY = Math.max(r1.y, r2.y);
+	
+	return point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY;
+};
