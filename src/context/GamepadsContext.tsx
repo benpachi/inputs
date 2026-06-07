@@ -59,7 +59,7 @@ const GamepadsProvider = ({ children }: { children: ReactNode }) => {
       window.removeEventListener('gamepadconnected', gamepadConnectedHandler);
       window.removeEventListener('gamepaddisconnected', gamepadDisconnectedHandler);
     }
-  });
+  }, []);
 
   const update = () => {
     scanGamepads();
@@ -70,7 +70,7 @@ const GamepadsProvider = ({ children }: { children: ReactNode }) => {
     requestRef.current = requestAnimationFrame(update);
 
     return () => cancelAnimationFrame(requestRef.current!);
-  });
+  }, []);
 
   const contextValue: GamepadsContextType = {
     gamepads,
