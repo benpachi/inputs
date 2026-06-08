@@ -21,6 +21,7 @@ const DisplayCanvas = ({width, height}: {
   const [isDraggingCanvas, setIsDraggingCanvas] = useState(false);
   const [dragStart, setDragStart] = useState({x: 0, y: 0});
   const [dragCurrent, setDragCurrent] = useState({x: 0, y: 0});
+  const [lastMousePos, setLastMousePos] = useState({x: 0, y: 0});
   const [capturedItemIds, setCapturedItemIds] = useState([] as string[]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -31,6 +32,7 @@ const DisplayCanvas = ({width, height}: {
     const { offsetX, offsetY } = e.nativeEvent;
     setDragStart({ x: offsetX, y: offsetY });
     setDragCurrent({ x: offsetX, y: offsetY });
+    setLastMousePos({ x: offsetX, y: offsetY });
   }
 
   const handleMouseDownOnItem = (e: React.MouseEvent, id: string)  => {
@@ -45,22 +47,24 @@ const DisplayCanvas = ({width, height}: {
       }
     }
 
+    const { offsetX, offsetY } = e.nativeEvent;
+    setLastMousePos({ x: offsetX, y: offsetY });
     setIsDraggingItems(true);
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
     e.stopPropagation();
+    const { offsetX, offsetY } = e.nativeEvent;
+    
     if (isDraggingItems) {
-      const { movementX, movementY } = e.nativeEvent;
+      const deltaX = offsetX - lastMousePos.x;
+      const deltaY = offsetY - lastMousePos.y;
 
       moveSelectedItems({ 
-        x: -movementX, 
-        y: -movementY 
+        x: -deltaX, 
+        y: -deltaY 
       });
     } else if (isDraggingCanvas) {
-
-      const { offsetX, offsetY } = e.nativeEvent;
-
       const newCapturedItemIds = items.filter(item => 
         isPointInRect({ x: item.x, y: item.y }, dragStart, {x: offsetX, y: offsetY})
         ).map(item => item.id);
@@ -74,6 +78,8 @@ const DisplayCanvas = ({width, height}: {
       setCapturedItemIds(newCapturedItemIds);
       setDragCurrent({x: offsetX, y: offsetY});
     }
+
+    setLastMousePos({ x: offsetX, y: offsetY });
   }
 
   const handleMouseUp = () => {
@@ -81,6 +87,7 @@ const DisplayCanvas = ({width, height}: {
     setIsDraggingCanvas(false);
     setDragStart({x: 0, y: 0});
     setDragCurrent({x: 0, y: 0});
+    setLastMousePos({x: 0, y: 0});
     setCapturedItemIds([]);
   }
 
